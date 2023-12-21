@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculator</title>
+
+    <link rel="stylesheet" href="calc.css">
+</head>
+
+<body>
+    <div class="calculator">
+        <section class="display" id="display">0</section>
+
+        <div class="buttons" , id="buttons">
+            <button onclick="powerOfTwo()"> x<sup>2</sup> </button>
+            <button onclick="sqrt()">√</button>
+            <button onclick="percentage()">%</button>
+            <button onclick="clearDisplay()">Clear</button>
+            <button onclick="printOnDisplay('7')">7</button>
+            <button onclick="printOnDisplay('8')">8</button>
+            <button onclick="printOnDisplay('9')">9</button>
+            <button onclick="printOnDisplay('/')">/</button>
+            <button onclick="printOnDisplay('4')">4</button>
+            <button onclick="printOnDisplay('5')">5</button>
+            <button onclick="printOnDisplay('6')">6</button>
+            <button onclick="printOnDisplay('*')">*</button>
+            <button onclick="printOnDisplay('1')">1</button>
+            <button onclick="printOnDisplay('2')">2</button>
+            <button onclick="printOnDisplay('3')">3</button>
+            <button onclick="printOnDisplay('-')">-</button>
+            <button onclick="printOnDisplay('0')">0</button>
+            <button onclick="printOnDisplay('.')">.</button>
+            <button onclick="calculate()">=</button>
+            <button onclick="printOnDisplay('+')">+</button>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<!---------------------------------------------------------------------------------------------------------------------->
+
+<script>
+    let currentDisplay = "0";
+    let isDisplayed = false;
+    let isPercentage = false
+
+    function printOnDisplay(input) {
+        if (isDisplayed || currentDisplay === "0") {
+            currentDisplay = input;
+        } else {
+            currentDisplay += input;
+        }
+        isDisplayed = false;
+        updateDisplay();
+    }
+
+    function percentage() {
+        printOnDisplay("%");
+        isPercentage = true;
+    }
+
+    function sqrt() {
+        currentDisplay += " = " + Math.sqrt(currentDisplay).toPrecision(4);
+        updateDisplay();
+    }
+
+    function powerOfTwo() {
+        currentDisplay += " = " + Math.pow(currentDisplay, 2).toString();
+        updateDisplay();
+    }
+
+    function updateDisplay() {
+        const displayElement = document.getElementById("display");
+        displayElement.textContent = currentDisplay;
+    }
+
+    function calculate() {
+        try {
+            if (isPercentage) {
+                let percentValue = currentDisplay.replace("%", "*");
+                const result = eval(percentValue) / 100;
+                currentDisplay += " = " + result.toString();
+
+            } else {
+                const result = eval(currentDisplay).toPrecision(4);
+                currentDisplay += " = " + result.toString();
+            }
+            updateDisplay();
+        } catch (error) {
+            currentDisplay += "\nERROR!"
+            updateDisplay();
+        }
+        isDisplayed = true;
+    }
+
+    function clearDisplay() {
+        currentDisplay = "0";
+        isDisplayed = false;
+        updateDisplay();
+    }
+</script>
