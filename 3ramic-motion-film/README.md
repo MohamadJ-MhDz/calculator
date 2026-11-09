@@ -30,6 +30,25 @@ npm run lint           # eslint + tsc
 Single frames or ranges can be rendered from any scene's composition, for example:
 `npx remotion render S03-Investigation out/s3 --sequence --frames=0-179 --image-format=jpeg`.
 
+### How the delivered files were produced
+
+On a CPU-only machine the full-resolution render is long, so the delivered files were made in chunks:
+
+```bash
+npx remotion render ThreeRamicFilm out/parts/part-a.mp4 --frames=0-599    --muted --crf=18
+npx remotion render ThreeRamicFilm out/parts/part-b.mp4 --frames=600-1199 --muted --crf=18
+npx remotion render ThreeRamicFilm out/parts/audio.wav  --codec=wav
+bash scripts/assemble-final.sh
+```
+
+`assemble-final.sh` concatenates the picture (stream copy, no re-encode), loudness-normalises the mix to −15 LUFS / −1.5 dBTP and writes three files:
+
+* `out/3ramic-final.mp4`: 1080×1920, 30 fps, H.264 + AAC
+* `out/3ramic-preview.mp4`: 540×960 lower-resolution preview of the whole film
+* `out/3ramic-preview-short.mp4`: a 10 s teaser (the 03:17 hook plus the end card)
+
+`npm run render:preview` renders a low-res preview directly from Remotion instead, with the 3D at half DPR.
+
 ## The film, scene by scene
 
 | # | Time | Component | What happens |
