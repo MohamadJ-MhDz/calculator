@@ -14,9 +14,11 @@ cd "$(dirname "$0")/.."
 printf "file 'part-a.mp4'\nfile 'part-b.mp4'\n" > out/parts/list.txt
 ffmpeg -y -loglevel error -f concat -safe 0 -i out/parts/list.txt -c copy out/parts/video.mp4
 
-# Final: picture stream-copied, mix loudness-normalised for social (-15 LUFS, -1.5 dBTP)
+# Final: x264 (~10 Mbps cap — plenty for Reels, keeps the file small), mix loudness-normalised
+# for social (-15 LUFS, -1.5 dBTP)
 ffmpeg -y -loglevel error -i out/parts/video.mp4 -i out/parts/audio.wav \
-  -map 0:v:0 -map 1:a:0 -c:v copy \
+  -map 0:v:0 -map 1:a:0 -c:v libx264 -preset slow -crf 19 -maxrate 10M -bufsize 20M -pix_fmt yuv420p \
+  -profile:v high -level 4.2 -r 30 \
   -af "loudnorm=I=-15:TP=-1.5:LRA=11" -c:a aac -b:a 256k -ar 48000 \
   -shortest -movflags +faststart out/3ramic-final.mp4
 

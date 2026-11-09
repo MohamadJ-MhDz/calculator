@@ -41,7 +41,7 @@ npx remotion render ThreeRamicFilm out/parts/audio.wav  --codec=wav
 bash scripts/assemble-final.sh
 ```
 
-`assemble-final.sh` concatenates the picture (stream copy, no re-encode), loudness-normalises the mix to −15 LUFS / −1.5 dBTP and writes three files:
+`assemble-final.sh` concatenates the parts, encodes H.264 High at CRF 19 capped at 10 Mbps, loudness-normalises the mix to −15 LUFS / −1.5 dBTP and writes three files:
 
 * `out/3ramic-final.mp4`: 1080×1920, 30 fps, H.264 + AAC
 * `out/3ramic-preview.mp4`: 540×960 lower-resolution preview of the whole film
