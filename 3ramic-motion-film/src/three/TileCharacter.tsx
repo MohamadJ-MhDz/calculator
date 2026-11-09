@@ -273,7 +273,6 @@ export const TileCharacter: React.FC<TileCharProps> = ({
                 material={shoeMat}
                 position={[0, -legLen + 0.037, 0.035]}
                 scale={Math.min(1, legs * 1.4)}
-                castShadow={castShadow}
               />
             </group>
           ))
@@ -298,8 +297,8 @@ export const TileCharacter: React.FC<TileCharProps> = ({
                 const r = armPose(side);
                 return (
                   <group key={side} position={[side * 0.53, 0.06, 0]} rotation={r} scale={arms}>
-                    <mesh geometry={armGeo()} material={legMat} position={[0, -ARM / 2, 0]} scale={[1, ARM, 1]} castShadow={castShadow} />
-                    <mesh geometry={sphereGeo()} material={legMat} position={[0, -ARM, 0]} scale={0.042} castShadow={castShadow} />
+                    <mesh geometry={armGeo()} material={legMat} position={[0, -ARM / 2, 0]} scale={[1, ARM, 1]} />
+                    <mesh geometry={sphereGeo()} material={legMat} position={[0, -ARM, 0]} scale={0.042} />
                     {carry === "hand" && side === 1 ? (
                       <Suitcase color={luggage} position={[0, -ARM - 0.155, 0]} rotation={[0, Math.PI / 2, 0]} />
                     ) : null}
