@@ -1,0 +1,47 @@
+{
+  "name": "3ramic-motion-film",
+  "version": "1.0.0",
+  "description": "THE FLOOR THAT QUIT \u2014 a 40 s 3D motion brand film for 3ramic (Remotion + React Three Fiber)",
+  "repository": {},
+  "license": "UNLICENSED",
+  "engines": {
+    "node": "^20.19.0 || ^22.13.0 || >=24"
+  },
+  "private": true,
+  "dependencies": {
+    "@react-three/fiber": "9.2.0",
+    "@remotion/cli": "4.0.542",
+    "@remotion/fonts": "4.0.542",
+    "@remotion/google-fonts": "4.0.542",
+    "@remotion/media": "4.0.542",
+    "@remotion/three": "4.0.542",
+    "@remotion/transitions": "4.0.542",
+    "@types/three": "0.170.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "remotion": "4.0.542",
+    "three": "0.170.0"
+  },
+  "devDependencies": {
+    "@remotion/eslint-config-flat": "4.0.542",
+    "@types/react": "19.3.0",
+    "@types/web": "0.0.166",
+    "eslint": "10.12.0",
+    "prettier": "3.8.1",
+    "typescript": "5.9.3"
+  },
+  "scripts": {
+    "dev": "remotion studio",
+    "build": "remotion bundle",
+    "render": "remotion render ThreeRamicFilm out/3ramic-final.mp4 --concurrency=4 --crf=18",
+    "render:preview": "remotion render ThreeRamicFilm out/3ramic-preview.mp4 --scale=0.5 --props={\\\"dpr\\\":0.5} --concurrency=4 --crf=24",
+    "render:stills": "remotion render ThreeRamicFilm out/stills --sequence --frames=20,75,200,300,400,470,560,690,760,900,1060,1180 --image-format=jpeg",
+    "audio": "python3 scripts/make-audio.py",
+    "fonts": "node scripts/vendor-fonts.mjs",
+    "upgrade": "remotion upgrade",
+    "lint": "eslint src && tsc"
+  },
+  "allowScripts": {
+    "esbuild": false
+  }
+}

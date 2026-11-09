@@ -1,0 +1,122 @@
+{
+  "fps": 30,
+  "language": "fa",
+  "direction": "rtl",
+  "note": "Frame-accurate cue sheet (30 fps). Single source of truth for on-screen subtitles, narration/narration-fa.srt and the VO placeholder. Cues marked 'endcard' are displayed by the end-card typography itself.",
+  "cues": [
+    {
+      "id": 1,
+      "from": 8,
+      "to": 70,
+      "text": "ساعت سه و هفده دقیقه صبح...",
+      "highlight": [],
+      "voice": "narrator"
+    },
+    {
+      "id": 2,
+      "from": 74,
+      "to": 132,
+      "text": "یه اتفاق عجیب افتاد.",
+      "highlight": [
+        "عجیب"
+      ],
+      "voice": "narrator"
+    },
+    {
+      "id": 3,
+      "from": 156,
+      "to": 232,
+      "text": "کف یه خونه... استعفا داد!",
+      "highlight": [
+        "استعفا"
+      ],
+      "voice": "narrator"
+    },
+    {
+      "id": 4,
+      "from": 238,
+      "to": 318,
+      "text": "نه زلزله‌ای اومده بود، نه چیزی خراب شده بود.",
+      "highlight": [],
+      "voice": "narrator"
+    },
+    {
+      "id": 5,
+      "from": 348,
+      "to": 412,
+      "text": "سرامیک‌ها فقط یه اعتراض داشتن.",
+      "highlight": [
+        "اعتراض"
+      ],
+      "voice": "narrator"
+    },
+    {
+      "id": 6,
+      "from": 418,
+      "to": 500,
+      "text": "ما رو برای جای اشتباهی انتخاب کردین!",
+      "highlight": [
+        "اشتباهی"
+      ],
+      "voice": "tiles"
+    },
+    {
+      "id": 7,
+      "from": 522,
+      "to": 612,
+      "text": "هر فضایی، یه انتخاب مخصوص خودش رو می‌خواد.",
+      "highlight": [
+        "مخصوص"
+      ],
+      "voice": "narrator"
+    },
+    {
+      "id": 8,
+      "from": 620,
+      "to": 712,
+      "text": "یه جنس، یه طرح، یه شخصیت.",
+      "highlight": [
+        "جنس،",
+        "طرح،",
+        "شخصیت."
+      ],
+      "voice": "narrator"
+    },
+    {
+      "id": 9,
+      "from": 740,
+      "to": 836,
+      "text": "و وقتی همه‌چیز سر جای درستش باشه...",
+      "highlight": [
+        "درستش"
+      ],
+      "voice": "narrator"
+    },
+    {
+      "id": 10,
+      "from": 850,
+      "to": 960,
+      "text": "حتی سرامیک‌ها هم دیگه نمی‌خوان برن!",
+      "highlight": [
+        "نمی‌خوان"
+      ],
+      "voice": "narrator"
+    },
+    {
+      "id": 11,
+      "from": 1100,
+      "to": 1136,
+      "text": "تری‌رامیک.",
+      "highlight": [],
+      "voice": "endcard"
+    },
+    {
+      "id": 12,
+      "from": 1140,
+      "to": 1196,
+      "text": "هر سرامیکی، جای خودش.",
+      "highlight": [],
+      "voice": "endcard"
+    }
+  ]
+}
