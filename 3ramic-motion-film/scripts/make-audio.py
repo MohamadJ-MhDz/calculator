@@ -219,8 +219,9 @@ def square(f, d):
     return _wave_cache[key]
 
 
-def bass(m, d=0.12, bright=1500.0, dark=170.0, rate=20.0, sub=0.7, drive=1.5):
-    """Confident synth bass: saw + sub through a decaying low-pass ('wow')."""
+def bass(m, d=0.12, bright=2400.0, dark=480.0, rate=13.0, sub=0.15, drive=2.6):
+    """Confident synth bass: saw + sub through a decaying low-pass ('wow').
+    Voiced with plenty of 150-900 Hz so the line still reads on phone speakers."""
     f = mtof(m)
     t = t_axis(d)
     raw = saw(f, d) + 0.5 * square(f, d)
@@ -253,7 +254,8 @@ def kick808(amp=1.0, d=0.42):
     t = t_axis(d)
     f = 46 + 120 * np.exp(-t * 36)
     y = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t * 8.5)
-    y += 0.35 * highpass(rng.standard_normal(len(t)), 2500) * np.exp(-t * 180)
+    y += 0.9 * highpass(rng.standard_normal(len(t)), 2500) * np.exp(-t * 180)  # beater click
+    y += 0.5 * np.sin(2 * np.pi * np.cumsum(f * 3.0) / SR) * np.exp(-t * 40)  # knock
     return np.tanh(y * 1.6) * amp
 
 
@@ -321,14 +323,15 @@ def chord_stab(notes, d=1.4, bright=2400.0):
 
 def make_score():
     N = int(DUR * SR)
-    DR = np.zeros((N, 2))  # drums
+    KK = np.zeros((N, 2))  # kick
+    DR = np.zeros((N, 2))  # claps, hats, ceramic percussion
     BS = np.zeros((N, 2))  # bass
     MU = np.zeros((N, 2))  # plucks, pads, blips (gets reverb)
     FX = np.zeros((N, 2))  # risers, impacts
     kicks = []
 
     def put_kick(at, g=0.9):
-        place(DR, kick808(), at, g)
+        place(KK, kick808(), at, g)
         kicks.append(at)
 
     # hook (16th-step, midi, length in steps) over two bars — major; minor swaps F#→F and B→C
@@ -506,7 +509,8 @@ def make_score():
     for ch in range(2):
         MU[:, ch] = reverb(MU[:, ch], 1.5 + 0.1 * ch, 0.22)
         DR[:, ch] = reverb(DR[:, ch], 0.5, 0.06, 5000)
-    S = DR * 0.9 + BS * duck[:, None] + MU * duck[:, None] * 1.25 + FX
+    # balance: the low end is felt, the mids and highs carry the tune on small speakers
+    S = KK * 0.5 + DR * 2.7 + BS * duck[:, None] * 0.5 + MU * duck[:, None] * 4.4 + FX * 0.5
 
     # slow motion (31.2 – 32.0 s): cross-fade into a low-passed copy
     a, b = int(31.2 * SR), int(32.0 * SR)
