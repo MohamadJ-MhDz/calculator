@@ -26,10 +26,10 @@ ffmpeg -y -loglevel error -i out/parts/video.mp4 -i out/parts/audio.wav \
 ffmpeg -y -loglevel error -i out/3ramic-final.mp4 -vf "scale=540:960:flags=lanczos" \
   -c:v libx264 -crf 25 -preset medium -pix_fmt yuv420p -c:a aac -b:a 128k -movflags +faststart out/3ramic-preview.mp4
 
-# Short 10 s teaser: the 03:17 hook (0-6 s) + the brand end card (36-40 s)
+# Short 10 s teaser: the 03:17 hook and the drop (0-6.5 s) + the end card (36.5-40 s)
 ffmpeg -y -loglevel error -i out/3ramic-final.mp4 -filter_complex \
-  "[0:v]trim=0:6,setpts=PTS-STARTPTS,scale=540:960:flags=lanczos[v0];[0:a]atrim=0:6,asetpts=PTS-STARTPTS,afade=t=out:st=5.7:d=0.3[a0]; \
-   [0:v]trim=36:40,setpts=PTS-STARTPTS,scale=540:960:flags=lanczos[v1];[0:a]atrim=36:40,asetpts=PTS-STARTPTS,afade=t=in:st=0:d=0.2[a1]; \
+  "[0:v]trim=0:6.5,setpts=PTS-STARTPTS,scale=540:960:flags=lanczos[v0];[0:a]atrim=0:6.5,asetpts=PTS-STARTPTS,afade=t=out:st=6.3:d=0.2[a0]; \
+   [0:v]trim=36.5:40,setpts=PTS-STARTPTS,scale=540:960:flags=lanczos[v1];[0:a]atrim=36.5:40,asetpts=PTS-STARTPTS,afade=t=in:st=0:d=0.05[a1]; \
    [v0][a0][v1][a1]concat=n=2:v=1:a=1[v][a]" \
   -map "[v]" -map "[a]" -c:v libx264 -crf 25 -preset medium -pix_fmt yuv420p -c:a aac -b:a 128k -movflags +faststart out/3ramic-preview-short.mp4
 

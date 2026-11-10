@@ -1,20 +1,40 @@
-import React from "react";
+import React, { useMemo } from "react";
+import * as THREE from "three";
 import { ThreeCanvas } from "@remotion/three";
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
 import { COLORS } from "../brand";
-import { clamp, E, kf, lerp, prog, V3 } from "../anim";
+import { clamp, E, kf, lerp, prog, shake, V3 } from "../anim";
 import { Cam, KeyLight, Slab, StudioEnv, DPR } from "../three/kit";
 import { RoomModel } from "../three/RoomModel";
 import { project, toWorld } from "../three/project";
 import { DISPLAY, MONO } from "../fonts";
 import { FilmGrain, FrameMarks, SlamWord } from "../ui/Overlays";
-import { HANDOFF_CAM, LAND_AT, PLAN, ROOM_SLOTS, SAMPLES } from "./sceneShared";
+import { HANDOFF_CAM, LAND_AT, PLAN, ROOM_SLOTS, SAMPLES, SNAP } from "./sceneShared";
 
 /**
  * SCENE 04 — THE 3RAMIC SYSTEM (17–24 s)
- * A fictional, clearly-labelled concept interface. Six premium ceramic samples
- * float in, get a macro close-up, then fly into the rooms that suit them.
+ * A fictional, clearly-labelled concept interface. Six premium ceramic samples float in
+ * as a 3D grid, one gets a grazing macro, then each flies to the room that suits it,
+ * hovers for a beat and SNAPS into a real tile position — the rest of the surface
+ * follows from that tile outward.
  */
+
+/** Orange square ring that pulses out of the spot where a sample has just snapped in. */
+const SnapPulse: React.FC<{ local: V3; wall: boolean; size: number; t: number }> = ({ local, wall, size, t }) => {
+  const mat = useMemo(
+    () => new THREE.MeshBasicMaterial({ color: COLORS.orange, transparent: true, depthWrite: false, toneMapped: false, side: THREE.DoubleSide }),
+    [],
+  );
+  if (t < 0 || t > 16) return null;
+  const p = t / 16;
+  mat.opacity = 0.95 * (1 - p);
+  const sc = size * (0.8 + E.outCubic(p) * 1.5);
+  return (
+    <mesh material={mat} position={wall ? [local[0], local[1], local[2] + 0.03] : [local[0], 0.03, local[2]]} rotation={wall ? [0, 0, 0] : [-Math.PI / 2, 0, 0]} scale={sc}>
+      <ringGeometry args={[0.64, 0.71, 4, 1, Math.PI / 4]} />
+    </mesh>
+  );
+};
 
 const G: V3 = [5.5, 7.5, 13]; // sample-grid centre (world)
 const GRID_CAM = { pos: [G[0], G[1], G[2] + 10.5] as V3, target: G, fov: 32 };
@@ -53,19 +73,40 @@ const camera = (f: number) => {
 export const Scene04System: React.FC = () => {
   const f = useCurrentFrame();
   const { width, height } = useVideoConfig();
-  const cam = camera(f);
+  const cam0 = camera(f);
+  // every snap gives the lab a tiny knock
+  const knock = SAMPLES.reduce(
+    (acc, s) => {
+      const [x, y] = shake(f, LAND_AT[s.key], 7, 0.05);
+      return [acc[0] + x, acc[1] + y] as [number, number];
+    },
+    [0, 0] as [number, number],
+  );
+  const cam = { ...cam0, pos: [cam0.pos[0] + knock[0], cam0.pos[1] + knock[1], cam0.pos[2]] as V3 };
 
   const roomEnter = ROOM_SLOTS.map((_, i) => E.outCubic(prog(f, 104 + i * 5, 22)));
   const roomPos = ROOM_SLOTS.map((r, i): V3 => [r.pos[0], r.pos[1] - (1 - roomEnter[i]) * 14, r.pos[2]]);
 
-  // where each sample lands
-  const landing = (k: number): { hover: V3; dive: V3 } => {
+  // where each sample snaps in: the seat (final resting pose) and a hover point just off the surface
+  const landing = (k: number) => {
     const s = SAMPLES[k];
     const ri = ROOM_SLOTS.findIndex((r) => r.kind === s.room);
     const slot = ROOM_SLOTS[ri];
-    const local: V3 = s.surface === "floor" ? [0.4, 0.05, 0.6] : [0.3, 1.1, -1.9];
-    const dive = toWorld(local, slot.pos, slot.rotY);
-    return { hover: [dive[0] + 0.8, dive[1] + 2.6, dive[2] + 1.6], dive };
+    const sn = SNAP[s.key];
+    const wall = s.surface === "wall";
+    const thick = 0.14 * sn.size;
+    // floor: top face flush with the floor · wall: sits proud first, then presses in flush
+    const seatLocal: V3 = wall ? [sn.local[0], sn.local[1], -2 + 0.008 - thick / 2] : [sn.local[0], -thick / 2, sn.local[2]];
+    const proudLocal: V3 = wall ? [sn.local[0], sn.local[1], -2 + 0.06 + thick / 2] : seatLocal;
+    const hoverLocal: V3 = wall ? [sn.local[0], sn.local[1] + 0.1, -2 + 1.5] : [sn.local[0], 1.6, sn.local[2]];
+    return {
+      wall,
+      size: sn.size,
+      rotY: slot.rotY,
+      seat: toWorld(seatLocal, roomPos[ri], slot.rotY),
+      proud: toWorld(proudLocal, roomPos[ri], slot.rotY),
+      hover: toWorld(hoverLocal, roomPos[ri], slot.rotY),
+    };
   };
 
   return (
@@ -104,23 +145,43 @@ export const Scene04System: React.FC = () => {
           const idleY = Math.sin(f * 0.05 + k * 1.3) * (isMacro ? 0.12 : 0.28);
           const idleX = Math.sin(f * 0.04 + k) * 0.12 + (isMacro ? 0.18 : 0);
           const L = landing(k);
-          const t0 = 100 + k * 2;
-          const land = LAND_AT[s.key];
-          const flyT = prog(f, t0, land - 6 - t0);
-          const diveT = prog(f, land - 6, 6);
+          const t0 = 100 + k * 2; // leaves the grid
+          const land = LAND_AT[s.key]; // the snap
+          const hoverAt = land - 9;
+          const snapAt = land - 4;
+          if (f >= land + 12) return null; // by now the real surface has taken over
           let p: V3 = gridPos;
+          let yaw = 0;
           let rx = Math.PI / 2 + idleX;
-          let ry = (1 - arrive) * Math.PI * 4 + idleY;
+          let spin = (1 - arrive) * Math.PI * 4 + idleY;
           let sc = 0.8;
           if (f >= t0) {
+            const e = E.inOutCubic(prog(f, t0, hoverAt - t0));
             const ctrl: V3 = [lerp(gridPos[0], L.hover[0], 0.5), Math.max(gridPos[1], L.hover[1]) + 3, lerp(gridPos[2], L.hover[2], 0.5)];
-            p = f < land - 6 ? bezier(gridPos, ctrl, L.hover, E.inOutCubic(flyT)) : lerp3(L.hover, L.dive, E.inCubic(diveT));
-            rx = lerp(Math.PI / 2 + idleX, s.surface === "floor" ? 0.2 : Math.PI / 2, E.inOutCubic(flyT));
-            ry = idleY + E.inOutCubic(flyT) * Math.PI * 2;
-            sc = lerp(0.8, 0.9, flyT) * (1 - E.inCubic(diveT) * 0.85);
+            yaw = L.rotY * e;
+            rx = lerp(Math.PI / 2 + idleX, L.wall ? Math.PI / 2 : 0, e);
+            spin = idleY * (1 - e) + e * Math.PI * 2;
+            sc = lerp(0.8, L.size, e);
+            if (f < hoverAt) {
+              p = bezier(gridPos, ctrl, L.hover, e);
+            } else if (f < snapAt) {
+              // anticipation: pulls back a touch before it commits
+              const back = Math.sin(prog(f, hoverAt, snapAt - hoverAt) * Math.PI) * 0.22;
+              p = lerp3(L.hover, L.proud, -back * 0.25);
+            } else if (f < land) {
+              p = lerp3(L.hover, L.proud, E.inCubic(prog(f, snapAt, land - snapAt)));
+            } else {
+              // contact: wall samples press in flush, everything gets a squash-and-settle pulse
+              const settle = prog(f, land, 7);
+              p = lerp3(L.proud, L.seat, E.outCubic(prog(f, land, 5)));
+              sc = L.size * (1 + Math.sin(settle * Math.PI) * 0.07 * (1 - settle));
+            }
           }
-          if (f >= land) return null;
-          return <Slab key={s.key} tex={s.key} w={1} d={1} t={0.14} position={p} rotation={[rx, ry, 0]} scale={sc} />;
+          return (
+            <group key={s.key} position={p} rotation={[0, yaw, 0]}>
+              <Slab tex={s.key} w={1} d={1} t={0.14} rotation={[rx, spin, 0]} scale={sc} />
+            </group>
+          );
         })}
 
         {/* rooms receive their materials */}
@@ -136,16 +197,28 @@ export const Scene04System: React.FC = () => {
               rotation={[0, r.rotY, 0]}
               counter={plan.counter}
               floor={(a, b) => {
-                const t = prog(f, floorAt + (a + b) * 1.6, 10);
+                const cell = SNAP[plan.floor].cell!;
+                if (a === cell[0] && b === cell[1]) {
+                  // the snap cell: the bare screed tile ducks out, the sample takes its place
+                  if (f >= floorAt - 1 && f < floorAt + 12) return { a: "mortar", hidden: true };
+                  if (f >= floorAt + 12) return { a: plan.floor };
+                  return { a: "mortar", drop: -0.25 * prog(f, floorAt - 5, 4) };
+                }
+                // the rest of the floor follows outward from the snapped tile
+                const dist = Math.hypot(a - cell[0], b - cell[1]);
+                const t = prog(f, floorAt + 2 + dist * 2.2, 10);
                 return { a: "mortar", b: plan.floor, flip: E.inOutCubic(t) };
               }}
-              backWall={f >= wallAt ? plan.wall : null}
-              sideWall={plan.side && f >= wallAt ? plan.side : null}
-              wallRows={Math.floor(clamp((f - wallAt) / 3, 0, 10))}
+              backWall={f >= wallAt + 3 ? plan.wall : null}
+              sideWall={plan.side && f >= wallAt + 3 ? plan.side : null}
+              wallRows={Math.floor(clamp((f - wallAt - 3) / 3 + 1, 0, 10))}
               wallTile={r.kind === "living" ? 0.7 : 0.5}
               plaster="plasterStone"
-              furniture={E.outBack(prog(f, floorAt + 8, 12), 1.6)}
-            />
+              furniture={E.outBack(prog(f, floorAt + 10, 12), 1.6)}
+            >
+              <SnapPulse local={SNAP[plan.floor].local} wall={false} size={SNAP[plan.floor].size} t={f - floorAt} />
+              <SnapPulse local={SNAP[plan.wall].local} wall size={SNAP[plan.wall].size} t={f - wallAt} />
+            </RoomModel>
           );
         })}
       </ThreeCanvas>

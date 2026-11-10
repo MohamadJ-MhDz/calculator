@@ -48,6 +48,20 @@ export const LAND_AT: Record<string, number> = {
   stone: 176,
 };
 
+/**
+ * Where each sample snaps into its room (room-local coordinates) and the size of one tile on
+ * that surface. Floor samples drop into a real floor cell [i, j]; wall samples press into a
+ * real course of the back wall (z = -2). All spots are clear of furniture.
+ */
+export const SNAP: Record<string, { local: V3; size: number; cell?: [number, number] }> = {
+  terrazzo: { local: [1.5, 0, 1.5], size: 0.985, cell: [3, 3] }, // kitchen floor
+  travertine: { local: [0.5, 0, 0.5], size: 0.985, cell: [2, 2] }, // bathroom floor
+  neutral: { local: [0.5, 0, 1.5], size: 0.985, cell: [2, 3] }, // living-room floor
+  porcelain: { local: [1.25, 1.25, -2], size: 0.5 }, // kitchen wall, above the hob
+  marble: { local: [-0.25, 1.25, -2], size: 0.5 }, // bathroom wall
+  stone: { local: [0.45, 1.75, -2], size: 0.7 }, // living-room feature wall
+};
+
 /* ---------------- Scene 05/06: the re-assembled apartment ---------------- */
 
 /** Rooms re-joined along Z (the reverse of the Scene 03 split). */

@@ -294,3 +294,68 @@ export const BlobShadow: React.FC<{ position?: V3; w?: number; d?: number; opaci
   if (key <= 0) return null;
   return <mesh geometry={plane(1, 1)} material={m} position={position} rotation={[-Math.PI / 2, 0, 0]} scale={[w, d, 1]} />;
 };
+
+/* ------------------------------------------------------------------ */
+/* Floating interface card (rounded slab + glowing inset frame)        */
+/* ------------------------------------------------------------------ */
+
+const roundedRect = (w: number, d: number, r: number, into: THREE.Shape | THREE.Path) => {
+  const x = -w / 2;
+  const y = -d / 2;
+  into.moveTo(x + r, y);
+  into.lineTo(x + w - r, y);
+  into.absarc(x + w - r, y + r, r, -Math.PI / 2, 0, false);
+  into.lineTo(x + w, y + d - r);
+  into.absarc(x + w - r, y + d - r, r, 0, Math.PI / 2, false);
+  into.lineTo(x + r, y + d);
+  into.absarc(x + r, y + d - r, r, Math.PI / 2, Math.PI, false);
+  into.lineTo(x, y + r);
+  into.absarc(x + r, y + r, r, Math.PI, Math.PI * 1.5, false);
+  return into;
+};
+
+/** Rounded-corner slab lying in the XZ plane, top face at y = 0. */
+export const cardSlab = (w: number, d: number, r: number, t: number) => {
+  const id = `card:${w}:${d}:${r}:${t}`;
+  let g = geoCache.get(id);
+  if (!g) {
+    g = new THREE.ExtrudeGeometry(roundedRect(w, d, r, new THREE.Shape()) as THREE.Shape, {
+      depth: t,
+      bevelEnabled: true,
+      bevelSize: 0.025,
+      bevelThickness: 0.025,
+      bevelSegments: 2,
+      curveSegments: 10,
+    });
+    g.rotateX(Math.PI / 2);
+    g.translate(0, -0.025, 0);
+    geoCache.set(id, g);
+  }
+  return g;
+};
+
+/** Thin rounded-rectangle outline (a frame of the given line width) lying in the XZ plane. */
+export const cardFrame = (w: number, d: number, r: number, line: number) => {
+  const id = `frame:${w}:${d}:${r}:${line}`;
+  let g = geoCache.get(id);
+  if (!g) {
+    const shape = roundedRect(w, d, r, new THREE.Shape()) as THREE.Shape;
+    shape.holes.push(roundedRect(w - line * 2, d - line * 2, Math.max(0.01, r - line), new THREE.Path()) as THREE.Path);
+    g = new THREE.ShapeGeometry(shape, 10);
+    g.rotateX(-Math.PI / 2);
+    geoCache.set(id, g);
+  }
+  return g;
+};
+
+const glowCache = new Map<string, THREE.MeshBasicMaterial>();
+/** Unlit, tone-map-free colour for interface lines that must stay brand-accurate. */
+export const glow = (color: string, opacity = 1) => {
+  const id = `${color}:${opacity}`;
+  let m = glowCache.get(id);
+  if (!m) {
+    m = new THREE.MeshBasicMaterial({ color, toneMapped: false, transparent: opacity < 1, opacity, depthWrite: opacity >= 1, side: THREE.DoubleSide });
+    glowCache.set(id, m);
+  }
+  return m;
+};

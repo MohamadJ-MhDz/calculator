@@ -4,11 +4,24 @@
  */
 
 export const BRAND = {
-  /** Exact brand name. Typographic placeholder — replace with official logo in <Wordmark/>. */
+  /** Exact brand name. Shown as plain text only while no official logo file is set in LOGO below. */
   name: "3ramic",
   /** Exact Persian tagline (ZWNJ-safe). */
   taglineFa: "هر سرامیکی، جای خودش.",
   filmTitle: "THE FLOOR THAT QUIT",
+};
+
+/**
+ * OFFICIAL LOGO SLOT.
+ * No logo asset was supplied with the brief, so `file` is null and the end card shows the brand
+ * name as plain, neutral text (deliberately not a designed mark).
+ * To insert the official logo: copy the supplied asset into public/ (SVG or PNG with transparency,
+ * light version for a dark background) and set `file` to its name, e.g. "3ramic-logo.svg".
+ * Nothing else needs to change; `width` is its on-screen width in px on the 1080-wide frame.
+ */
+export const LOGO: { file: string | null; width: number } = {
+  file: null,
+  width: 620,
 };
 
 export const COLORS = {
@@ -23,7 +36,11 @@ export const COLORS = {
   coolGrayDark: "#5B6571",
   stone: "#B8AE9F",
   stoneDark: "#8C8273",
-  night: "#0B1018",
+  night: "#0A1124",
+  midnight: "#0D1730",
+  midnightLift: "#16254A",
+  midnightDeep: "#070C1C",
+  burnt: "#C8502A",
   moon: "#9DB4D6",
   warmLight: "#FFB98A",
 };

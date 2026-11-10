@@ -151,10 +151,11 @@ export const SlamWord: React.FC<{
 };
 
 /** CCTV surveillance overlay. */
-export const CCTVHud: React.FC<{ opacity: number; glitch?: number; startSeconds?: number }> = ({
+export const CCTVHud: React.FC<{ opacity: number; glitch?: number; startSeconds?: number; moving?: number }> = ({
   opacity,
   glitch = 0,
   startSeconds = 3 * 3600 + 16 * 60 + 59,
+  moving,
 }) => {
   const f = useCurrentFrame();
   if (opacity <= 0.001) return null;
@@ -208,7 +209,14 @@ export const CCTVHud: React.FC<{ opacity: number; glitch?: number; startSeconds?
         </div>
       </div>
       <div style={{ position: "absolute", bottom: 200, left: 92, fontFamily: MONO, color: COLORS.ivory, fontSize: 20, opacity: 0.7, letterSpacing: "0.1em" }}>
-        IR · F/1.6 · MOTION: {f > 26 ? <span style={{ color: COLORS.orange, fontWeight: 700 }}>DETECTED</span> : "NONE"}
+        IR · F/1.6 · MOTION:{" "}
+        {(moving ?? (f > 26 ? 1 : 0)) > 0 ? (
+          <span style={{ color: COLORS.orange, fontWeight: 700 }}>
+            DETECTED{(moving ?? 1) > 1 ? ` ×${String(moving).padStart(2, "0")}` : ""}
+          </span>
+        ) : (
+          "NONE"
+        )}
       </div>
       {glitch > 0.05 ? (
         <AbsoluteFill>
@@ -318,3 +326,100 @@ export const FrameMarks: React.FC<{ color?: string; opacity?: number }> = ({ col
     ))}
   </AbsoluteFill>
 );
+
+/* ------------------------------------------------------------------ */
+/* Editing FX — whip-pan motion blur and RGB-split glitch              */
+/* ------------------------------------------------------------------ */
+
+export type Whip = { at: number; half?: number; dir?: 1 | -1; axis?: "x" | "y" };
+export type GlitchHit = { at: number; dur: number; amp?: number };
+
+/** 0..1 whip amount and signed travel (-1..1) at frame f. Outgoing shot accelerates away, incoming one decelerates in. */
+export const whipAt = (f: number, whips: Whip[]) => {
+  for (const w of whips) {
+    const half = w.half ?? 4;
+    const dir = w.dir ?? 1;
+    if (f >= w.at - half && f < w.at) {
+      const a = E.inCubic((f - (w.at - half) + 1) / half);
+      return { a, travel: -dir * a, axis: w.axis ?? "x" };
+    }
+    if (f >= w.at && f < w.at + half) {
+      const a = 1 - E.outCubic((f - w.at + 1) / half);
+      return { a, travel: dir * a, axis: w.axis ?? "x" };
+    }
+  }
+  return { a: 0, travel: 0, axis: "x" as const };
+};
+
+export const glitchAt = (f: number, hits: GlitchHit[]) => {
+  for (const g of hits) {
+    if (f >= g.at && f < g.at + g.dur) {
+      const t = (f - g.at) / g.dur;
+      return (g.amp ?? 1) * (0.45 + 0.55 * hash(f * 3.1 + g.at)) * (1 - t * 0.5);
+    }
+  }
+  return 0;
+};
+
+/**
+ * Wraps the picture. On whip frames the layer is smeared along the pan axis and shoved
+ * sideways; on glitch frames the colour channels split and the frame jitters.
+ * No filter is applied on ordinary frames.
+ */
+export const EditFX: React.FC<{ whips?: Whip[]; glitches?: GlitchHit[]; children: React.ReactNode }> = ({ whips = [], glitches = [], children }) => {
+  const f = useCurrentFrame();
+  const w = whipAt(f, whips);
+  const g = glitchAt(f, glitches);
+  const blur = Math.round(w.a * 110);
+  const split = Math.round(g * 16);
+  const style: React.CSSProperties = {};
+  if (w.a > 0.01) {
+    const shift = w.travel * 420;
+    style.filter = "url(#fx-whip)";
+    style.transform = w.axis === "x" ? `translateX(${shift}px) scaleX(${1 + w.a * 0.9})` : `translateY(${shift}px) scaleY(${1 + w.a * 0.9})`;
+  } else if (g > 0.01) {
+    style.filter = "url(#fx-rgb)";
+    style.transform = `translateX(${(hash(f * 5.3) - 0.5) * g * 34}px)`;
+  }
+  return (
+    <AbsoluteFill>
+      <svg width={0} height={0} style={{ position: "absolute" }}>
+        <defs>
+          <filter id="fx-whip" x="-10%" y="-10%" width="120%" height="120%" colorInterpolationFilters="sRGB">
+            <feGaussianBlur stdDeviation={w.axis === "x" ? `${blur} 0` : `0 ${blur}`} />
+          </filter>
+          <filter id="fx-rgb" x="-5%" y="0%" width="110%" height="100%" colorInterpolationFilters="sRGB">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="r" />
+            <feOffset in="r" dx={split} dy={0} result="r2" />
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g" />
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="b" />
+            <feOffset in="b" dx={-split} dy={0} result="b2" />
+            <feBlend in="r2" in2="g" mode="screen" result="rg" />
+            <feBlend in="rg" in2="b2" mode="screen" />
+          </filter>
+        </defs>
+      </svg>
+      <AbsoluteFill style={style}>{children}</AbsoluteFill>
+      {g > 0.05 ? (
+        <AbsoluteFill style={{ pointerEvents: "none" }}>
+          {[0, 1, 2, 3].map((i) => (
+            <div
+              key={i}
+              style={{
+                position: "absolute",
+                left: 0,
+                right: 0,
+                top: `${hash(f * 7.7 + i * 13) * 100}%`,
+                height: 4 + hash(f + i * 3.3) * 26,
+                background: i % 2 ? "rgba(255,112,61,0.22)" : "rgba(242,237,228,0.14)",
+                translate: `${(hash(f * 1.3 + i) - 0.5) * 160 * g}px 0`,
+                opacity: Math.min(1, g * 1.4),
+                mixBlendMode: "screen",
+              }}
+            />
+          ))}
+        </AbsoluteFill>
+      ) : null}
+    </AbsoluteFill>
+  );
+};

@@ -1,36 +1,41 @@
 import React from "react";
-import { useCurrentFrame } from "remotion";
-import { BRAND, COLORS } from "../brand";
+import { Img, staticFile, useCurrentFrame } from "remotion";
+import { BRAND, COLORS, LOGO } from "../brand";
 import { DISPLAY } from "../fonts";
 import { E, prog } from "../anim";
 
 /**
- * TYPOGRAPHIC PLACEHOLDER — not a logo.
- * Sets the exact brand name "3ramic" in Bricolage Grotesque. Replace the contents
- * of this component with the official 3ramic logo (e.g. <Img src={staticFile("logo.svg")} />)
- * when it is supplied; every placement in the film uses this component.
+ * LOGO SLOT — every brand-mark placement in the film goes through this component.
+ *
+ * - If `LOGO.file` (src/brand.ts) names a file in public/, that official asset is shown,
+ *   untouched: no recolouring, no distortion, only a fade/settle reveal.
+ * - Otherwise (no asset supplied) the exact brand name is set as plain neutral text.
+ *   That text is a stand-in, not a logo, and is intentionally undesigned.
  */
-export const Wordmark: React.FC<{ start?: number; size?: number }> = ({ start = 0, size = 230 }) => {
+export const Wordmark: React.FC<{ start?: number; size?: number }> = ({ start = 0, size = 150 }) => {
   const f = useCurrentFrame();
-  const chars = BRAND.name.split("");
+  const p = E.outExpo(prog(f, start, 18));
+  const reveal: React.CSSProperties = {
+    opacity: E.outCubic(prog(f, start, 10)),
+    translate: `0 ${(1 - p) * 26}px`,
+    scale: String(0.96 + 0.04 * p),
+  };
+  if (LOGO.file) {
+    return <Img src={staticFile(LOGO.file)} style={{ width: LOGO.width, height: "auto", display: "block", ...reveal }} />;
+  }
   return (
-    <div style={{ display: "flex", fontFamily: DISPLAY, fontWeight: 800, fontSize: size, letterSpacing: "-0.05em", lineHeight: 1, overflow: "hidden", paddingBottom: size * 0.12 }}>
-      {chars.map((c, i) => {
-        const p = E.outExpo(prog(f, start + i * 2, 14));
-        return (
-          <span
-            key={i}
-            style={{
-              display: "inline-block",
-              color: i === 0 ? COLORS.orange : COLORS.ivory,
-              translate: `0 ${(1 - p) * 110}%`,
-              rotate: `${(1 - p) * 8}deg`,
-            }}
-          >
-            {c}
-          </span>
-        );
-      })}
+    <div
+      style={{
+        fontFamily: DISPLAY,
+        fontWeight: 600,
+        fontSize: size,
+        letterSpacing: "0",
+        lineHeight: 1,
+        color: COLORS.ivory,
+        ...reveal,
+      }}
+    >
+      {BRAND.name}
     </div>
   );
 };

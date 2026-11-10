@@ -4,7 +4,7 @@ import { ThreeCanvas } from "@remotion/three";
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
 import { COLORS } from "../brand";
 import { E, hash, kf, lerp, prog, V3 } from "../anim";
-import { Cam, flat, KeyLight, StudioEnv, DPR } from "../three/kit";
+import { Cam, cardFrame, cardSlab, flat, glow, KeyLight, roundedBox, StudioEnv, DPR } from "../three/kit";
 import { RoomModel } from "../three/RoomModel";
 import { TileCharacter } from "../three/TileCharacter";
 import { TexKey } from "../three/textures";
@@ -15,9 +15,10 @@ import { MONO, DISPLAY } from "../fonts";
 
 /**
  * SCENE 03 — THE INVESTIGATION (11–17 s)
- * The apartment splits into three floating miniature rooms. A forensic pass
- * exposes wrong materials, clashing textures and zero coordination.
- * The tiles protest with tiny picket signs.
+ * A dark midnight-blue investigation interface. The apartment plan splits into three
+ * floating 3D cards, each carrying a miniature room. Quick cuts and snap-zooms expose
+ * unsuitable materials, mismatched patterns and poor combinations; orange markers
+ * pin the evidence. The tiles protest with tiny picket signs.
  */
 
 type RoomDef = {
@@ -50,39 +51,78 @@ const roomPos = (r: RoomDef, i: number, f: number): V3 => {
 
 const roomRot = (r: RoomDef, i: number, f: number) => lerp(0, r.rotY, E.inOutCubic(prog(f, 6 + i * 3, SPLIT_END - 6))) + Math.sin(f * 0.025 + i) * 0.04;
 
-/** Camera director: overview -> exhibit A -> exhibit B -> pull back. */
-const camera = (f: number, centers: V3[]) => {
+/** Cut points (scene-local): overview → exhibit A → exhibit B → exhibit C. */
+export const CUT_A = 48;
+export const CUT_B = 92;
+export const CUT_C = 140;
+/** Snap-zooms inside the exhibits. */
+export const ZOOM_A = 70;
+export const ZOOM_B = 116;
+
+const mix = (x: V3, y: V3, t: number): V3 => [lerp(x[0], y[0], t), lerp(x[1], y[1], t), lerp(x[2], y[2], t)];
+
+/**
+ * Camera director. The plan view splits into the overview in one move; after that the
+ * edit is hard cuts, each shot drifting slowly, with a snap-zoom onto the evidence.
+ */
+const camera = (f: number, centers: V3[], evidenceA: V3, evidenceB: V3) => {
   const overviewPos: V3 = [10.5, 10.1, 19];
   const overviewTarget: V3 = [0, 1.6, 0];
-  const topPos: V3 = [0, 23, 3.2];
   const a = centers[0];
   const b = centers[2];
-  const exA: V3 = [a[0] + 7.5, a[1] + 6.0, a[2] + 12.5];
-  const exB: V3 = [b[0] + 3.5, b[1] + 8.5, b[2] + 13];
   const tA: V3 = [a[0], a[1] + 1.9, a[2]];
   const tB: V3 = [b[0], b[1] + 1.9, b[2]];
-  const shots: { at: number; pos: V3; target: V3; fov: number }[] = [
-    { at: 0, pos: topPos, target: [0, 0, 0], fov: 44 },
-    { at: SPLIT_END, pos: overviewPos, target: overviewTarget, fov: 38 },
-    { at: 50, pos: exA, target: tA, fov: 34 },
-    { at: 80, pos: [exA[0] - 0.9, exA[1] + 0.2, exA[2] - 0.7], target: tA, fov: 33 },
-    { at: 94, pos: exB, target: tB, fov: 34 },
-    { at: 124, pos: [exB[0] + 0.9, exB[1] - 0.2, exB[2] - 0.6], target: tB, fov: 33 },
-    { at: 140, pos: [11.2, 11.2, 22.5], target: [0, 2.9, 0], fov: 38 },
-    { at: 180, pos: [10.2, 10.8, 23.5], target: [0, 2.9, 0], fov: 38 },
-  ];
-  for (let i = 0; i < shots.length - 1; i++) {
-    const s0 = shots[i];
-    const s1 = shots[i + 1];
-    if (f >= s0.at && f <= s1.at) {
-      const snappy = s1.at - s0.at <= 16 || i === 0 ? E.inOutExpo : E.inOutSine;
-      const t = snappy((f - s0.at) / (s1.at - s0.at));
-      const l = (x: V3, y: V3): V3 => [lerp(x[0], y[0], t), lerp(x[1], y[1], t), lerp(x[2], y[2], t)];
-      return { pos: l(s0.pos, s1.pos), target: l(s0.target, s1.target), fov: lerp(s0.fov, s1.fov, t) };
-    }
+  if (f < SPLIT_END) {
+    const t = E.inOutExpo(f / SPLIT_END);
+    return { pos: mix([0, 23, 3.2], overviewPos, t), target: mix([0, 0, 0], overviewTarget, t), fov: lerp(44, 38, t) };
   }
-  const last = shots[shots.length - 1];
-  return { pos: last.pos, target: last.target, fov: last.fov };
+  if (f < CUT_A) {
+    const t = (f - SPLIT_END) / (CUT_A - SPLIT_END);
+    return { pos: mix(overviewPos, [10.1, 10.0, 18.4], t), target: overviewTarget, fov: 38 };
+  }
+  if (f < CUT_B) {
+    const t = E.outCubic(prog(f, CUT_A, CUT_B - CUT_A));
+    const z = E.outExpo(prog(f, ZOOM_A, 6));
+    const exA: V3 = [a[0] + 7.5, a[1] + 6.0, a[2] + 12.5];
+    return { pos: mix(exA, [exA[0] - 0.9, exA[1] + 0.2, exA[2] - 0.7], t), target: mix(tA, evidenceA, z), fov: lerp(lerp(35, 33, t), 23, z) };
+  }
+  if (f < CUT_C) {
+    const t = E.outCubic(prog(f, CUT_B, CUT_C - CUT_B));
+    const z = E.outExpo(prog(f, ZOOM_B, 6));
+    const exB: V3 = [b[0] + 3.5, b[1] + 8.5, b[2] + 13];
+    return { pos: mix(exB, [exB[0] + 0.9, exB[1] - 0.2, exB[2] - 0.6], t), target: mix(tB, evidenceB, z), fov: lerp(lerp(35, 33, t), 24, z) };
+  }
+  const t = E.outCubic(prog(f, CUT_C, 40));
+  return { pos: mix([11.2, 11.2, 22.5], [10.2, 10.8, 23.5], t), target: [0, 2.9, 0] as V3, fov: 38 };
+};
+
+/* ---------------- floating interface card under each miniature room ---------------- */
+
+const CARD = 4.9;
+let cardMaterial: THREE.MeshPhysicalMaterial | null = null;
+const cardMat = () => {
+  if (!cardMaterial) cardMaterial = new THREE.MeshPhysicalMaterial({ color: "#1B2D5C", roughness: 0.32, metalness: 0.15, clearcoat: 0.8, clearcoatRoughness: 0.25 });
+  return cardMaterial;
+};
+
+const RoomCard: React.FC<{ grow: number; alert: number }> = ({ grow, alert }) => {
+  const s = lerp(0.84, 1, grow);
+  return (
+    <group position={[-0.05, -0.09, -0.05]} scale={[s, 1, s]}>
+      <mesh geometry={cardSlab(CARD, CARD, 0.42, 0.14)} material={cardMat()} castShadow receiveShadow />
+      {/* inset frame line */}
+      <mesh geometry={cardFrame(CARD - 0.18, CARD - 0.18, 0.34, 0.03)} material={glow(alert > 0.5 ? COLORS.orange : "#6F86B8")} position={[0, 0.003, 0]} />
+      {/* header tab + three window dots on the front margin */}
+      <mesh geometry={roundedBox(1.25, 0.024, 0.11, 0.01)} material={glow(COLORS.orange)} position={[-CARD / 2 + 1.0, 0.014, CARD / 2 - 0.2]} />
+      {[0, 1, 2].map((k) => (
+        <mesh key={k} material={glow(k === 0 ? COLORS.orange : "#6F86B8")} position={[CARD / 2 - 0.42 - k * 0.2, 0.012, CARD / 2 - 0.2]}>
+          <cylinderGeometry args={[0.05, 0.05, 0.02, 20]} />
+        </mesh>
+      ))}
+      {/* light strip around the underside edge so the card reads as floating */}
+      <mesh geometry={cardFrame(CARD + 0.04, CARD + 0.04, 0.44, 0.045)} material={glow(COLORS.orange, 0.7)} position={[0, -0.2, 0]} />
+    </group>
+  );
 };
 
 const ScanPlane: React.FC<{ x: number }> = ({ x }) => {
@@ -115,8 +155,10 @@ export const Scene03Investigation: React.FC = () => {
   const pos = ROOMS.map((r, i) => roomPos(r, i, f));
   const rot = ROOMS.map((r, i) => roomRot(r, i, f));
   const centers = ROOMS.map((r) => r.float);
-  const cam = camera(f, centers);
+  const cam = camera(f, centers, toWorld([-0.7, 0.35, 1.25], pos[0], rot[0]), toWorld([0.5, 0.75, -0.9], pos[2], rot[2]));
   const P = (roomIdx: number, local: V3) => project(cam.pos, cam.target, cam.fov, toWorld(local, pos[roomIdx], rot[roomIdx]));
+  const grow = E.outCubic(prog(f, 10, SPLIT_END - 10));
+  const exhibit = f < CUT_A ? -1 : f < CUT_B ? 0 : f < CUT_C ? 2 : 3;
 
   const scanA = kf(f, [44, 66], [-2.4, 2.4], E.inOutSine);
   const scanB = kf(f, [96, 118], [-2.4, 2.4], E.inOutSine);
@@ -130,16 +172,16 @@ export const Scene03Investigation: React.FC = () => {
   const conn = E.outCubic(prog(f, 140, 12));
 
   return (
-    <AbsoluteFill style={{ background: COLORS.charcoal }}>
-      {/* blueprint field */}
+    <AbsoluteFill style={{ background: `radial-gradient(ellipse 95% 62% at 50% 44%, ${COLORS.midnightLift} 0%, ${COLORS.midnight} 48%, ${COLORS.midnightDeep} 100%)` }}>
+      {/* interface field: drifting blueprint grid */}
       <AbsoluteFill
         style={{
-          backgroundImage: `linear-gradient(rgba(142,152,163,0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(142,152,163,0.10) 1px, transparent 1px), linear-gradient(rgba(142,152,163,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(142,152,163,0.05) 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(rgba(157,180,214,0.11) 1px, transparent 1px), linear-gradient(90deg, rgba(157,180,214,0.11) 1px, transparent 1px), linear-gradient(rgba(157,180,214,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(157,180,214,0.05) 1px, transparent 1px)`,
           backgroundSize: "270px 270px, 270px 270px, 54px 54px, 54px 54px",
           backgroundPosition: `${-f * 0.6}px ${-f * 1.2}px`,
         }}
       />
-      <AbsoluteFill style={{ background: "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(255,112,61,0.07), rgba(0,0,0,0) 70%)" }} />
+      <AbsoluteFill style={{ background: "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(255,112,61,0.08), rgba(0,0,0,0) 70%)" }} />
 
       <ThreeCanvas dpr={DPR} width={width} height={height} shadows gl={{ antialias: true, alpha: true }}>
         <StudioEnv intensity={0.55} />
@@ -154,6 +196,7 @@ export const Scene03Investigation: React.FC = () => {
             position={pos[i]}
             rotation={[0, rot[i], 0]}
             wrong
+            plinth={false}
             counter={r.kind === "kitchen" ? "pool" : "terrazzo"}
             floor={(a, b) => ({
               a: r.floor,
@@ -163,6 +206,7 @@ export const Scene03Investigation: React.FC = () => {
             sideWall={r.side}
             wallTile={r.kind === "living" ? 0.7 : 0.5}
           >
+            <RoomCard grow={grow} alert={exhibit === i || exhibit === 3 ? 1 : 0} />
             {r.kind === "kitchen" ? (
               <group position={[-1.05, 0.12 + Math.sin(f * 0.15) * 0.02, 1.25]} rotation={[-Math.PI / 2 + 0.1, 0, 0]}>
                 <mesh material={flat(COLORS.orange, 0.35)} castShadow>
@@ -208,7 +252,7 @@ export const Scene03Investigation: React.FC = () => {
 
       {/* EXHIBIT A — kitchen */}
       <Callout anchor={P(0, [0.6, 0.02, 1.3])} label={[700, 1190]} tag="EXHIBIT A · FLOOR" title="POOL MOSAIC" sub="LOCATION: KITCHEN · SLIP RISK ↑" start={52} end={90} />
-      <Callout anchor={P(0, [-1.05, 0.25, 1.25])} label={[90, 1260]} tag="EVIDENCE 02" title="A SWIM RING?" sub="INVESTIGATION ONGOING" start={62} end={90} />
+      <Callout anchor={P(0, [-1.05, 0.25, 1.25])} label={[90, 1260]} tag="EVIDENCE 02" title="A SWIM RING?" sub="INVESTIGATION ONGOING" start={ZOOM_A + 2} end={90} />
       {/* EXHIBIT B — bathroom */}
       <Callout anchor={P(2, [0.6, 0.02, 1.0])} label={[640, 1250]} tag="TEXTURE 01" title="CHECKER" start={100} end={136} />
       <Callout anchor={P(2, [0.5, 1.4, -1.98])} label={[680, 640]} tag="TEXTURE 02" title="FLORAL" start={105} end={136} />
@@ -237,7 +281,7 @@ export const Scene03Investigation: React.FC = () => {
         </svg>
       ) : null}
       {f >= 146 ? (
-        <div style={{ position: "absolute", right: 72, top: 570, textAlign: "right", background: COLORS.charcoal, padding: "10px 18px", fontFamily: MONO, color: COLORS.ivory, opacity: E.outCubic(prog(f, 146, 8)) }}>
+        <div style={{ position: "absolute", right: 72, top: 570, textAlign: "right", background: COLORS.midnightDeep, padding: "10px 18px", fontFamily: MONO, color: COLORS.ivory, opacity: E.outCubic(prog(f, 146, 8)) }}>
           <div style={{ fontSize: 20, letterSpacing: "0.16em", opacity: 0.7 }}>COORDINATION SCORE</div>
           <div style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: 120, lineHeight: 1, color: COLORS.orange }}>
             {Math.round(kf(f, [146, 162], [87, 12], E.outCubic))}%
@@ -245,16 +289,32 @@ export const Scene03Investigation: React.FC = () => {
         </div>
       ) : null}
 
+      {/* card headers — anchored to each floating card */}
+      {ROOMS.map((r, i) => {
+        const show = f >= SPLIT_END - 4 && (exhibit === -1 || exhibit === 3 || exhibit === i);
+        if (!show) return null;
+        const [x, y] = P(i, [-2.3, -0.1, 2.5]);
+        const a = E.outCubic(prog(f, SPLIT_END - 4 + i * 2, 8));
+        const bad = exhibit === i || exhibit === 3;
+        return (
+          <div key={r.kind} style={{ position: "absolute", left: x - 6, top: y + 10, opacity: a, display: "flex", alignItems: "center", gap: 10, fontFamily: MONO, fontSize: 19, letterSpacing: "0.14em", color: COLORS.ivory, whiteSpace: "nowrap" }}>
+            <span style={{ background: bad ? COLORS.orange : COLORS.midnightLift, color: bad ? COLORS.charcoal : COLORS.ivory, padding: "3px 9px", fontWeight: 700 }}>CARD 0{i + 1}</span>
+            <span style={{ opacity: 0.85 }}>{r.kind.toUpperCase()}</span>
+            <span style={{ color: COLORS.orange, fontWeight: 700 }}>{bad ? "● MISMATCH" : "○ SCANNING"}</span>
+          </div>
+        );
+      })}
+
       {/* headlines */}
       <div style={{ position: "absolute", top: 228, left: 72, fontFamily: MONO, fontSize: 22, letterSpacing: "0.16em", color: COLORS.ivory, opacity: f >= 48 ? 0.75 : 0 }}>
         {f < 92 ? "EXHIBIT A" : f < 140 ? "EXHIBIT B" : "EXHIBIT C"}
       </div>
-      <SlamWord plate={COLORS.charcoal} text="WRONG" start={48} dur={42} size={150} top={262} left={64} />
-      <SlamWord plate={COLORS.charcoal} text="MATERIAL." start={52} dur={38} size={150} top={396} left={64} color={COLORS.orange} />
-      <SlamWord plate={COLORS.charcoal} text="CLASHING" start={92} dur={46} size={150} top={262} left={64} />
-      <SlamWord plate={COLORS.charcoal} text="TEXTURES." start={96} dur={42} size={150} top={396} left={64} color={COLORS.orange} />
-      <SlamWord plate={COLORS.charcoal} text="ZERO" start={140} dur={40} size={150} top={262} left={64} exit={false} />
-      <SlamWord plate={COLORS.charcoal} text="COORDINATION." start={144} dur={36} size={116} top={396} left={64} color={COLORS.orange} exit={false} />
+      <SlamWord plate={COLORS.midnightDeep} text="WRONG" start={48} dur={42} size={150} top={262} left={64} />
+      <SlamWord plate={COLORS.midnightDeep} text="MATERIAL." start={52} dur={38} size={150} top={396} left={64} color={COLORS.orange} />
+      <SlamWord plate={COLORS.midnightDeep} text="CLASHING" start={92} dur={46} size={150} top={262} left={64} />
+      <SlamWord plate={COLORS.midnightDeep} text="TEXTURES." start={96} dur={42} size={150} top={396} left={64} color={COLORS.orange} />
+      <SlamWord plate={COLORS.midnightDeep} text="ZERO" start={140} dur={40} size={150} top={262} left={64} exit={false} />
+      <SlamWord plate={COLORS.midnightDeep} text="COORDINATION." start={144} dur={36} size={116} top={396} left={64} color={COLORS.orange} exit={false} />
 
       <ChapterTag n="03" title="The Investigation · Case #0317" start={2} dur={44} />
       <Vignette strength={0.5} />

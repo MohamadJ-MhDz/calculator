@@ -30,7 +30,7 @@ const sphereGeo = () => G("sphere", () => new THREE.SphereGeometry(1, 22, 16));
 const arcGeo = () => G("arc", () => new THREE.TorusGeometry(1, 0.2, 8, 24, Math.PI));
 const cylGeo = () => G("cyl", () => new THREE.CylinderGeometry(1, 1, 1, 18));
 
-export type Carry = "none" | "hand" | "trolley" | "box" | "sign";
+export type Carry = "none" | "hand" | "briefcase" | "trolley" | "box" | "sign";
 
 export type TileCharProps = {
   position?: V3;
@@ -63,6 +63,14 @@ export type TileCharProps = {
   shadowBlob?: number;
   squash?: number;
   castShadow?: boolean;
+  /** Rolls the tile on its edges like a square wheel (radians, about the face normal). Use with legs = 0. */
+  roll?: number;
+  /** 0..1 — both arms thrown up in a V (victory). */
+  cheer?: number;
+  /** 0..1 — left arm brought up in front of the face (checking an imaginary watch). */
+  watch?: number;
+  /** Impatient foot tap: forward swing of the right leg (radians). */
+  tap?: number;
 };
 
 const DARK = "#161C24";
@@ -214,13 +222,19 @@ export const TileCharacter: React.FC<TileCharProps> = ({
   shadowBlob = 0,
   squash = 0,
   castShadow = true,
+  roll = 0,
+  cheer = 0,
+  watch = 0,
+  tap = 0,
 }) => {
   const sw = Math.sin(walk);
   const bob = stride * 0.035 * Math.abs(Math.cos(walk));
   const legSwing = stride * 0.62 * sw;
   const armSwing = stride * 0.5 * sw;
   const legLen = Math.max(0.0001, LEG * legs);
-  const pivotY = LEG * legs + lift + bob + tilt * (TILE_T / 2);
+  // a square rolling on its edges: the centre rides up and down on the half-diagonal
+  const rollLift = roll ? 0.5 * (Math.abs(Math.cos(roll)) + Math.abs(Math.sin(roll)) - 1) : 0;
+  const pivotY = LEG * legs + lift + bob + tilt * (TILE_T / 2) + rollLift;
   const tiltAngle = (-tilt * Math.PI) / 2;
   const legMat = flat("#1A2029", 0.5);
   const shoeMat = flat(shoes, 0.45);
@@ -228,9 +242,9 @@ export const TileCharacter: React.FC<TileCharProps> = ({
   const armPose = (side: number): V3 => {
     let ax = -side * armSwing;
     let az = side * 0.14;
-    if (carry === "hand" && side === 1) {
+    if ((carry === "hand" || carry === "briefcase") && side === 1) {
       ax *= 0.35;
-      az = 0.3;
+      az = carry === "hand" ? 0.3 : 0.16;
     }
     if (carry === "trolley" && side === 1) {
       ax = 0.5;
@@ -248,8 +262,14 @@ export const TileCharacter: React.FC<TileCharProps> = ({
       az = az + (2.5 - az) * armRaise + Math.sin(wave) * 0.4 * armRaise;
       ax = ax * (1 - armRaise);
     }
-    if (side === -1 && armRaise > 0 && carry === "none") {
-      // shrug: both arms up a bit
+    if (side === -1 && watch > 0) {
+      ax = ax * (1 - watch) + -1.15 * watch;
+      az = az * (1 - watch) + 0.75 * watch;
+    }
+    if (cheer > 0) {
+      const up = side * (2.45 + Math.sin(wave + side * 0.9) * 0.28);
+      az = az * (1 - cheer) + up * cheer;
+      ax = ax * (1 - cheer);
     }
     if (grab > 0) {
       ax = ax * (1 - grab) + -0.5 * grab;
@@ -266,7 +286,7 @@ export const TileCharacter: React.FC<TileCharProps> = ({
       {shadowBlob > 0 ? <BlobShadow position={[0, 0.006, 0]} w={1.5} d={0.75} opacity={shadowBlob} /> : null}
       {legs > 0.02
         ? [-1, 1].map((side) => (
-            <group key={side} position={[side * 0.2, pivotY, 0]} rotation={[side * legSwing, 0, 0]}>
+            <group key={side} position={[side * 0.2, pivotY, 0]} rotation={[side * legSwing - (side === 1 ? tap : 0), 0, 0]}>
               <mesh geometry={legGeo()} material={legMat} position={[0, -legLen / 2, 0]} scale={[1, legLen, 1]} castShadow={castShadow} />
               <mesh
                 geometry={roundedBox(0.13, 0.075, 0.2, 0.034, 3)}
@@ -279,7 +299,7 @@ export const TileCharacter: React.FC<TileCharProps> = ({
         : null}
 
       <group position={[0, pivotY, 0]} rotation={[tiltAngle + lean, 0, sway + stride * 0.045 * sw]}>
-        <group position={[0, 0.5, 0]} scale={[1 + squash * 0.12, 1 - squash * 0.12, 1]}>
+        <group position={[0, 0.5, 0]} rotation={[0, 0, roll]} scale={[1 + squash * 0.12, 1 - squash * 0.12, 1]}>
           <mesh geometry={roundedBox(1, 1, TILE_T, 0.024, 3)} material={BISCUIT()} castShadow={castShadow} receiveShadow />
           <mesh
             geometry={plane(0.962, 0.962)}
@@ -301,6 +321,9 @@ export const TileCharacter: React.FC<TileCharProps> = ({
                     <mesh geometry={sphereGeo()} material={legMat} position={[0, -ARM, 0]} scale={0.042} />
                     {carry === "hand" && side === 1 ? (
                       <Suitcase color={luggage} position={[0, -ARM - 0.155, 0]} rotation={[0, Math.PI / 2, 0]} />
+                    ) : null}
+                    {carry === "briefcase" && side === 1 ? (
+                      <Suitcase color={luggage} w={0.3} h={0.2} d={0.07} scale={0.72} position={[0, -ARM - 0.1, 0]} rotation={[0, Math.PI / 2, 0]} />
                     ) : null}
                   </group>
                 );

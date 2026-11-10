@@ -8,7 +8,7 @@ clearly-labelled SILENT narration placeholder.
     python3 scripts/make-audio.py
 
 Outputs (48 kHz WAV):
-  public/audio/score.wav                     original music bed, 40 s
+  public/audio/score.wav                     original electronic score, 40 s, 120 bpm
   public/audio/sfx/*.wav                     individual sound effects
   public/audio/narration-PLACEHOLDER.wav     40 s of silence — replace with the recorded Persian VO
 """
@@ -183,91 +183,359 @@ def place(buf, x, at_s, gain=1.0, pan=0.0):
 
 
 # ----------------------------------------------------------------------------- SCORE
+# Playful electronic score at 120 bpm (one beat = 15 frames, so the edit lands on the grid).
+# Everything is synthesised here: a filter-enveloped saw bass, an 808-style kick, claps, hats,
+# plucks, FM blips, pads, risers and sub drops. No samples.
+BEAT = 0.5
+STEP = BEAT / 4  # one 16th note
+
+_wave_cache = {}
+
+
+def saw(f, d):
+    """Band-limited sawtooth (additive)."""
+    key = ("saw", round(f, 3), round(d, 4))
+    if key not in _wave_cache:
+        t = t_axis(d)
+        y = np.zeros_like(t)
+        k = 1
+        while f * k < 9000 and k <= 64:
+            y += ((-1) ** (k + 1)) * np.sin(2 * np.pi * f * k * t) / k
+            k += 1
+        _wave_cache[key] = y
+    return _wave_cache[key]
+
+
+def square(f, d):
+    key = ("sq", round(f, 3), round(d, 4))
+    if key not in _wave_cache:
+        t = t_axis(d)
+        y = np.zeros_like(t)
+        k = 1
+        while f * k < 9000 and k <= 63:
+            y += np.sin(2 * np.pi * f * k * t) / k
+            k += 2
+        _wave_cache[key] = y
+    return _wave_cache[key]
+
+
+def bass(m, d=0.12, bright=1500.0, dark=170.0, rate=20.0, sub=0.7, drive=1.5):
+    """Confident synth bass: saw + sub through a decaying low-pass ('wow')."""
+    f = mtof(m)
+    t = t_axis(d)
+    raw = saw(f, d) + 0.5 * square(f, d)
+    e = np.exp(-t * rate)
+    y = lowpass(raw, dark) * (1 - e) + lowpass(raw, bright) * e
+    y = y + sub * np.sin(2 * np.pi * f * t)
+    a = np.minimum(1, t / 0.004) * np.minimum(1, (d - t) / 0.02)
+    return np.tanh(y * drive * 0.6) * np.clip(a, 0, 1)
+
+
+def pluck(m, d=0.3, bright=4200.0, rate=14.0):
+    """Short filtered-square pluck for arps and the hook."""
+    f = mtof(m)
+    t = t_axis(d)
+    raw = 0.6 * square(f, d) + 0.4 * saw(f * 1.006, d)
+    e = np.exp(-t * rate)
+    y = lowpass(raw, 600) * (1 - e) + lowpass(raw, bright) * e
+    return y * np.exp(-t * 9) * np.minimum(1, t / 0.003) * np.minimum(1, (d - t) / 0.01)
+
+
+def blip(m, d=0.09, index=2.2):
+    """Quirky FM bleep."""
+    f = mtof(m)
+    t = t_axis(d)
+    y = np.sin(2 * np.pi * f * t + index * np.exp(-t * 30) * np.sin(2 * np.pi * f * 2.0 * t))
+    return y * np.exp(-t * 28) * np.minimum(1, t / 0.002)
+
+
+def kick808(amp=1.0, d=0.42):
+    t = t_axis(d)
+    f = 46 + 120 * np.exp(-t * 36)
+    y = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t * 8.5)
+    y += 0.35 * highpass(rng.standard_normal(len(t)), 2500) * np.exp(-t * 180)
+    return np.tanh(y * 1.6) * amp
+
+
+def clap(amp=1.0):
+    t = t_axis(0.28)
+    n = bandpass(rng.standard_normal(len(t)), 900, 3800)
+    e = np.zeros_like(t)
+    for off in (0.0, 0.011, 0.023):
+        e += np.where(t >= off, np.exp(-(t - off) * 160), 0) * 0.6
+    e += np.where(t >= 0.03, np.exp(-(t - 0.03) * 22), 0)
+    return n * e * amp
+
+
+def chat(amp=1.0):
+    t = t_axis(0.05)
+    return highpass(rng.standard_normal(len(t)), 7500) * np.exp(-t * 95) * amp
+
+
+def ohat(amp=1.0):
+    t = t_axis(0.22)
+    return highpass(rng.standard_normal(len(t)), 6500) * np.exp(-t * 16) * amp
+
+
+def rim(f=1750, amp=1.0):
+    t = t_axis(0.05)
+    return (np.sin(2 * np.pi * f * t) * np.exp(-t * 110) + 0.3 * rng.standard_normal(len(t)) * np.exp(-t * 300)) * amp
+
+
+def cer_perc(pitch=1.0, amp=1.0):
+    """A ceramic 'tink' used as percussion — the tiles are in the band."""
+    t = t_axis(0.12)
+    y = sum(np.sin(2 * np.pi * f * pitch * t + ph) * np.exp(-t * r) for f, r, ph in ((1850, 60, 0.3), (2960, 80, 1.1), (4700, 110, 2.0)))
+    return y * amp * 0.5
+
+
+def riser(d, lo=300.0, hi=7000.0):
+    t = t_axis(d)
+    n = rng.standard_normal(len(t))
+    out = np.zeros_like(t)
+    segs = 24
+    L = len(t) // segs + 1
+    for i in range(segs):
+        c = lo * (hi / lo) ** (i / (segs - 1))
+        w = np.zeros_like(t)
+        w[i * L:(i + 1) * L] = 1
+        out += bandpass(n, c * 0.7, c * 1.5) * w
+    tone = np.sin(2 * np.pi * np.cumsum(110 * (4 ** (t / d))) / SR) * 0.25
+    return (out * 0.6 + tone) * (t / d) ** 2
+
+
+def subdrop(d=1.6, f0=95.0, f1=30.0):
+    t = t_axis(d)
+    f = f1 + (f0 - f1) * np.exp(-t * 5)
+    return np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t * 2.4) * np.minimum(1, t / 0.004)
+
+
+def chord_stab(notes, d=1.4, bright=2400.0):
+    t = t_axis(d)
+    y = np.zeros_like(t)
+    for m in notes:
+        for det in (-0.08, 0.08):
+            y += saw(mtof(m) * 2 ** (det / 12), d)
+    return lowpass(y, bright) * np.exp(-t * 3.2) * np.minimum(1, t / 0.004)
+
+
 def make_score():
     N = int(DUR * SR)
-    S = np.zeros((N, 2))
-    BEAT = 0.5  # 120 bpm
-    D = 50  # D3 midi
-    # --- 0–5 s: suspense drone + sparse pizzicato
-    t = t_axis(5.2)
-    drone = (np.sin(2 * np.pi * mtof(38) * t) + 0.5 * np.sin(2 * np.pi * mtof(50) * t) * (0.6 + 0.4 * np.sin(2 * np.pi * 0.25 * t)))
-    drone *= np.minimum(1, t / 1.2) * np.minimum(1, (5.2 - t) / 0.3)
-    place(S, drone, 0.0, 0.10)
-    for at, m in [(0.75, 62), (1.25, 65), (1.55, 69), (1.75, 68)]:
-        place(S, pizz(mtof(m), 0.5), at, 0.22, -0.2)
-    for at, m in [(2.6, 62), (3.0, 61), (3.4, 62), (3.8, 65), (4.2, 64), (4.45, 62)]:
-        place(S, pizz(mtof(m - 12), 0.5), at, 0.2, 0.15)
-    # --- 5–9.6 s: the march of the tiles (D minor, comic)
-    mel = [62, 64, 65, 67, 69, 69, 70, 69, 67, 65, 64, 62, 64, 65, 64, 61, 62, 64, 65, 67, 69, 72, 70, 69, 67, 64, 65, 64, 62, 0, 62, 0]
-    for i in range(36):
-        at = 5.0 + i * BEAT / 2
-        if at > 9.45:
-            break
-        m = mel[i % len(mel)]
-        if m:
-            place(S, reed(mtof(m), 0.2), at, 0.13, 0.25)
-    for i in range(10):
-        at = 5.0 + i * BEAT
-        if at > 9.45:
-            break
-        place(S, pizz(mtof(D - 12 if i % 2 == 0 else D - 17), 0.45), at, 0.32, -0.1)
-        place(S, kick(), at, 0.18 if i % 2 == 0 else 0.0)
-        if i % 2 == 1:
-            place(S, brush(), at, 0.12, 0.3)
-    # --- 10.6 s: title hit
-    place(S, pad([mtof(38), mtof(45), mtof(50), mtof(53)], 1.6, 1.0, 0.01, 1.2, 900), 10.67, 0.22)
-    # --- 11–17 s: investigation pulse
-    for i in range(48):
-        at = 11.0 + i * BEAT / 4
-        f = mtof(38 + (0 if (i // 8) % 4 != 3 else 1))
-        place(S, pizz(f, 0.14) * 0.9, at, 0.16, -0.1)
-        if i % 2 == 1:
-            place(S, hat(), at, 0.05, 0.4)
-    for at in (11.0, 12.67, 14.07, 15.67):
-        place(S, kick(), at, 0.34)
-        place(S, pad([mtof(50), mtof(53), mtof(56)], 1.2, 1, 0.01, 1.0, 1200), at, 0.05)
-    # --- 17–24 s: the system (bright D major arps)
-    arp = [62, 66, 69, 74, 69, 66, 62, 66]
-    prog_ = [[50, 54, 57], [55, 59, 62], [57, 61, 64], [50, 54, 57]]
-    for i in range(56):
-        at = 17.0 + i * BEAT / 4
-        if at > 23.9:
-            break
-        bar = int((at - 17.0) // 2) % 4
-        shift = [0, 5, 7, 0][bar]
-        place(S, marimba(mtof(arp[i % 8] + shift), 0.5), at, 0.13, 0.35 if i % 2 else -0.35)
-    for b in range(4):
-        place(S, pad([mtof(m) for m in prog_[b]], 2.1, 1, 0.4, 0.5, 1800), 17.0 + b * 2, 0.07)
-    # --- 24–34 s: the transformation (warm, full)
-    chords = [[50, 54, 57, 62], [43, 55, 59, 62], [47, 54, 59, 62], [45, 52, 57, 61], [50, 54, 57, 62]]
-    for b, ch in enumerate(chords):
-        at = 24.0 + b * 2
-        place(S, pad([mtof(m) for m in ch], 2.3, 1, 0.3, 0.6, 2400), at, 0.12)
-        place(S, pizz(mtof(ch[0] - 12), 0.9), at, 0.3)
-        place(S, pizz(mtof(ch[0] - 12), 0.9), at + 1.0, 0.22)
-        for k in range(16):
-            n = ch[[0, 1, 2, 3, 2, 1, 2, 3][k % 8]] + 12
-            place(S, marimba(mtof(n), 0.45), at + k * BEAT / 4, 0.11, -0.4 if k % 2 else 0.4)
-        for k in range(4):
-            place(S, kick(), at + k * BEAT, 0.16)
-            if k % 2 == 1:
-                place(S, brush(d=0.12), at + k * BEAT, 0.07, 0.2)
-    # --- 34–36.5 s: gentle hold
-    place(S, pad([mtof(m) for m in (50, 57, 62, 66)], 2.8, 1, 0.5, 1.2, 2000), 34.0, 0.11)
-    for at, m in [(34.4, 74), (34.9, 78), (35.4, 81), (35.9, 79)]:
-        place(S, marimba(mtof(m), 0.8), at, 0.09, 0.2)
-    # --- 36.5–40 s: end card sting
-    place(S, kick(), 36.5, 0.35)
-    place(S, pad([mtof(m) for m in (38, 50, 57, 62, 66, 69)], 3.5, 1, 0.05, 2.2, 2600), 36.5, 0.16)
-    for k, m in enumerate((74, 78, 81, 86)):
-        place(S, bell(mtof(m), 3.0), 37.87 + k * 0.05, 0.08, -0.3 + k * 0.2)
-    # master: gentle glue + fade
-    S[:, 0] = reverb(S[:, 0], 1.6, 0.18)
-    S[:, 1] = reverb(S[:, 1], 1.7, 0.18)
+    DR = np.zeros((N, 2))  # drums
+    BS = np.zeros((N, 2))  # bass
+    MU = np.zeros((N, 2))  # plucks, pads, blips (gets reverb)
+    FX = np.zeros((N, 2))  # risers, impacts
+    kicks = []
+
+    def put_kick(at, g=0.9):
+        place(DR, kick808(), at, g)
+        kicks.append(at)
+
+    # hook (16th-step, midi, length in steps) over two bars — major; minor swaps F#→F and B→C
+    HOOK = [
+        [(0, 74, 2), (3, 78, 1), (4, 76, 2), (6, 74, 1), (8, 81, 2), (11, 78, 1), (12, 76, 2), (14, 74, 2)],
+        [(0, 71, 2), (3, 74, 1), (4, 76, 2), (6, 78, 1), (8, 76, 2), (10, 74, 1), (12, 69, 3)],
+    ]
+    to_minor = {78: 77, 71: 72, 66: 65, 59: 60}
+
+    def hook_bar(at, which, minor=False, g=0.16, octave=0):
+        for st, m, ln in HOOK[which]:
+            if minor:
+                m = to_minor.get(m, m)
+            place(MU, pluck(m + octave, ln * STEP + 0.12), at + st * STEP, g, 0.2 if st % 4 else -0.2)
+
+    def groove_bar(at, root, minor=False, steps=16, bass_g=0.5, drums=True, hats=True, perc=True, bright=1500.0):
+        third = 3 if minor else 4
+        line = {0: 0, 2: 0, 3: 12, 5: 0, 6: third, 8: 0, 10: 0, 11: 12, 12: 7, 14: 10, 15: 12}
+        for st in range(steps):
+            t0 = at + st * STEP
+            if st in line:
+                long = st in (0, 8)
+                place(BS, bass(root + line[st], 0.2 if long else 0.105, bright=bright), t0, bass_g)
+            if drums:
+                if st % 4 == 0:
+                    put_kick(t0)
+                if st in (4, 12):
+                    place(DR, clap(), t0, 0.34)
+            if hats:
+                if st % 4 == 2:
+                    place(DR, ohat() if st == 14 else chat(), t0, 0.2 if st == 14 else 0.24, 0.3)
+                elif st % 2 == 1:
+                    place(DR, chat(), t0, 0.09, -0.3)
+            if perc and st in (3, 7, 10):
+                place(DR, cer_perc(1.0 + 0.18 * (st % 3)), t0, 0.16, 0.5 if st == 7 else -0.5)
+
+    # ------------------------------------------------------------------ 0 – 4.07 s  · THE INCIDENT
+    # tension: sub drone, a clock that is slightly too loud, a bassline that sneaks
+    t = t_axis(4.2)
+    drone = np.sin(2 * np.pi * mtof(26) * t) + 0.45 * np.sin(2 * np.pi * mtof(38) * t) * (0.6 + 0.4 * np.sin(2 * np.pi * 0.3 * t))
+    place(BS, drone * np.minimum(1, t / 1.0), 0.0, 0.2)
+    for i in range(8):
+        place(DR, rim(1750 if i % 2 == 0 else 1320), i * BEAT, 0.13, 0.35 if i % 2 else -0.35)
+    for at, m in [(0.5, 38), (1.25, 41), (1.5, 38), (2.0, 33), (2.5, 38), (2.75, 41), (3.0, 43), (3.25, 44), (3.5, 45), (3.75, 46)]:
+        place(BS, bass(m, 0.16, bright=700, rate=26), at, 0.34)
+    for at, m in [(0.75, 86), (1.75, 89), (2.25, 86), (3.125, 93)]:
+        place(MU, blip(m), at, 0.1, 0.4)
+    place(MU, pad([mtof(50), mtof(51), mtof(57)], 4.1, 1.0, 2.5, 0.05, 1100), 0.0, 0.05)
+    place(FX, riser(1.2), 2.87, 0.3)
+    for i in range(5):  # hats accelerating into the cut
+        place(DR, chat(), 3.44 + i * STEP, 0.1 + 0.03 * i)
+    cut_a = 122 / FPS  # the abrupt comedic cut: everything stops
+
+    # ------------------------------------------------------------------ 5 – 9.6 s  · THE RESIGNATION (the drop)
+    groove_bar(5.0, 38, minor=True)
+    groove_bar(7.0, 38, minor=True)
+    groove_bar(9.0, 38, minor=True, steps=5)
+    hook_bar(5.0, 0, minor=True)
+    hook_bar(7.0, 1, minor=True)
+    place(MU, pluck(74, 0.3), 9.0, 0.16)
+    place(MU, pluck(77, 0.3), 9.25, 0.16)
+    place(FX, subdrop(1.2), 5.0, 0.35)
+    stop_a, stop_b = 9.3, 9.62  # tape-stop into the comedic pause
+
+    # ------------------------------------------------------------------ 10.73 s  · title hit (door slam)
+    hit = 322 / FPS
+    place(FX, subdrop(2.0, 110, 28), hit, 0.5)
+    place(MU, chord_stab([38, 45, 50, 53, 64], 1.8), hit, 0.1)
+
+    # ------------------------------------------------------------------ 11 – 17 s  · THE INVESTIGATION
+    # half-time, dark: a closed-filter bass pulse, ticking hats, glitchy bleeps, a rubbing pad
+    prng = np.random.default_rng(31703)
+    for bar in range(3):
+        at = 11.0 + bar * 2
+        for st in range(16):
+            t0 = at + st * STEP
+            if st % 2 == 0:
+                root = 39 if (bar == 1 and st >= 8) else 38
+                place(BS, bass(root, 0.11, bright=520 + 90 * bar, dark=140, rate=24), t0, 0.42 if st % 8 == 0 else 0.3)
+            if st in (0, 10):
+                put_kick(t0, 0.8)
+            if st == 8:
+                place(DR, rim(1500), t0, 0.3)
+                place(DR, clap(), t0, 0.14)
+            place(DR, chat(), t0, 0.12 if st % 4 == 2 else 0.05, 0.3 if st % 2 else -0.3)
+            if prng.random() < 0.3:
+                place(MU, blip(int(prng.choice([86, 89, 93, 96, 98])), 0.07), t0, 0.07, float(prng.uniform(-0.7, 0.7)))
+        place(MU, pad([mtof(50), mtof(51), mtof(57)], 2.1, 1.0, 0.4, 0.4, 1300), at, 0.045)
+    for fr in (378, 422, 470):  # exhibit cuts
+        place(FX, riser(0.35, 800, 6000), fr / FPS - 0.35, 0.18)
+        place(FX, subdrop(1.1, 100, 32), fr / FPS, 0.42)
+        place(MU, chord_stab([50, 53, 57, 63], 0.7, 1800), fr / FPS, 0.06)
+    place(FX, riser(0.6, 500, 8000), 16.4, 0.26)  # scan wipe into the system
+
+    # ------------------------------------------------------------------ 17 – 24 s  · THE 3RAMIC SYSTEM
+    # the same groove, now major and bright
+    ROOTS = [38, 43, 35, 33]  # D  G  Bm  A
+    ARPS = [[62, 66, 69, 74], [62, 67, 71, 74], [62, 66, 71, 74], [61, 64, 69, 73]]
+    for bar in range(4):
+        at = 17.0 + bar * 2
+        steps = 16 if bar < 3 else 8
+        groove_bar(at, ROOTS[bar], minor=(bar == 2), steps=steps, bass_g=0.46, drums=bar > 0, perc=True)
+        for st in range(steps):
+            n = ARPS[bar][[0, 1, 2, 3, 2, 1, 2, 3][st % 8]] + (12 if st % 8 >= 4 else 0)
+            place(MU, pluck(n, 0.22, bright=3600), at + st * STEP, 0.085, 0.45 if st % 2 else -0.45)
+        place(MU, pad([mtof(m) for m in ARPS[bar][:3]], 2.05 if bar < 3 else 1.0, 1.0, 0.25, 0.3, 2000), at, 0.05)
+    put_kick(17.0, 0.9)
+    place(FX, riser(1.0, 400, 9000), 23.0, 0.3)
+    for i in range(8):  # snare-ish roll into the transformation
+        place(DR, clap(), 23.5 + i * STEP / 2, 0.08 + 0.025 * i)
+
+    # ------------------------------------------------------------------ 24 – 34 s  · THE TRANSFORMATION
+    groove_bar(24.0, 38, steps=12)  # 24.0 – 25.5: full groove + hook
+    hook_bar(24.0, 0, g=0.17)
+    place(FX, subdrop(1.3), 24.0, 0.36)
+    # 25.5 / 26.0 / 26.5: stop-time hits on the three macro cuts
+    for i, (at, chord) in enumerate([(25.5, [50, 57, 62, 66]), (26.0, [47, 54, 59, 62]), (26.5, [45, 52, 57, 61])]):
+        put_kick(at, 1.0)
+        place(DR, clap(), at, 0.3)
+        place(BS, bass(chord[0] - 12, 0.3, bright=1900), at, 0.55)
+        place(MU, chord_stab(chord, 0.5, 3000), at, 0.09)
+        place(DR, cer_perc(1.0 + 0.2 * i), at + 0.25, 0.2, 0.4)
+        place(DR, cer_perc(1.3 + 0.2 * i), at + 0.375, 0.16, -0.4)
+    place(FX, riser(0.5, 600, 9000), 26.5, 0.22)
+    # 27 – 31: they come home — full groove, hook an octave up on the repeats
+    for bar, root in enumerate([43, 35, 33]):  # G  Bm  A  (27, 29, 31)
+        at = 27.0 + bar * 2
+        steps = 16 if bar < 2 else 2
+        groove_bar(at, root, minor=(bar == 1), steps=steps)
+        if bar < 2:
+            hook_bar(at, bar, g=0.17)
+            hook_bar(at, bar, g=0.06, octave=12)
+            place(MU, pad([mtof(m) for m in ARPS[bar + 1][:3]], 2.05, 1.0, 0.2, 0.3, 2400), at, 0.06)
+    place(FX, subdrop(1.3), 27.0, 0.36)
+    # 31.2 – 32: slow motion — the music sinks under water (done in the master below)
+    place(MU, pad([mtof(45), mtof(52), mtof(57), mtof(61)], 1.0, 1.0, 0.1, 0.2, 900), 31.0, 0.09)
+    place(FX, riser(0.7, 300, 5000), 31.3, 0.2)
+    # 32: the click — everything comes back for the pull-back
+    place(FX, subdrop(1.8, 110, 28), 32.0, 0.5)
+    groove_bar(32.0, 38, steps=16)
+    hook_bar(32.0, 0, g=0.18)
+    hook_bar(32.0, 0, g=0.07, octave=12)
+    place(MU, pad([mtof(m) for m in (50, 57, 62, 66)], 2.05, 1.0, 0.1, 0.3, 2600), 32.0, 0.07)
+
+    # ------------------------------------------------------------------ 34 – 36.5 s  · THE ENDING
+    # the groove thins out: bass, a soft pad and the arp walking home
+    for st in range(20):
+        t0 = 34.0 + st * STEP
+        if st % 4 == 0:
+            place(BS, bass(38 if st < 16 else 45, 0.2, bright=900), t0, 0.4)
+        n = ARPS[0][[0, 1, 2, 3, 2, 1, 2, 3][st % 8]] + 12
+        place(MU, pluck(n, 0.25, bright=3000), t0, 0.07, 0.4 if st % 2 else -0.4)
+        if st % 4 == 2:
+            place(DR, chat(), t0, 0.12)
+    place(MU, pad([mtof(m) for m in (50, 57, 62, 66)], 2.5, 1.0, 0.4, 0.4, 2000), 34.0, 0.08)
+    place(FX, riser(0.7, 500, 8000), 35.8, 0.22)
+
+    # ------------------------------------------------------------------ 36.5 – 40 s  · END CARD
+    place(FX, subdrop(2.6, 100, 27), 36.5, 0.55)
+    put_kick(36.5, 1.0)
+    place(MU, pad([mtof(m) for m in (38, 50, 57, 62, 66, 69)], 3.5, 1.0, 0.04, 2.3, 2600), 36.5, 0.15)
+    for k, (st, m) in enumerate([(0, 74), (3, 78), (4, 76), (6, 74), (8, 81)]):  # the hook, once, alone
+        place(MU, pluck(m, 0.5, bright=3400), 36.5 + st * STEP, 0.15, -0.2 + 0.1 * k)
+    for k, m in enumerate((74, 78, 81, 86)):  # bells as the tagline lands
+        place(MU, bell(mtof(m), 2.4), 37.7 + k * 0.06, 0.07, -0.3 + k * 0.2)
+
+    # ------------------------------------------------------------------ mix
+    duck = np.ones(N)  # side-chain: bass and music breathe around every kick
+    tt = np.arange(int(0.5 * SR)) / SR
+    shape = 1 - 0.55 * np.exp(-tt / 0.1)
+    for at in kicks:
+        i = int(at * SR)
+        n = min(len(shape), N - i)
+        duck[i:i + n] = np.minimum(duck[i:i + n], shape[:n])
+    for ch in range(2):
+        MU[:, ch] = reverb(MU[:, ch], 1.5 + 0.1 * ch, 0.22)
+        DR[:, ch] = reverb(DR[:, ch], 0.5, 0.06, 5000)
+    S = DR * 0.9 + BS * duck[:, None] + MU * duck[:, None] * 1.25 + FX
+
+    # slow motion (31.2 – 32.0 s): cross-fade into a low-passed copy
+    a, b = int(31.2 * SR), int(32.0 * SR)
+    w = np.sin(np.linspace(0, np.pi / 2, b - a)) ** 2
+    for ch in range(2):
+        seg = S[a:b, ch].copy()
+        S[a:b, ch] = seg * (1 - w) + lowpass(seg, 320) * w * 1.3
+
+    # tape-stop into the comedic pause, then silence until the door slams
+    a, b = int(stop_a * SR), int(stop_b * SR)
+    L = b - a
+    speed = np.linspace(1, 0, L) ** 0.8
+    posn = np.cumsum(speed)
+    idx = np.clip(posn, 0, L - 2)
+    for ch in range(2):
+        seg = S[a:a + L, ch].copy()
+        S[a:b, ch] = np.interp(idx, np.arange(L), seg) * np.linspace(1, 0, L) ** 0.5
+    S[b:int(hit * SR)] = 0
+
+    # the abrupt cut at 4.07 s: dead silence until the drop
+    c = int(cut_a * SR)
+    S[c:int(5.0 * SR)] = 0
+    S[c - 240:c] *= np.linspace(1, 0, 240)[:, None]
+
+    S = np.tanh(S * 1.15)
     fade = np.ones(N)
-    fade[-int(0.8 * SR):] = np.linspace(1, 0, int(0.8 * SR))
+    fade[-int(0.9 * SR):] = np.linspace(1, 0, int(0.9 * SR)) ** 1.5
     S *= fade[:, None]
-    return norm(S, 0.8)
+    return norm(S, 0.86)
 
 
 # ----------------------------------------------------------------------------- SFX
@@ -481,6 +749,93 @@ def sfx_steps(times, d):
     return norm(y, 0.8)
 
 
+def sfx_rattle(d=1.0):
+    """The rest of the floor waking up: ceramic chatter that thickens."""
+    y = np.zeros(int(d * SR))
+    times = d * 0.92 * rng.uniform(0, 1, 46) ** 0.6
+    for at in np.sort(times):
+        c = sfx_click(rng.uniform(1.15, 1.9), 0.25)[: int(0.09 * SR)] * rng.uniform(0.25, 0.8) * (0.35 + 0.65 * at / d)
+        a = int(at * SR)
+        n = min(len(c), len(y) - a)
+        if n > 0:
+            y[a:a + n] += c[:n]
+    return norm(y, 0.85)
+
+
+def sfx_scrape(d=0.7):
+    """A tile slowly prising itself out of its bed: gritty ceramic drag."""
+    t = t_axis(d)
+    n = bandpass(rng.standard_normal(len(t)), 350, 2600)
+    grit = (rng.random(len(t)) < 0.012).astype(float)
+    grit = np.convolve(grit, np.exp(-np.arange(200) / 30.0), mode="same")
+    am = 0.55 + 0.45 * np.sin(2 * np.pi * (9 + 6 * t / d) * t)
+    y = (n * 0.5 + bandpass(grit, 900, 5000) * 1.6) * am
+    return norm(y * np.minimum(1, t / 0.12) * np.minimum(1, (d - t) / 0.1))
+
+
+def sfx_clack():
+    """One corner of a rolling tile hitting the floor."""
+    y = sfx_click(0.72, 1.0)
+    y[: int(0.2 * SR)] += sfx_thump(95, 0.2)[: int(0.2 * SR)] * 0.9
+    return norm(y)
+
+
+def sfx_snap():
+    """Sample snapping into place: tight click + body + a little upward chirp."""
+    c = sfx_click(1.15, 0.5)
+    t = t_axis(0.25)
+    chirp = np.sin(2 * np.pi * np.cumsum(700 + 2600 * (t / 0.07).clip(0, 1)) / SR) * np.exp(-t * 55) * 0.5
+    body = np.sin(2 * np.pi * np.cumsum(60 + 110 * np.exp(-t * 40)) / SR) * np.exp(-t * 16)
+    return norm(c + chirp + body * 1.1)
+
+
+def sfx_suitcase_roll(d=1.6):
+    """Tiny suitcase wheels over tile joints."""
+    t = t_axis(d)
+    rumble = bandpass(rng.standard_normal(len(t)), 180, 1100) * (0.6 + 0.4 * np.sin(2 * np.pi * 19 * t))
+    y = rumble * 0.5
+    for at in np.arange(0.04, d - 0.05, 0.145):
+        a = int(at * SR)
+        L = int(0.03 * SR)
+        tt = np.arange(L) / SR
+        y[a:a + L] += (np.sin(2 * np.pi * 1150 * tt) * np.exp(-tt * 190) + 0.5 * rng.standard_normal(L) * np.exp(-tt * 260)) * 0.7
+    return norm(y * np.minimum(1, t / 0.15) * np.minimum(1, (d - t) / 0.2))
+
+
+def sfx_slowmo(d=0.9):
+    """Slow motion: the world drops an octave."""
+    t = t_axis(d)
+    f = 160 * (0.35 ** (t / d))
+    y = np.sin(2 * np.pi * np.cumsum(f) / SR) * 0.8 + lowpass(rng.standard_normal(len(t)), 500) * 0.35
+    return norm(y * np.sin(np.pi * t / d) ** 0.8)
+
+
+def sfx_hall_ramp():
+    """Hallway tracking shot (42 frames): patter at speed, a slow-motion sag, then back up to speed."""
+    d = 42 / FPS
+    y = np.zeros(int(d * SR))
+
+    def steps(t0, t1, rate, lo, hi, gain):
+        for at in np.sort(rng.uniform(t0, t1, max(1, int((t1 - t0) * rate)))):
+            f = rng.uniform(lo, hi)
+            L = int(0.035 * SR * (2000 / hi) ** 0.5)
+            tt = np.arange(L) / SR
+            a = int(at * SR)
+            sig = (np.sin(2 * np.pi * f * tt) * np.exp(-tt * 150 * hi / 2600) + 0.5 * rng.standard_normal(L) * np.exp(-tt * 240)) * rng.uniform(0.4, 1) * gain
+            n = min(L, len(y) - a)
+            if n > 0:
+                y[a:a + n] += sig[:n]
+
+    steps(0.0, 0.42, 30, 1400, 2600, 1.0)
+    steps(0.42, 0.86, 7, 420, 800, 0.9)  # slow motion: sparse, an octave down
+    steps(0.86, d - 0.03, 34, 1500, 2800, 1.1)
+    sl = sfx_slowmo(0.5)
+    a = int(0.4 * SR)
+    y[a:a + len(sl)] += sl[: len(y) - a] * 0.9
+    t = np.arange(len(y)) / SR
+    return norm(y * np.minimum(1, t / 0.03) * np.minimum(1, (d - t) / 0.04))
+
+
 def main():
     write(os.path.join(ROOT, "score.wav"), make_score(), stereo=True)
     write(os.path.join(ROOT, "narration-PLACEHOLDER.wav"), np.zeros(int(DUR * SR)))
@@ -512,10 +867,18 @@ def main():
         "chime": sfx_chime(),
         "tok": sfx_tok(),
         "suitcase-down": sfx_thump(110, 0.25),
+        "rattle": sfx_rattle(1.0),
+        "scrape": sfx_scrape(0.7),
+        "clack": sfx_clack(),
+        "snap": sfx_snap(),
+        "tap": norm(sfx_click(1.9, 0.12)[: int(0.07 * SR)]),
+        "suitcase-roll": sfx_suitcase_roll(1.6),
+        "slowmo": sfx_slowmo(0.9),
+        "hall-ramp": sfx_hall_ramp(),
     }
     # crowd stems, timed from the same formulas the scenes use
     # Scene 02 ripple: same formula as tPop() in Scene02Resignation.tsx (relative to scene start)
-    stuck = {(1, -2.5), (2, -2.5), (-2, 1.5), (-2, 2.5), (2, 2.5), (0, -2.5)}
+    stuck = {(1, -2.5), (2, -2.5), (-2, 1.5), (-2, 2.5), (2, 2.5), (0, -2.5)}  # under furniture + the hero (already up)
     pops = sorted(
         (3 + np.hypot(x, zc + 2.5) * 4.5) / FPS
         for zc in np.arange(-2.5, 3.0, 1.0)
@@ -523,7 +886,7 @@ def main():
         if (x, float(zc)) not in stuck
     )
     sfx["floor-ripple"] = sfx_ripple(pops, max(pops) + 0.4)
-    sfx["march"] = sfx_march(4.6)
+    sfx["march"] = sfx_march(3.4)
     sfx["flip-cascade"] = sfx_ripple([k * 1.6 / FPS + 0.33 for k in range(16)], 1.4)
     sfx["ripple-long"] = sfx_ripple(sorted(rng.uniform(0, 1.3, 40)), 1.8)
     sfx["steps-hero"] = sfx_steps([k * 0.16 for k in range(7)], 1.3)

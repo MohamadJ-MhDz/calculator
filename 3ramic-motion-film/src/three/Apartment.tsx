@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import * as THREE from "three";
 import { ceramic, flat, plane, roundedBox } from "./kit";
-import { mulberry32, TexKey } from "./textures";
+import { getTexture, mulberry32, TexKey } from "./textures";
 import { TILE_T } from "./TileCharacter";
 import type { V3 } from "../anim";
 
@@ -10,6 +10,8 @@ import type { V3 } from "../anim";
 /* ------------------------------------------------------------------ */
 
 export type Mood = "angry" | "tired" | "huffy";
+/** queue = marches out with the column · roller = rolls away angrily · waiter = waits by the door with a briefcase */
+export type Role = "queue" | "roller" | "waiter";
 export type FloorTile = {
   id: number;
   x: number;
@@ -18,7 +20,8 @@ export type FloorTile = {
   faceRot: number;
   stuck: boolean;
   hero: boolean;
-  carry: "none" | "hand" | "trolley" | "box";
+  role: Role;
+  carry: "none" | "hand" | "briefcase" | "trolley" | "box";
   luggage: string;
   mood: Mood;
   scale: number;
@@ -28,6 +31,10 @@ export type FloorTile = {
 
 export const ROOM = { x0: -2.5, x1: 2.5, z0: -3, z1: 3, wallH: 2.8, doorW: 1.5, doorH: 2.4 };
 export const HERO_SPOT = { x: 0, zc: -2.5 };
+export const ROLLER_SPOT = { x: 1, zc: -0.5 };
+export const WAITER_SPOT = { x: -1, zc: -2.5 };
+/** Hallway beyond the door (long enough for the tracking shot). */
+export const HALL = { len: 12.5, w: 3.2 };
 
 const PREMIUM: TexKey[] = ["marble", "travertine", "terrazzo", "stone", "porcelain", "neutral"];
 const LUGGAGE = ["#FF703D", "#F2EDE4", "#8E98A3", "#273140", "#B8AE9F", "#E2582A"];
@@ -44,27 +51,30 @@ export const buildFloor = (): FloorTile[] => {
   for (let zc = -2.5; zc <= 2.5; zc += 1) {
     for (let x = -2; x <= 2; x++) {
       const hero = x === HERO_SPOT.x && zc === HERO_SPOT.zc;
+      const roller = x === ROLLER_SPOT.x && zc === ROLLER_SPOT.zc;
+      const waiter = x === WAITER_SPOT.x && zc === WAITER_SPOT.zc;
       const r = rng();
       const carryRoll = rng();
       tiles.push({
         id: id++,
         x,
         zc,
-        tex: hero ? "hero" : PREMIUM[Math.floor(r * PREMIUM.length)],
+        tex: hero ? "hero" : roller ? "marble" : waiter ? "travertine" : PREMIUM[Math.floor(r * PREMIUM.length)],
         faceRot: Math.floor(rng() * 4) * (Math.PI / 2),
         stuck: isStuck(x, zc),
         hero,
-        carry: hero ? "hand" : carryRoll < 0.42 ? "hand" : carryRoll < 0.72 ? "trolley" : carryRoll < 0.86 ? "box" : "none",
-        luggage: LUGGAGE[Math.floor(rng() * LUGGAGE.length)],
-        mood: (["angry", "tired", "huffy"] as Mood[])[Math.floor(rng() * 3)],
-        scale: hero ? 1 : 0.86 + rng() * 0.14,
+        role: roller ? "roller" : waiter ? "waiter" : "queue",
+        carry: hero ? "hand" : roller ? "none" : waiter ? "briefcase" : carryRoll < 0.42 ? "hand" : carryRoll < 0.72 ? "trolley" : carryRoll < 0.86 ? "box" : "none",
+        luggage: waiter ? "#B98A55" : LUGGAGE[Math.floor(rng() * LUGGAGE.length)],
+        mood: roller ? "angry" : (["angry", "tired", "huffy"] as Mood[])[Math.floor(rng() * 3)],
+        scale: hero ? 1 : roller ? 0.94 : waiter ? 0.84 : 0.86 + rng() * 0.14,
         rank: -1,
         s0: -(zc + 0.5),
       });
     }
   }
   // queue order: closest to the door first, inner columns first
-  const leaving = tiles.filter((t) => !t.stuck).sort((a, b) => b.s0 - a.s0 || Math.abs(a.x) - Math.abs(b.x) || a.x - b.x);
+  const leaving = tiles.filter((t) => !t.stuck && t.role === "queue").sort((a, b) => b.s0 - a.s0 || Math.abs(a.x) - Math.abs(b.x) || a.x - b.x);
   leaving.forEach((t, i) => (t.rank = i));
   // the very last one is the small hesitant one carrying a box
   const last = leaving[leaving.length - 1];
@@ -215,12 +225,25 @@ export const Plant: React.FC<{ position: V3; scale?: number; pot?: string }> = (
 /* The apartment set                                                    */
 /* ------------------------------------------------------------------ */
 
+let hallFloorMat: THREE.MeshPhysicalMaterial | null = null;
+const hallFloor = () => {
+  if (hallFloorMat) return hallFloorMat;
+  const t = getTexture("neutral", 512).clone();
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.repeat.set(4, Math.round((HALL.len / HALL.w) * 4));
+  t.needsUpdate = true;
+  hallFloorMat = new THREE.MeshPhysicalMaterial({ map: t, roughness: 0.5, clearcoat: 0.15 });
+  return hallFloorMat;
+};
+
 export const ApartmentSet: React.FC<{
   doorOpen?: number;
   clockText?: string;
   colon?: boolean;
   showFurniture?: boolean;
-}> = ({ doorOpen = 0, clockText = "03:17", colon = true, showFurniture = true }) => {
+  /** Dollhouse cutaway of the hallway (no right wall, no ceiling) for the tracking shot. */
+  hallCutaway?: boolean;
+}> = ({ doorOpen = 0, clockText = "03:17", colon = true, showFurniture = true, hallCutaway = false }) => {
   const { x0, x1, z0, z1, wallH, doorW, doorH } = ROOM;
   const wallMat = ceramic("plasterNight", 2);
   const T = 0.14;
@@ -229,6 +252,7 @@ export const ApartmentSet: React.FC<{
   const winY0 = 0.95;
   const winY1 = 2.3;
   const mortar = ceramic("mortar", 3);
+  const hallZ = z0 - 0.1 - HALL.len / 2;
   return (
     <group>
       {/* mortar bed (revealed when tiles leave) */}
@@ -267,10 +291,17 @@ export const ApartmentSet: React.FC<{
       <mesh geometry={roundedBox(0.03, 0.09, z1 - z0, 0.008)} material={flat("#E9E2D6", 0.5)} position={[x0 + 0.015, 0.045, 0]} />
 
       {/* hallway beyond the door */}
-      <mesh geometry={plane(3.2, 6)} material={ceramic("neutral", 4)} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.0, z0 - 3.1]} receiveShadow />
-      <mesh geometry={roundedBox(0.12, wallH, 6, 0.01)} material={flat("#D9C9B2", 0.9)} position={[-1.6, wallH / 2, z0 - 3.1]} receiveShadow />
-      <mesh geometry={roundedBox(0.12, wallH, 6, 0.01)} material={flat("#D9C9B2", 0.9)} position={[1.6, wallH / 2, z0 - 3.1]} receiveShadow />
-      <mesh geometry={roundedBox(3.3, 0.1, 6, 0.01)} material={flat("#E8DCCB", 0.9)} position={[0, wallH, z0 - 3.1]} />
+      <mesh geometry={plane(HALL.w, HALL.len)} material={hallFloor()} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.0, hallZ]} receiveShadow />
+      <mesh geometry={roundedBox(0.12, wallH, HALL.len, 0.01)} material={flat("#D9C9B2", 0.9)} position={[-HALL.w / 2, wallH / 2, hallZ]} receiveShadow />
+      {hallCutaway ? null : (
+        <>
+          <mesh geometry={roundedBox(0.12, wallH, HALL.len, 0.01)} material={flat("#D9C9B2", 0.9)} position={[HALL.w / 2, wallH / 2, hallZ]} receiveShadow />
+          <mesh geometry={roundedBox(HALL.w + 0.1, 0.1, HALL.len, 0.01)} material={flat("#E8DCCB", 0.9)} position={[0, wallH, hallZ]} />
+        </>
+      )}
+      <mesh geometry={roundedBox(HALL.w + 0.1, wallH, 0.12, 0.01)} material={flat("#D9C9B2", 0.9)} position={[0, wallH / 2, hallZ - HALL.len / 2]} />
+      <mesh geometry={roundedBox(0.03, 0.09, HALL.len, 0.008)} material={flat("#E9E2D6", 0.5)} position={[-HALL.w / 2 + 0.07, 0.045, hallZ]} />
+      <mesh geometry={roundedBox(0.03, 0.09, HALL.len, 0.008)} material={flat("#E9E2D6", 0.5)} position={[HALL.w / 2 - 0.07, 0.045, hallZ]} />
 
       {showFurniture ? (
         <>
@@ -353,6 +384,7 @@ export const NightLights: React.FC<{ hall?: number; clockGlow?: number; moon?: n
       <primitive object={spot} />
       <primitive object={spot.target} />
       {hall > 0.01 ? <pointLight position={[0, 2.2, ROOM.z0 - 1.2]} color="#FFB98A" intensity={6 * hall} distance={6} decay={2} /> : null}
+      {hall > 0.01 ? <pointLight position={[0, 2.2, ROOM.z0 - 6.4]} color="#FFC79E" intensity={9 * hall} distance={10} decay={2} /> : null}
     </>
   );
 };

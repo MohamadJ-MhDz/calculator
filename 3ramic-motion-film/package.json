@@ -35,7 +35,7 @@
     "build": "remotion bundle",
     "render": "remotion render ThreeRamicFilm out/3ramic-final.mp4 --concurrency=4 --crf=18",
     "render:preview": "remotion render ThreeRamicFilm out/3ramic-preview.mp4 --scale=0.5 --props={\\\"dpr\\\":0.5} --concurrency=4 --crf=24",
-    "render:stills": "remotion render ThreeRamicFilm out/stills --sequence --frames=20,75,200,300,400,470,560,690,760,900,1060,1180 --image-format=jpeg",
+    "render:stills": "remotion render ThreeRamicFilm out/stills --sequence --frames=40,110,135,220,250,300,400,480,560,670,790,860,960,1070,1180 --image-format=jpeg",
     "audio": "python3 scripts/make-audio.py",
     "fonts": "node scripts/vendor-fonts.mjs",
     "upgrade": "remotion upgrade",
