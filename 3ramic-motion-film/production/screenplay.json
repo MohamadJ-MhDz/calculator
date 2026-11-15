@@ -1,0 +1,425 @@
+{
+  "title": {
+    "fa": "پروندهٔ استعفای سرامیک‌ها",
+    "en": "The Tiles That Quit"
+  },
+  "fps": 30,
+  "note": "Single source for the dialogue. `displayText` is what is written on screen (subtitles); `speechText` is what the voice says. They differ only for the brand: written 3ramic, spoken سه‌رامیک. Timing is NOT stored here — scripts/audio/build_audio.py measures the recorded files and writes src/data/timeline.json.",
+  "cast": {
+    "tile": {
+      "nameFa": "سرامیک",
+      "role": "the floor tile that resigns"
+    },
+    "detective": {
+      "nameFa": "کارآگاه",
+      "role": "a rubber-duck detective"
+    },
+    "pattern": {
+      "nameFa": "کاشیِ طرح‌دار",
+      "role": "suspect 1 — the loud patterned wall tile"
+    },
+    "vanity": {
+      "nameFa": "روشویی",
+      "role": "suspect 3 — the oversized vanity"
+    },
+    "narrator": {
+      "nameFa": "گوینده",
+      "role": "brand voice at the very end"
+    }
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "titleFa": "استعفا",
+      "lead": 0,
+      "tail": 8,
+      "events": [
+        {
+          "line": "L01",
+          "pre": 3
+        },
+        {
+          "line": "L02",
+          "pre": 7
+        },
+        {
+          "line": "L03",
+          "pre": 5
+        },
+        {
+          "line": "L04",
+          "pre": 10
+        }
+      ]
+    },
+    {
+      "id": "suspects",
+      "titleFa": "مظنون‌ها",
+      "lead": 0,
+      "tail": 10,
+      "events": [
+        {
+          "line": "L05",
+          "pre": 12
+        },
+        {
+          "line": "L06",
+          "pre": 5
+        },
+        {
+          "line": "L07",
+          "pre": 14
+        },
+        {
+          "line": "L08",
+          "pre": 14
+        },
+        {
+          "line": "L09",
+          "pre": 6
+        }
+      ]
+    },
+    {
+      "id": "makeover",
+      "titleFa": "دگرگونی",
+      "lead": 0,
+      "tail": 0,
+      "events": [
+        {
+          "line": "L10",
+          "pre": 8
+        },
+        {
+          "line": "L11",
+          "pre": 5
+        },
+        {
+          "hold": "box",
+          "frames": 22
+        },
+        {
+          "hold": "transform",
+          "frames": 140,
+          "inside": [
+            {
+              "line": "L12",
+              "at": 96
+            }
+          ]
+        },
+        {
+          "hold": "compare",
+          "frames": 54
+        }
+      ]
+    },
+    {
+      "id": "payoff",
+      "titleFa": "شوخیِ آخر",
+      "lead": 0,
+      "tail": 16,
+      "events": [
+        {
+          "line": "L13",
+          "pre": 6
+        },
+        {
+          "line": "L14",
+          "pre": 10
+        },
+        {
+          "line": "L15",
+          "pre": 9
+        }
+      ]
+    },
+    {
+      "id": "brand",
+      "titleFa": "پایان",
+      "lead": 0,
+      "tail": 44,
+      "events": [
+        {
+          "line": "L16",
+          "pre": 8
+        }
+      ]
+    }
+  ],
+  "lines": [
+    {
+      "id": "L01",
+      "speaker": "tile",
+      "displayText": "من دیگه اینجا کار نمی‌کنم!",
+      "speechText": "من دیگه اینجا کار نمی‌کنم!",
+      "emotion": "عصبانیتِ منفجرشده، با کمی لرزش",
+      "intensity": 9,
+      "emphasis": [
+        "دیگه"
+      ],
+      "direction": "بدون مقدمه و ناگهانی شروع می‌شود؛ تأکید روی «دیگه». آخرِ جمله با یک نفسِ کوتاهِ خالی‌شدن تمام می‌شود. عصبانی ولی بامزه، نه ترسناک.",
+      "action": "نامهٔ استعفا را به سمت دوربین پرت می‌کند.",
+      "phrases": [
+        "من دیگه اینجا کار نمی‌کنم!"
+      ]
+    },
+    {
+      "id": "L02",
+      "speaker": "detective",
+      "displayText": "چرا؟!",
+      "speechText": "چرا؟!",
+      "emotion": "تعجبِ واقعی",
+      "intensity": 6,
+      "emphasis": [
+        "چرا"
+      ],
+      "direction": "کوتاه و بالا رونده؛ واقعاً جا خورده است. بعدش یک مکثِ کوتاه.",
+      "action": "از پشتِ قاب وارد می‌شود، کلاهش را بالا می‌دهد.",
+      "phrases": [
+        "چرا؟!"
+      ]
+    },
+    {
+      "id": "L03",
+      "speaker": "tile",
+      "displayText": "آخه این چه ترکیبیه؟!",
+      "speechText": "آخه این چه ترکیبیه؟!",
+      "emotion": "حرص با کمی بغضِ خنده‌دار",
+      "intensity": 8,
+      "emphasis": [
+        "چه",
+        "ترکیبیه"
+      ],
+      "direction": "«آخه» کشیده و نالان؛ تأکید روی «چه ترکیبیه». انگار دیگر طاقتش تمام شده.",
+      "action": "با دست به کلِ حمام اشاره می‌کند؛ دوربین عقب می‌کشد و ترکیبِ ناجور دیده می‌شود.",
+      "phrases": [
+        "آخه این چه ترکیبیه؟!"
+      ]
+    },
+    {
+      "id": "L04",
+      "speaker": "detective",
+      "displayText": "خب… پرونده باز شد.",
+      "speechText": "خب… پرونده باز شد.",
+      "emotion": "آرام و مشکوک",
+      "intensity": 4,
+      "emphasis": [
+        "پرونده"
+      ],
+      "direction": "«خب» آهسته و کش‌دار، بعد یک مکثِ فکرکردن. «پرونده باز شد» محکم و پایین‌رونده، مثل کارآگاه‌های فیلمِ نوآر.",
+      "action": "ذره‌بین را بالا می‌آورد.",
+      "phrases": [
+        "خب… پرونده باز شد."
+      ]
+    },
+    {
+      "id": "L05",
+      "speaker": "pattern",
+      "displayText": "من فقط می‌خواستم دیده بشم!",
+      "speechText": "من فقط می‌خواستم دیده بشم!",
+      "emotion": "مظلوم‌نمایی",
+      "intensity": 7,
+      "emphasis": [
+        "فقط",
+        "دیده"
+      ],
+      "direction": "نمایشی و پرادعا، با لحنِ کسی که خودش را قربانی می‌داند. تأکید روی «فقط».",
+      "action": "از دیوار بیرون می‌پرد و ژست می‌گیرد.",
+      "phrases": [
+        "من فقط می‌خواستم دیده بشم!"
+      ]
+    },
+    {
+      "id": "L06",
+      "speaker": "detective",
+      "displayText": "خب، زیادی دیده شدی!",
+      "speechText": "خب، زیادی دیده شدی!",
+      "emotion": "خشک و کوتاه",
+      "intensity": 5,
+      "emphasis": [
+        "زیادی"
+      ],
+      "direction": "بی‌حوصله و کنایه‌دار. تأکیدِ روشن روی «زیادی». سریع و بدونِ کش‌دادن.",
+      "action": "چشم‌هایش را با بال می‌پوشاند.",
+      "phrases": [
+        "خب، زیادی دیده شدی!"
+      ]
+    },
+    {
+      "id": "L07",
+      "speaker": "detective",
+      "displayText": "شیش متر جا… هزار تیکه؟!",
+      "speechText": "شیش متر جا… هزار تیکه؟!",
+      "emotion": "ناباوری",
+      "intensity": 6,
+      "emphasis": [
+        "هزار"
+      ],
+      "direction": "«شیش متر جا» آرام، انگار دارد می‌شمارد؛ مکث؛ «هزار تیکه؟!» با ناباوری و بالا رونده.",
+      "action": "با ذره‌بین روی بندکشیِ مشکی خم شده است.",
+      "phrases": [
+        "شیش متر جا… هزار تیکه؟!"
+      ]
+    },
+    {
+      "id": "L08",
+      "speaker": "vanity",
+      "displayText": "این‌جا بدون من هیچی نیست!",
+      "speechText": "اینجا بدون من هیچی نیست!",
+      "emotion": "مغرور و تدافعی",
+      "intensity": 7,
+      "emphasis": [
+        "من",
+        "هیچی"
+      ],
+      "direction": "صدای پُر و ازخودراضی. «من» را می‌کِشد. انگار دارد سخنرانی می‌کند.",
+      "action": "کشویش مثل دهان باز و بسته می‌شود و جلو می‌آید.",
+      "phrases": [
+        "این‌جا بدون من هیچی نیست!"
+      ]
+    },
+    {
+      "id": "L09",
+      "speaker": "detective",
+      "displayText": "با تو هم که… جایی نمونده!",
+      "speechText": "با تو هم که… جایی نمونده!",
+      "emotion": "کنایه، زیرِ لب و تحتِ فشار",
+      "intensity": 5,
+      "emphasis": [
+        "جایی"
+      ],
+      "direction": "زیرِ لب و فشرده، چون بینِ کشو و شیشهٔ دوربین گیر کرده. یک مکثِ کوتاه بعد از «که».",
+      "action": "کشوی روشویی او را به شیشهٔ دوربین می‌چسباند.",
+      "phrases": [
+        "با تو هم که… جایی نمونده!"
+      ]
+    },
+    {
+      "id": "L10",
+      "speaker": "detective",
+      "displayText": "متراژ که عوض نمی‌شه… انتخاب‌ها باید با هم جور باشن.",
+      "speechText": "متراژ که عوض نمی‌شه… انتخاب‌ها باید با هم جور باشن.",
+      "emotion": "مطمئن و گرم",
+      "intensity": 5,
+      "emphasis": [
+        "انتخاب‌ها",
+        "جور"
+      ],
+      "direction": "حالا جدی و دلگرم‌کننده. جملهٔ اول آرام؛ مکث؛ جملهٔ دوم شمرده با تأکید روی «با هم جور».",
+      "action": "خودش را از شیشه جدا می‌کند و رو به سرامیک حرف می‌زند.",
+      "phrases": [
+        "متراژ که عوض نمی‌شه…",
+        "انتخاب‌ها باید با هم جور باشن."
+      ],
+      "phraseWords": [
+        4,
+        6
+      ]
+    },
+    {
+      "id": "L11",
+      "speaker": "detective",
+      "displayText": "کارِ سه‌رامیکه!",
+      "speechText": "کارِ سِرامیکه!",
+      "brand": true,
+      "emotion": "بازیگوش و مطمئن",
+      "intensity": 6,
+      "emphasis": [
+        "سه‌رامیکه"
+      ],
+      "direction": "سرحال، مثل کسی که راه‌حل را پیدا کرده. نامِ برند واضح و کامل: «سه‌رامیک».",
+      "action": "بشکن می‌زند؛ جعبهٔ نمونه‌های 3ramic وارد می‌شود.",
+      "phrases": [
+        "کارِ سه‌رامیکه!"
+      ]
+    },
+    {
+      "id": "L12",
+      "speaker": "pattern",
+      "displayText": "حالا شد!",
+      "speechText": "حالا شد!",
+      "emotion": "رضایت",
+      "intensity": 6,
+      "emphasis": [
+        "شد"
+      ],
+      "direction": "کوتاه و ذوق‌زده، وقتی سرِ جای درستش می‌نشیند.",
+      "action": "در قابِ تاقچهٔ دوش جا می‌گیرد.",
+      "phrases": [
+        "حالا شد!"
+      ]
+    },
+    {
+      "id": "L13",
+      "speaker": "tile",
+      "displayText": "اوه… این دیگه یه چیز دیگه‌س!",
+      "speechText": "اوه… این دیگه یه چیزِ دیگه‌ست!",
+      "emotion": "شگفتیِ واقعی",
+      "intensity": 7,
+      "emphasis": [
+        "یه چیز دیگه‌س"
+      ],
+      "direction": "«اوه» آهسته و نفس‌دار؛ بقیه با ذوقِ بالا رونده. دیگر عصبانی نیست.",
+      "action": "دور خودش می‌چرخد و حمامِ جدید را نگاه می‌کند.",
+      "phrases": [
+        "اوه… این دیگه یه چیز دیگه‌س!"
+      ]
+    },
+    {
+      "id": "L14",
+      "speaker": "detective",
+      "displayText": "خب، استعفاتو پس می‌گیری؟",
+      "speechText": "خب، استعفاتو پس می‌گیری؟",
+      "emotion": "بازیگوش",
+      "intensity": 5,
+      "emphasis": [
+        "پس می‌گیری"
+      ],
+      "direction": "با لبخند و کمی شیطنت؛ بالا رونده در آخر.",
+      "action": "نامهٔ استعفا را جلوی سرامیک می‌گیرد.",
+      "phrases": [
+        "خب، استعفاتو پس می‌گیری؟"
+      ]
+    },
+    {
+      "id": "L15",
+      "speaker": "tile",
+      "displayText": "با اضافه‌حقوق!",
+      "speechText": "با اضافه حقوق!",
+      "emotion": "جدیِ الکی",
+      "intensity": 7,
+      "emphasis": [
+        "اضافه‌حقوق"
+      ],
+      "direction": "قاطع و کوتاه، با چانهٔ بالا. بعد از یک مکثِ کمدیِ کوچک گفته می‌شود.",
+      "action": "دست‌به‌سینه می‌ایستد.",
+      "phrases": [
+        "با اضافه‌حقوق!"
+      ]
+    },
+    {
+      "id": "L16",
+      "speaker": "narrator",
+      "displayText": "3ramic — هر سرامیکی، جای خودش.",
+      "speechText": "سِرامیک. هر سرامیکی، جای خودش.",
+      "brand": true,
+      "subtitle": false,
+      "emotion": "گرم، مطمئن و غیرتبلیغاتی",
+      "intensity": 4,
+      "emphasis": [
+        "جای خودش"
+      ],
+      "direction": "آرام و صمیمی، بدونِ لحنِ آگهی. نامِ برند «سه‌رامیک» تلفظ می‌شود (نه «تری‌رامیک»). مکثِ کوتاه بعد از نام.",
+      "action": "سرامیک سرِ جای خودش در کف می‌نشیند.",
+      "phrases": [
+        "3ramic",
+        "هر سرامیکی، جای خودش."
+      ],
+      "phraseWords": [
+        1,
+        4
+      ]
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "fps": 30,
+  "language": "fa",
+  "direction": "rtl",
+  "cues": [
+    {
+      "id": 1,
+      "line": "L01",
+      "speaker": "tile",
+      "from": 3,
+      "to": 70,
+      "text": "من دیگه اینجا کار نمی‌کنم!"
+    },
+    {
+      "id": 2,
+      "line": "L02",
+      "speaker": "detective",
+      "from": 70,
+      "to": 92,
+      "text": "چرا؟!"
+    },
+    {
+      "id": 3,
+      "line": "L03",
+      "speaker": "tile",
+      "from": 92,
+      "to": 149,
+      "text": "آخه این چه ترکیبیه؟!"
+    },
+    {
+      "id": 4,
+      "line": "L04",
+      "speaker": "detective",
+      "from": 151,
+      "to": 205,
+      "text": "خب… پرونده باز شد."
+    },
+    {
+      "id": 5,
+      "line": "L05",
+      "speaker": "pattern",
+      "from": 217,
+      "to": 282,
+      "text": "من فقط می‌خواستم دیده بشم!"
+    },
+    {
+      "id": 6,
+      "line": "L06",
+      "speaker": "detective",
+      "from": 282,
+      "to": 339,
+      "text": "خب، زیادی دیده شدی!"
+    },
+    {
+      "id": 7,
+      "line": "L07",
+      "speaker": "detective",
+      "from": 345,
+      "to": 404,
+      "text": "شیش متر جا… هزار تیکه؟!"
+    },
+    {
+      "id": 8,
+      "line": "L08",
+      "speaker": "vanity",
+      "from": 410,
+      "to": 471,
+      "text": "این‌جا بدون من هیچی نیست!"
+    },
+    {
+      "id": 9,
+      "line": "L09",
+      "speaker": "detective",
+      "from": 471,
+      "to": 541,
+      "text": "با تو هم که… جایی نمونده!"
+    },
+    {
+      "id": 10,
+      "line": "L10",
+      "speaker": "detective",
+      "from": 551,
+      "to": 594,
+      "text": "متراژ که عوض نمی‌شه…"
+    },
+    {
+      "id": 11,
+      "line": "L10",
+      "speaker": "detective",
+      "from": 594,
+      "to": 672,
+      "text": "انتخاب‌ها باید با هم جور باشن."
+    },
+    {
+      "id": 12,
+      "line": "L11",
+      "speaker": "detective",
+      "from": 672,
+      "to": 718,
+      "text": "کارِ سه‌رامیکه!"
+    },
+    {
+      "id": 13,
+      "line": "L12",
+      "speaker": "pattern",
+      "from": 829,
+      "to": 859,
+      "text": "حالا شد!"
+    },
+    {
+      "id": 14,
+      "line": "L13",
+      "speaker": "tile",
+      "from": 933,
+      "to": 1003,
+      "text": "اوه… این دیگه یه چیز دیگه‌س!"
+    },
+    {
+      "id": 15,
+      "line": "L14",
+      "speaker": "detective",
+      "from": 1005,
+      "to": 1067,
+      "text": "خب، استعفاتو پس می‌گیری؟"
+    },
+    {
+      "id": 16,
+      "line": "L15",
+      "speaker": "tile",
+      "from": 1069,
+      "to": 1115,
+      "text": "با اضافه‌حقوق!"
+    }
+  ]
+}
