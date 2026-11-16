@@ -8,9 +8,6 @@ import fs from "node:fs";
 import path from "node:path";
 
 const WANT = [
-  { mod: "BricolageGrotesque", family: "Bricolage Grotesque", style: "normal", weights: ["400", "600", "800"], subsets: ["latin"] },
-  { mod: "InstrumentSerif", family: "Instrument Serif", style: "italic", weights: ["400"], subsets: ["latin"] },
-  { mod: "JetBrainsMono", family: "JetBrains Mono", style: "normal", weights: ["400", "700"], subsets: ["latin"] },
   { mod: "Vazirmatn", family: "Vazirmatn", style: "normal", weights: ["400", "700", "900"], subsets: ["arabic", "latin"] },
   { mod: "Lalezar", family: "Lalezar", style: "normal", weights: ["400"], subsets: ["arabic", "latin"] },
 ];

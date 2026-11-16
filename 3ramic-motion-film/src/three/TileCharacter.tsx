@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { BISCUIT, ceramic, flat, plane, roundedBox, BlobShadow } from "./kit";
 import type { TexKey } from "./textures";
 import type { V3 } from "../anim";
+import { Letter3D } from "./Props";
 
 /**
  * THE TILE — the film's character.
@@ -30,7 +31,7 @@ const sphereGeo = () => G("sphere", () => new THREE.SphereGeometry(1, 22, 16));
 const arcGeo = () => G("arc", () => new THREE.TorusGeometry(1, 0.2, 8, 24, Math.PI));
 const cylGeo = () => G("cyl", () => new THREE.CylinderGeometry(1, 1, 1, 18));
 
-export type Carry = "none" | "hand" | "briefcase" | "trolley" | "box" | "sign";
+export type Carry = "none" | "hand" | "briefcase" | "trolley" | "box" | "sign" | "letter";
 
 export type TileCharProps = {
   position?: V3;
@@ -71,6 +72,13 @@ export type TileCharProps = {
   watch?: number;
   /** Impatient foot tap: forward swing of the right leg (radians). */
   tap?: number;
+  /** Speech: jaw opening 0..1 and lip rounding 0..1 from the lip-sync track. */
+  jaw?: number;
+  lipRound?: number;
+  /** A small necktie — this tile has a job. */
+  tie?: boolean;
+  /** 0..1 — arms folded across the front. */
+  crossed?: number;
 };
 
 const DARK = "#161C24";
@@ -136,7 +144,9 @@ const Face: React.FC<{
   mouth: number;
   happy: number;
   s: number;
-}> = ({ eyes, look, brow, browLift, mouth, happy, s }) => {
+  jaw: number;
+  lipRound: number;
+}> = ({ eyes, look, brow, browLift, mouth, happy, s, jaw, lipRound }) => {
   const z = TILE_T / 2 + 0.002;
   const white = flat("#FBFAF6", 0.25);
   const ink = flat("#0E1218", 0.35);
@@ -181,7 +191,15 @@ const Face: React.FC<{
           </group>
         );
       })}
-      {mouth > 0.08 ? (
+      {jaw > 0.05 ? (
+        // talking: an open mouth whose height follows the jaw and whose width narrows for rounded vowels
+        <group position={[0, 0.035 - jaw * 0.02, z + 0.012]}>
+          <mesh geometry={sphereGeo()} material={ink} scale={[0.105 - lipRound * 0.045, 0.02 + jaw * 0.085, 0.02]} />
+          {jaw > 0.4 ? (
+            <mesh geometry={sphereGeo()} material={flat("#B8493F", 0.6)} position={[0, -(0.02 + jaw * 0.085) * 0.5, 0.012]} scale={[0.06 - lipRound * 0.02, (0.02 + jaw * 0.085) * 0.38, 0.012]} />
+          ) : null}
+        </group>
+      ) : mouth > 0.08 ? (
         <mesh geometry={arcGeo()} material={ink} position={[0, 0.06, z + 0.01]} rotation={[0, 0, Math.PI]} scale={[0.085, 0.07 * mouth, 0.05]} />
       ) : mouth < -0.08 ? (
         <mesh geometry={arcGeo()} material={ink} position={[0, -0.0, z + 0.01]} scale={[0.07, 0.05 * -mouth, 0.05]} />
@@ -226,6 +244,10 @@ export const TileCharacter: React.FC<TileCharProps> = ({
   cheer = 0,
   watch = 0,
   tap = 0,
+  jaw = 0,
+  lipRound = 0,
+  tie = false,
+  crossed = 0,
 }) => {
   const sw = Math.sin(walk);
   const bob = stride * 0.035 * Math.abs(Math.cos(walk));
@@ -275,6 +297,11 @@ export const TileCharacter: React.FC<TileCharProps> = ({
       ax = ax * (1 - grab) + -0.5 * grab;
       az = az + side * 0.55 * grab;
     }
+    if (crossed > 0) {
+      // both forearms laid across the front, one a little higher than the other
+      ax = ax * (1 - crossed) + -0.32 * crossed;
+      az = az * (1 - crossed) + side * (-1.85 + (side === 1 ? 0.16 : -0.1)) * crossed;
+    }
     return [ax, 0, az];
   };
 
@@ -310,7 +337,14 @@ export const TileCharacter: React.FC<TileCharProps> = ({
           />
           <mesh geometry={plane(0.962, 0.962)} material={ceramic("clay")} position={[0, 0, -TILE_T / 2 - 0.0012]} rotation={[0, Math.PI, 0]} />
 
-          {face > 0.01 ? <Face eyes={eyes} look={look} brow={brow} browLift={browLift} mouth={mouth} happy={happy} s={face} /> : null}
+          {face > 0.01 ? <Face eyes={eyes} look={look} brow={brow} browLift={browLift} mouth={mouth} happy={happy} s={face} jaw={jaw} lipRound={lipRound} /> : null}
+          {tie && face > 0.5 ? (
+            <group position={[0, -0.2, TILE_T / 2 + 0.012]} rotation={[0, 0, sway * 0.6 + stride * 0.05 * sw]}>
+              <mesh geometry={roundedBox(0.075, 0.05, 0.02, 0.008)} material={flat("#2B2F36", 0.6)} />
+              <mesh geometry={roundedBox(0.085, 0.2, 0.016, 0.008)} material={flat("#2B2F36", 0.6)} position={[0, -0.125, 0]} />
+              <mesh geometry={roundedBox(0.06, 0.06, 0.015, 0.006)} material={flat("#2B2F36", 0.6)} position={[0, -0.225, 0]} rotation={[0, 0, Math.PI / 4]} />
+            </group>
+          ) : null}
 
           {arms > 0.01
             ? [-1, 1].map((side) => {
@@ -322,6 +356,7 @@ export const TileCharacter: React.FC<TileCharProps> = ({
                     {carry === "hand" && side === 1 ? (
                       <Suitcase color={luggage} position={[0, -ARM - 0.155, 0]} rotation={[0, Math.PI / 2, 0]} />
                     ) : null}
+                    {carry === "letter" && side === 1 ? <Letter3D position={[0.02, -ARM - 0.26, 0.03]} rotation={[0, 0, Math.PI]} scale={0.9} /> : null}
                     {carry === "briefcase" && side === 1 ? (
                       <Suitcase color={luggage} w={0.3} h={0.2} d={0.07} scale={0.72} position={[0, -ARM - 0.1, 0]} rotation={[0, Math.PI / 2, 0]} />
                     ) : null}

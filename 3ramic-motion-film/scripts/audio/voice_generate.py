@@ -34,7 +34,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, "..", ".."))
 
 SOH, EOT, EOH, SOA, SOS, EOS, EOA = 128259, 128009, 128260, 128261, 128257, 128258, 128262
-AUDIO0 = 128266  # first audio code; 7 codebook slots of 4096 follow
+AUDIO0 = 128266  # first audio code
+# One SNAC frame = 7 tokens in the order L1 L2 L3 L3 L2 L3 L3; each token carries its
+# layer in its offset (layer * 4096). This is Aava's layout, checked against the model's
+# own output — it differs from stock Orpheus, which uses seven position offsets.
+LAYER = (0, 1, 2, 2, 1, 2, 2)
 SR = 24000
 TOKENS_PER_SECOND = 7 * SR / 2048  # 7 tokens per 2048-sample SNAC frame ≈ 82
 
@@ -59,36 +63,34 @@ def text_block(tok, text, voice="aava"):
 
 
 def codes_to_tokens(codes):
-    """SNAC codes (3 layers at 12/24/48 Hz) -> Orpheus token stream (7 per frame)."""
+    """SNAC codes (3 layers at 12/24/48 Hz) -> token stream (7 per frame)."""
     l1, l2, l3 = [c[0].tolist() for c in codes]
     out = []
     for i in range(len(l1)):
-        out += [
-            AUDIO0 + l1[i],
-            AUDIO0 + 4096 + l2[2 * i],
-            AUDIO0 + 2 * 4096 + l3[4 * i],
-            AUDIO0 + 3 * 4096 + l3[4 * i + 1],
-            AUDIO0 + 4 * 4096 + l2[2 * i + 1],
-            AUDIO0 + 5 * 4096 + l3[4 * i + 2],
-            AUDIO0 + 6 * 4096 + l3[4 * i + 3],
-        ]
+        frame = [l1[i], l2[2 * i], l3[4 * i], l3[4 * i + 1], l2[2 * i + 1], l3[4 * i + 2], l3[4 * i + 3]]
+        out += [AUDIO0 + LAYER[k] * 4096 + frame[k] for k in range(7)]
     return out
 
 
 def tokens_to_codes(tokens):
-    toks = [t for t in tokens if AUDIO0 <= t < AUDIO0 + 7 * 4096]
-    n = len(toks) // 7
+    """Token stream -> SNAC codes. Frames that do not follow the layer pattern are dropped."""
+    toks = [t - AUDIO0 for t in tokens if AUDIO0 <= t < AUDIO0 + 3 * 4096]
     l1, l2, l3 = [], [], []
-    bad = 0
-    for i in range(n):
-        f = [toks[7 * i + k] - AUDIO0 - k * 4096 for k in range(7)]
-        if any(v < 0 or v >= 4096 for v in f):
+    frames = bad = 0
+    i = 0
+    while i + 7 <= len(toks):
+        f = toks[i:i + 7]
+        if [v // 4096 for v in f] != list(LAYER):
             bad += 1
+            i += 1  # resynchronise on the next layer-1 token
             continue
-        l1.append(f[0])
-        l2 += [f[1], f[4]]
-        l3 += [f[2], f[3], f[5], f[6]]
-    return [torch.tensor(l)[None] for l in (l1, l2, l3)], n, bad
+        c = [v % 4096 for v in f]
+        l1.append(c[0])
+        l2 += [c[1], c[4]]
+        l3 += [c[2], c[3], c[5], c[6]]
+        frames += 1
+        i += 7
+    return [torch.tensor(l, dtype=torch.long)[None] for l in (l1, l2, l3)], frames, bad
 
 
 @torch.no_grad()
@@ -126,7 +128,7 @@ def synthesize(tok, model, snac, text, ref=None, seed=0, temperature=0.6, top_p=
     new = out[0, inp.shape[1]:].tolist()
     dt = time.time() - t0
     codes, frames, bad = tokens_to_codes(new)
-    if frames - bad < 2:
+    if frames < 2:
         return np.zeros(0, dtype=np.float32), dict(tokens=len(new), frames=frames, bad=bad, seconds=0.0, gen_seconds=dt, ended=False)
     audio = snac.decode(codes)[0, 0].float().cpu().numpy()
     ended = len(new) > 0 and new[-1] in (EOS, EOA, 128001)

@@ -541,6 +541,134 @@ const paintSign = (ctx: Ctx, s: number) => {
 };
 
 /* ------------------------------------------------------------------ */
+/* The bathroom of «پروندهٔ استعفای سرامیک‌ها» (all fictional designs)   */
+/* ------------------------------------------------------------------ */
+
+/** Suspect 1 — a loud encaustic-style wall tile: saturated, high-contrast, busy on purpose. */
+const paintBusy = (ctx: Ctx, s: number, rng: Rng) => {
+  ctx.fillStyle = "#F1E2BE";
+  ctx.fillRect(0, 0, s, s);
+  noiseLayer(ctx, s, 16, rng, 0.06, "multiply");
+  const c = s / 2;
+  const star = (r: number, inner: number, n = 16, rot = -Math.PI / 2) => {
+    ctx.beginPath();
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2 + rot;
+      const rr = i % 2 === 0 ? r : r * inner;
+      const x = c + Math.cos(a) * rr;
+      const y = c + Math.sin(a) * rr;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+  };
+  // lattice of diagonal bands
+  ctx.strokeStyle = "#16181B";
+  ctx.lineWidth = s * 0.022;
+  for (const k of [-1, 0, 1]) {
+    ctx.beginPath();
+    ctx.moveTo(-s * 0.1 + k * s * 0.5, -s * 0.1);
+    ctx.lineTo(s * 1.1 + k * s * 0.5, s * 1.1);
+    ctx.moveTo(s * 1.1 + k * s * 0.5, -s * 0.1);
+    ctx.lineTo(-s * 0.1 + k * s * 0.5, s * 1.1);
+    ctx.stroke();
+  }
+  // corner medallions (they join into full circles across tiles)
+  for (const [x, y] of [
+    [0, 0],
+    [s, 0],
+    [0, s],
+    [s, s],
+  ]) {
+    ctx.fillStyle = "#B4302A";
+    ctx.beginPath();
+    ctx.arc(x, y, s * 0.27, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#16181B";
+    ctx.lineWidth = s * 0.02;
+    ctx.stroke();
+    ctx.fillStyle = "#E2A91C";
+    ctx.beginPath();
+    ctx.arc(x, y, s * 0.13, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  // edge diamonds
+  ctx.fillStyle = "#E2A91C";
+  for (const [x, y] of [
+    [c, 0],
+    [c, s],
+    [0, c],
+    [s, c],
+  ]) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(Math.PI / 4);
+    ctx.fillRect(-s * 0.075, -s * 0.075, s * 0.15, s * 0.15);
+    ctx.restore();
+  }
+  // central star
+  ctx.fillStyle = "#0E7C86";
+  star(s * 0.34, 0.6);
+  ctx.fill();
+  ctx.strokeStyle = "#16181B";
+  ctx.lineWidth = s * 0.018;
+  ctx.stroke();
+  ctx.fillStyle = "#F1E2BE";
+  star(s * 0.2, 0.6, 16, -Math.PI / 2 + Math.PI / 8);
+  ctx.fill();
+  ctx.fillStyle = "#B4302A";
+  ctx.beginPath();
+  ctx.arc(c, c, s * 0.075, 0, Math.PI * 2);
+  ctx.fill();
+  edgeShade(ctx, s, 0.2);
+};
+
+/** Heavy fake brown marble with gold veins — clashes with everything around it. */
+const paintVeinBrown = (ctx: Ctx, s: number, rng: Rng) => {
+  const g = ctx.createLinearGradient(0, 0, s, s);
+  g.addColorStop(0, "#7A5234");
+  g.addColorStop(1, "#553622");
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, s, s);
+  noiseLayer(ctx, s, 9, rng, 0.35, "overlay");
+  noiseLayer(ctx, s, 36, rng, 0.14, "multiply");
+  for (let i = 0; i < 4; i++) vein(ctx, s, rng, "#E9D9BE", s * 0.012, s * 0.004, 0.7);
+  for (let i = 0; i < 5; i++) vein(ctx, s, rng, "#D4A43A", s * 0.005, 0.6, 0.85);
+  for (let i = 0; i < 8; i++) vein(ctx, s, rng, "#2E1C10", s * 0.004, 0.6, 0.55);
+  edgeShade(ctx, s, 0.3);
+};
+
+/** The floor tile (and the main character): plain glossy white. Nothing wrong with it. */
+const paintGloss = (ctx: Ctx, s: number, rng: Rng) => {
+  ctx.fillStyle = "#F6F4F0";
+  ctx.fillRect(0, 0, s, s);
+  noiseLayer(ctx, s, 6, rng, 0.05, "multiply");
+  speckle(ctx, s, rng, 500, ["#E9E6E0", "#FFFFFF"], 0.5, 1.6, 0.5);
+  edgeShade(ctx, s, 0.16);
+};
+
+/** The coordinated "after" wall: large-format warm-white matte porcelain, almost featureless. */
+const paintCalm = (ctx: Ctx, s: number, rng: Rng) => {
+  ctx.fillStyle = "#EDE7DD";
+  ctx.fillRect(0, 0, s, s);
+  noiseLayer(ctx, s, 5, rng, 0.07, "overlay");
+  noiseLayer(ctx, s, 22, rng, 0.035, "multiply");
+  ctx.save();
+  for (let i = 0; i < 160; i++) {
+    ctx.strokeStyle = rng() > 0.5 ? "#E4DDD2" : "#F4EFE7";
+    ctx.globalAlpha = 0.18;
+    ctx.lineWidth = 0.6 + rng() * 1.6;
+    const y = rng() * s;
+    ctx.beginPath();
+    ctx.moveTo(-10, y);
+    ctx.bezierCurveTo(s * 0.3, y + (rng() - 0.5) * 10, s * 0.6, y + (rng() - 0.5) * 10, s + 10, y + (rng() - 0.5) * 8);
+    ctx.stroke();
+  }
+  ctx.restore();
+  edgeShade(ctx, s, 0.1);
+};
+
+/* ------------------------------------------------------------------ */
 
 export type TexKey =
   | "marble"
@@ -566,7 +694,11 @@ export type TexKey =
   | "oak"
   | "fabricCharcoal"
   | "fabricIvory"
-  | "sign";
+  | "sign"
+  | "busy"
+  | "veinBrown"
+  | "gloss"
+  | "calm";
 
 const PAINTERS: Record<TexKey, (ctx: Ctx, s: number, rng: Rng) => void> = {
   marble: paintMarble,
@@ -593,6 +725,10 @@ const PAINTERS: Record<TexKey, (ctx: Ctx, s: number, rng: Rng) => void> = {
   fabricCharcoal: (c, s, r) => paintFabric(c, s, r, "#2B3442"),
   fabricIvory: (c, s, r) => paintFabric(c, s, r, "#E9E2D6"),
   sign: (c, s) => paintSign(c, s),
+  busy: paintBusy,
+  veinBrown: paintVeinBrown,
+  gloss: paintGloss,
+  calm: paintCalm,
 };
 
 const SEEDS: Record<TexKey, number> = {
@@ -620,6 +756,10 @@ const SEEDS: Record<TexKey, number> = {
   fabricCharcoal: 193,
   fabricIvory: 197,
   sign: 199,
+  busy: 211,
+  veinBrown: 223,
+  gloss: 227,
+  calm: 229,
 };
 
 const cache = new Map<string, THREE.CanvasTexture>();

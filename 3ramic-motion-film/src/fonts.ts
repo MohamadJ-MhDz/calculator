@@ -23,8 +23,8 @@ for (const face of manifest) {
 
 const stack = (name: string, fallback: string) => `"${name}", ${fallback}`;
 
-export const DISPLAY = stack("Bricolage Grotesque", "sans-serif");
-export const SERIF = stack("Instrument Serif", "serif");
-export const MONO = stack("JetBrains Mono", "monospace");
+/** Persian text and the Latin brand name share one family, so the two scripts sit on one baseline. */
 export const PERSIAN = stack("Vazirmatn", "sans-serif");
+/** Heavy Persian display face for the few big words (the letter heading, the case stamp). */
 export const PERSIAN_DISPLAY = stack("Lalezar", '"Vazirmatn", sans-serif');
+export const LATIN = PERSIAN;

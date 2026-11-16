@@ -1,37 +1,32 @@
+import React from "react";
 import { Composition, Folder } from "remotion";
 import "./fonts";
-import { ThreeRamicFilm } from "./Film";
-import { CharacterLab } from "./dev/CharacterLab";
-import { Scene01Incident } from "./scenes/Scene01Incident";
-import { Scene02Resignation } from "./scenes/Scene02Resignation";
-import { Scene03Investigation } from "./scenes/Scene03Investigation";
-import { Scene04System } from "./scenes/Scene04System";
-import { Scene05Transformation } from "./scenes/Scene05Transformation";
-import { Scene06Ending } from "./scenes/Scene06Ending";
+import { FORMAT } from "./config/art";
+import { FilmProps, ThreeRamicFilm } from "./Film";
+import { SceneHook } from "./scenes/SceneHook";
+import { DURATION, FilmFrameOffset, scene, SceneId } from "./timeline";
+
+/** A single scene as its own composition, for previewing and test renders. */
+const solo = (id: SceneId, Component: React.FC): React.FC => {
+  const Solo: React.FC = () => (
+    <FilmFrameOffset offset={scene(id).from}>
+      <Component />
+    </FilmFrameOffset>
+  );
+  return Solo;
+};
+const HookSolo = solo("hook", SceneHook);
+
+const defaults: FilmProps = { showSubtitles: true, musicVolume: 0.5, sfxVolume: 0.9, voiceVolume: 1 };
 
 export const RemotionRoot: React.FC = () => {
+  const len = (id: SceneId) => scene(id).to - scene(id).from;
   return (
     <>
-      {/* THE FLOOR THAT QUIT — 40 s · 1080×1920 · 30 fps */}
-      <Composition
-        id="ThreeRamicFilm"
-        component={ThreeRamicFilm}
-        durationInFrames={1200}
-        fps={30}
-        width={1080}
-        height={1920}
-        defaultProps={{ showSubtitles: true, musicVolume: 0.5, sfxVolume: 0.9, narrationVolume: 1 }}
-      />
+      {/* «پروندهٔ استعفای سرامیک‌ها» — 1080×1920 · 30 fps · length set by the recorded dialogue */}
+      <Composition id="ThreeRamicFilm" component={ThreeRamicFilm} durationInFrames={DURATION} fps={FORMAT.fps} width={FORMAT.width} height={FORMAT.height} defaultProps={defaults} />
       <Folder name="Scenes">
-        <Composition id="S01-Incident" component={Scene01Incident} durationInFrames={150} fps={30} width={1080} height={1920} />
-        <Composition id="S02-Resignation" component={Scene02Resignation} durationInFrames={180} fps={30} width={1080} height={1920} />
-        <Composition id="S03-Investigation" component={Scene03Investigation} durationInFrames={180} fps={30} width={1080} height={1920} />
-        <Composition id="S04-System" component={Scene04System} durationInFrames={210} fps={30} width={1080} height={1920} />
-        <Composition id="S05-Transformation" component={Scene05Transformation} durationInFrames={300} fps={30} width={1080} height={1920} />
-        <Composition id="S06-Ending" component={Scene06Ending} durationInFrames={180} fps={30} width={1080} height={1920} />
-      </Folder>
-      <Folder name="Dev">
-        <Composition id="CharacterLab" component={CharacterLab} durationInFrames={60} fps={30} width={1080} height={1920} />
+        <Composition id="S1-Hook" component={HookSolo} durationInFrames={len("hook")} fps={FORMAT.fps} width={FORMAT.width} height={FORMAT.height} />
       </Folder>
     </>
   );

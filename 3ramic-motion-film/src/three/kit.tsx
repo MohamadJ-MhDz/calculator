@@ -72,6 +72,10 @@ export const FINISH: Record<TexKey, Finish> = {
   fabricCharcoal: { roughness: 0.98 },
   fabricIvory: { roughness: 0.98 },
   sign: { roughness: 0.8 },
+  busy: { roughness: 0.16, clearcoat: 1, clearcoatRoughness: 0.06 },
+  veinBrown: { roughness: 0.12, clearcoat: 1, clearcoatRoughness: 0.05 },
+  gloss: { roughness: 0.12, clearcoat: 1, clearcoatRoughness: 0.05 },
+  calm: { roughness: 0.78 },
 };
 
 const matCache = new Map<string, THREE.Material>();
