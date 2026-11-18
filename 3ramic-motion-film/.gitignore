@@ -5,3 +5,6 @@ dist
 
 # Ignore the output video from Git but not videos you import into src/.
 out
+
+# candidate voice takes (the chosen ones are copied to public/audio/voice)
+production/takes

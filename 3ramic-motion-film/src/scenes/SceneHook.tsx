@@ -3,12 +3,13 @@ import { AbsoluteFill } from "remotion";
 import { blink, E, lerp, prog, shake, V3 } from "../anim";
 import { HOOK } from "../cues";
 import { line, mouthOf, scene, useFilmFrame } from "../timeline";
-import { SLOT_POS, TILE } from "../three/Bathroom";
+import { TILE } from "../three/Bathroom";
 import { Duck } from "../three/Duck";
 import { Letter3D } from "../three/Props";
 import { TileCharacter, TILE_T } from "../three/TileCharacter";
 import { CaseStamp, PaperOnLens } from "../ui/Graphics";
 import { FilmGrain, Flash, Vignette } from "../ui/Overlays";
+import { DUCK_STAND, MASTER, TILE_STAND } from "./cameras";
 import { CamSpec, faceTo, inFrontOf, mixCam, mixV, Stage } from "./stage";
 
 /**
@@ -19,15 +20,16 @@ import { CamSpec, faceTo, inFrontOf, mixCam, mixV, Stage } from "./stage";
  * and we finally look at the room. «خب… پرونده باز شد.»
  */
 
-export const TILE_STAND: V3 = [SLOT_POS[0], 0, SLOT_POS[2] + 0.5];
-export const DUCK_STAND: V3 = [-0.78, 0, 5.55];
-
-const CAM_A0: CamSpec = { pos: [1.0, 0.7, 7.8], target: [0.5, 0.7, 4.0], fov: 40 };
-const CAM_A1: CamSpec = { pos: [0.86, 0.8, 7.25], target: [0.5, 0.76, 4.0], fov: 40 };
+// A: close on the tile, framed a little left so the raised letter stays in shot
+const CAM_A0: CamSpec = { pos: [1.3, 0.7, 8.0], target: [0.74, 0.74, 4.0], fov: 40 };
+const CAM_A1: CamSpec = { pos: [1.16, 0.8, 7.5], target: [0.72, 0.78, 4.0], fov: 40 };
+// B: the two of them
 const CAM_B: CamSpec = { pos: [-0.5, 0.92, 9.0], target: [-0.15, 0.76, 4.75], fov: 40 };
-const CAM_C: CamSpec = { pos: [1.75, 2.75, 9.7], target: [-0.7, 3.5, -4], fov: 44 };
-const CAM_D0: CamSpec = { pos: [-1.34, 0.58, 7.6], target: [-0.78, 0.86, 5.55], fov: 36 };
-const CAM_D1: CamSpec = { pos: [-1.24, 0.66, 7.3], target: [-0.78, 0.88, 5.55], fov: 36 };
+// C: «این چه ترکیبیه؟!» — the master angle: the whole combination at once
+const CAM_C = MASTER;
+// D: the detective takes the case
+const CAM_D0: CamSpec = { pos: [-1.62, 0.62, 8.5], target: [-0.8, 1.02, 5.55], fov: 36 };
+const CAM_D1: CamSpec = { pos: [-1.5, 0.7, 8.15], target: [-0.8, 1.04, 5.55], fov: 36 };
 
 export const SceneHook: React.FC = () => {
   const f = useFilmFrame();
@@ -46,7 +48,7 @@ export const SceneHook: React.FC = () => {
   } else if (f < HOOK.reveal) {
     cam = CAM_B;
   } else if (f < HOOK.close) {
-    cam = mixCam(CAM_B, CAM_C, E.outExpo(prog(f, HOOK.reveal, 10)));
+    cam = mixCam(CAM_B, CAM_C, E.outExpo(prog(f, HOOK.reveal, 12)));
   } else {
     cam = mixCam(CAM_D0, CAM_D1, E.outCubic(prog(f, HOOK.close, 44)));
   }

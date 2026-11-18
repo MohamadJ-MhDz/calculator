@@ -1,0 +1,22 @@
+{
+  "note": "Exact pronunciation of every spoken line, as the phoneme string that is fed to the voice models. The strings follow the conventions of the eSpeak-NG Persian front-end the models were trained with (stress marks ˈ ˌ, length ː, 'q1' for ق/غ) and were corrected by hand wherever the automatic front-end misread colloquial Persian (e.g. استعفاتو, نمی‌شه, دیگه‌س, the ezafe in «بدونِ من» and «جایِ خودش»). A space separates spoken words; '+' joins two spoken words that are one written word in the subtitle. Each phrase is synthesised on its own and `pause` (seconds) is the silence after it. `rate` > 1 is faster; `noise` is the models' own intonation variability (higher = livelier).",
+  "brand": { "written": "3ramic", "spokenFa": "سه‌رامیک", "phonemes": "serˈɑmik", "never": ["θɹiː", "tri", "sri"] },
+  "lines": {
+    "L01": { "rate": 1.08, "noise": 0.9, "phrases": [{ "ph": "man dˈiɡeː ˈindʒɑ kˈɑr nˌemikˈonam!" }] },
+    "L02": { "rate": 1.0, "noise": 0.85, "phrases": [{ "ph": "tʃˈerɑ?" }] },
+    "L03": { "rate": 1.0, "noise": 0.9, "phrases": [{ "ph": "ˈɑxeː iːn tʃeː tˌarkibˈije?" }] },
+    "L04": { "rate": 0.92, "noise": 0.6, "phrases": [{ "ph": "xˈob.", "pause": 0.34 }, { "ph": "parvˈandeː bˈɑz ʃˈod." }] },
+    "L05": { "rate": 0.97, "noise": 0.9, "phrases": [{ "ph": "man fˈaq1at mixˈɑstam dˈideː bˈeʃam!" }] },
+    "L06": { "rate": 1.06, "noise": 0.6, "phrases": [{ "ph": "xˈob, ziˈɑdi dˈideː ʃˈodi!" }] },
+    "L07": { "rate": 0.95, "noise": 0.75, "phrases": [{ "ph": "ʃˈiʃ mˈetr dʒˈɑ,", "pause": 0.3 }, { "ph": "hˈezɑr tˈikeː?" }] },
+    "L08": { "rate": 0.92, "noise": 0.8, "phrases": [{ "ph": "ˈindʒɑ bedˈuːne man hˈitʃi nˈist!" }] },
+    "L09": { "rate": 1.0, "noise": 0.6, "phrases": [{ "ph": "bɑ tˈo hˈam kˈeː,", "pause": 0.22 }, { "ph": "dʒˌɑiː namˈundeː!" }] },
+    "L10": { "rate": 0.97, "noise": 0.7, "phrases": [{ "ph": "mˈetrɑʒ kˈeː ˈavaz nˌemiʃˈe.", "pause": 0.34 }, { "ph": "ˌentexˈɑbhɑ bˈɑjad bɑ hˈam dʒˈuːr bˈɑʃan." }] },
+    "L11": { "rate": 1.02, "noise": 0.85, "phrases": [{ "ph": "kˈɑre serˈɑmikˌeː!" }] },
+    "L12": { "rate": 1.0, "noise": 0.9, "phrases": [{ "ph": "hˈɑlɑ ʃˈod!" }] },
+    "L13": { "rate": 0.95, "noise": 0.9, "phrases": [{ "ph": "ˈoh,", "pause": 0.26 }, { "ph": "iːn dˈiɡeː jˈeː tʃˈize dˈiɡas!" }] },
+    "L14": { "rate": 1.0, "noise": 0.8, "phrases": [{ "ph": "xˈob, ˌesteʔfˈɑto pˈas miɡˈiri?" }] },
+    "L15": { "rate": 0.98, "noise": 0.7, "phrases": [{ "ph": "bɑ ezˈɑfeː+hˈoq1uːq1!" }] },
+    "L16": { "rate": 0.95, "noise": 0.5, "phrases": [{ "ph": "serˈɑmik.", "pause": 0.32 }, { "ph": "har sˌerɑmˈiki, dʒˈɑje xˈodeʃ." }] }
+  }
+}
