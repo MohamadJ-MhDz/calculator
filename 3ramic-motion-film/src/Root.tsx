@@ -3,6 +3,7 @@ import { Composition, Folder } from "remotion";
 import "./fonts";
 import { FORMAT } from "./config/art";
 import { FilmProps, SCENES, ThreeRamicFilm } from "./Film";
+import { Cover } from "./cover/Cover";
 import { qaFrames } from "./qa/frames";
 import { QAFrames, QAProps } from "./qa/QAFrames";
 import { DURATION, FilmFrameOffset, scene, SceneId } from "./timeline";
@@ -30,6 +31,10 @@ export const RemotionRoot: React.FC = () => {
         {SOLOS.map((s) => (
           <Composition key={s.id} id={s.id} component={s.Component} durationInFrames={len(s.scene)} fps={FORMAT.fps} width={FORMAT.width} height={FORMAT.height} />
         ))}
+      </Folder>
+      <Folder name="Instagram">
+        {/* cover image: npm run cover */}
+        <Composition id="Cover" component={Cover} durationInFrames={1} fps={FORMAT.fps} width={FORMAT.width} height={FORMAT.height} />
       </Folder>
       <Folder name="QA">
         {/* key moments as a sequence of stills: npm run stills */}

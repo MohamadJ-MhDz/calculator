@@ -16,8 +16,11 @@ Config.setDefaultPremountInSeconds(1);
 // Software WebGL compiles shaders slowly on the first frame of each tab.
 Config.setDelayRenderTimeoutInMilliseconds(300000);
 
-// WebGL without a GPU: ANGLE on SwiftShader.
-Config.setChromiumOpenGlRenderer("swangle");
+// WebGL without a GPU: ANGLE on SwiftShader ("swangle") works on every machine, CPU only.
+// On a computer with a working GPU driver, rendering is faster with REMOTION_GL=angle
+// (Windows: `set REMOTION_GL=angle` before `npm run render`).
+const GL = (process.env.REMOTION_GL ?? "swangle") as "swangle" | "angle" | "egl" | "swiftshader" | "vulkan" | "angle-egl";
+Config.setChromiumOpenGlRenderer(GL);
 
 // This cloud sandbox cannot reach remotion.media to download Remotion's own
 // Chrome Headless Shell, so fall back to the pre-installed one when present.

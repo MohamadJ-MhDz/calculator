@@ -84,8 +84,15 @@ def main():
                 continue
             takes.append(a)
         if not takes:
-            problems.append(f"{lid}: no analysed takes for {voice['model']} — run voice_synthesize.py --takes N and voice_analyze.py")
-            continue
+            # no speech-recognition check available (voice_analyze.py needs torch + Whisper):
+            # fall back to the first take, unchecked, and say so
+            first = os.path.join(d, f"{voice['model']}-t0.json")
+            if not os.path.exists(first):
+                problems.append(f"{lid}: no takes for {voice['model']} — run voice_synthesize.py --takes N")
+                continue
+            m = json.load(open(first, encoding="utf-8"))
+            takes = [{"take": m["take"], "heard": "(not checked)", "match": 0.0, "seconds": m["seconds"], "peak": 0.0, "silence": 0.0, "f0": 0.0, "f0_spread_st": 0.0}]
+            problems.append(f"{lid}: take not checked by speech recognition (voice_analyze.py was not run) — listen before release")
         lens = sorted(t["seconds"] for t in takes)
         median_len = lens[len(lens) // 2]
         for t in takes:

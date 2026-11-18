@@ -1,7 +1,7 @@
 {
   "name": "3ramic-motion-film",
   "version": "1.0.0",
-  "description": "THE FLOOR THAT QUIT \u2014 a 40 s 3D motion brand film for 3ramic (Remotion + React Three Fiber)",
+  "description": "«پروندهٔ استعفای سرامیک‌ها» — The Tiles That Quit: a 1080×1920 Persian-language 3D Instagram Reel for 3ramic (Remotion + React Three Fiber)",
   "repository": {},
   "license": "UNLICENSED",
   "engines": {
@@ -31,16 +31,23 @@
     "typescript": "5.9.3"
   },
   "scripts": {
+    "studio": "remotion studio",
     "dev": "remotion studio",
-    "build": "remotion bundle",
-    "render": "remotion render ThreeRamicFilm out/3ramic-final.mp4 --concurrency=4 --crf=18",
-    "render:chunks": "bash scripts/render-chunks.sh",
-    "render:preview": "remotion render ThreeRamicFilm out/3ramic-preview.mp4 --scale=0.5 --props={\\\"dpr\\\":0.5} --concurrency=4 --crf=24",
-    "render:stills": "remotion render ThreeRamicFilm out/stills --sequence --frames=40,110,135,220,250,300,400,480,560,670,790,860,960,1070,1180 --image-format=jpeg",
-    "audio": "python3 scripts/make-audio.py",
+    "validate": "node scripts/validate.mjs",
+    "render": "node scripts/render.mjs",
+    "render:preview": "node scripts/render.mjs --scale 0.5",
+    "render:direct": "remotion render ThreeRamicFilm out/3ramic-reel-1080x1920.mp4 --codec=h264 --crf=18",
+    "stills": "remotion render QAFrames out/qa/frames --sequence --image-format=jpeg --jpeg-quality=90 && node scripts/py.mjs scripts/qa/contact_sheet.py",
+    "cover": "remotion still Cover out/instagram/cover-1080x1920.jpg --image-format=jpeg --jpeg-quality=95",
+    "timeline": "node scripts/py.mjs scripts/audio/build_timeline.py && node scripts/audio/export_cues.mjs && node scripts/py.mjs scripts/audio/write_direction.py",
+    "audio": "node scripts/audio/export_cues.mjs && node scripts/py.mjs scripts/audio/build_audio.py",
+    "voices:setup": "node scripts/py.mjs scripts/audio/voice_synthesize.py --setup",
+    "voices": "node scripts/py.mjs scripts/audio/voice_synthesize.py --takes 6",
+    "voices:select": "node scripts/py.mjs scripts/audio/voice_select.py",
     "fonts": "node scripts/vendor-fonts.mjs",
-    "upgrade": "remotion upgrade",
-    "lint": "eslint src && tsc"
+    "lint": "eslint src && tsc",
+    "build": "remotion bundle",
+    "upgrade": "remotion upgrade"
   },
   "allowScripts": {
     "esbuild": false
