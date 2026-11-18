@@ -1,0 +1,64 @@
+{
+ "line": "L15",
+ "source": "synthesis",
+ "note": "Exact phoneme and word timing reported by the voice model while it spoke this take (seconds on the WAV's own clock). Valid only for the WAV with this sha1; a replaced recording is timed from its own audio.",
+ "wav": "public/audio/voice/L15.wav",
+ "sha1": "5e53f62ddd0dc3fbca9d1b2f69047cd442a6736f",
+ "take": "khadijah-t2",
+ "voice": "khadijah",
+ "engine": "matcha",
+ "seconds": 0.842,
+ "heard": "باپاداش",
+ "match": 1.0,
+ "phones": [
+  {
+   "p": "b",
+   "start": 0.02,
+   "end": 0.085
+  },
+  {
+   "p": "ɑ",
+   "start": 0.085,
+   "end": 0.2243
+  },
+  {
+   "p": "p",
+   "start": 0.2801,
+   "end": 0.3358
+  },
+  {
+   "p": "ɑ",
+   "start": 0.3358,
+   "end": 0.4472
+  },
+  {
+   "p": "d",
+   "start": 0.4472,
+   "end": 0.4751
+  },
+  {
+   "p": "ɑ",
+   "start": 0.5773,
+   "end": 0.7166
+  },
+  {
+   "p": "ʃ",
+   "start": 0.7166,
+   "end": 0.7816
+  }
+ ],
+ "words": [
+  {
+   "i": 0,
+   "ph": "bɑ",
+   "start": 0.02,
+   "end": 0.2243
+  },
+  {
+   "i": 1,
+   "ph": "pɑdˈɑʃ",
+   "start": 0.2801,
+   "end": 0.7816
+  }
+ ]
+}

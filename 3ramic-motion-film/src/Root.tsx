@@ -16,7 +16,7 @@ const solo = (id: SceneId, Component: React.FC): React.FC => {
 };
 const SOLOS = SCENES.map((s, k) => ({ id: `S${k + 1}-${s.id[0].toUpperCase()}${s.id.slice(1)}`, scene: s.id, Component: solo(s.id, s.Component) }));
 
-const defaults: FilmProps = { showSubtitles: true, musicVolume: 0.5, sfxVolume: 0.9, voiceVolume: 1 };
+const defaults: FilmProps = { showSubtitles: true, withAudio: true };
 
 export const RemotionRoot: React.FC = () => {
   const len = (id: SceneId) => scene(id).to - scene(id).from;

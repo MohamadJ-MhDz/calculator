@@ -42,7 +42,7 @@
       "id": "hook",
       "titleFa": "استعفا",
       "lead": 0,
-      "tail": 8,
+      "tail": 6,
       "events": [
         {
           "line": "L01",
@@ -58,7 +58,7 @@
         },
         {
           "line": "L04",
-          "pre": 10
+          "pre": 8
         }
       ]
     },
@@ -66,11 +66,11 @@
       "id": "suspects",
       "titleFa": "مظنون‌ها",
       "lead": 0,
-      "tail": 10,
+      "tail": 8,
       "events": [
         {
           "line": "L05",
-          "pre": 12
+          "pre": 14
         },
         {
           "line": "L06",
@@ -78,15 +78,15 @@
         },
         {
           "line": "L07",
-          "pre": 14
+          "pre": 11
         },
         {
           "line": "L08",
-          "pre": 14
+          "pre": 11
         },
         {
           "line": "L09",
-          "pre": 6
+          "pre": 12
         }
       ]
     },
@@ -106,21 +106,21 @@
         },
         {
           "hold": "box",
-          "frames": 22
+          "frames": 16
         },
         {
           "hold": "transform",
-          "frames": 140,
+          "frames": 126,
           "inside": [
             {
               "line": "L12",
-              "at": 96
+              "at": 95
             }
           ]
         },
         {
           "hold": "compare",
-          "frames": 54
+          "frames": 46
         }
       ]
     },
@@ -128,15 +128,15 @@
       "id": "payoff",
       "titleFa": "شوخیِ آخر",
       "lead": 0,
-      "tail": 16,
+      "tail": 12,
       "events": [
         {
           "line": "L13",
-          "pre": 6
+          "pre": 4
         },
         {
           "line": "L14",
-          "pre": 10
+          "pre": 7
         },
         {
           "line": "L15",
@@ -148,7 +148,7 @@
       "id": "brand",
       "titleFa": "پایان",
       "lead": 0,
-      "tail": 44,
+      "tail": 28,
       "events": [
         {
           "line": "L16",
@@ -347,17 +347,17 @@
     {
       "id": "L12",
       "speaker": "pattern",
-      "displayText": "حالا شد!",
-      "speechText": "حالا شد!",
-      "emotion": "رضایت",
+      "displayText": "این‌جا جای منه!",
+      "speechText": "این‌جا جای منه!",
+      "emotion": "رضایتِ مغرورانه",
       "intensity": 6,
       "emphasis": [
-        "شد"
+        "جای منه"
       ],
-      "direction": "کوتاه و ذوق‌زده، وقتی سرِ جای درستش می‌نشیند.",
-      "action": "در قابِ تاقچهٔ دوش جا می‌گیرد.",
+      "direction": "هنوز کمی نمایشی، ولی این‌بار آرام و راضی: بالاخره جای درستش را پیدا کرده. تأکید روی «جای منه».",
+      "action": "در قابِ کوچکِ دیوارِ دوش می‌نشیند و دیگر شلوغ نیست؛ حالا فقط یک تکهٔ دیدنی است.",
       "phrases": [
-        "حالا شد!"
+        "این‌جا جای منه!"
       ]
     },
     {

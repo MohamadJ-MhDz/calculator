@@ -1,0 +1,162 @@
+{
+ "line": "L08",
+ "source": "synthesis",
+ "note": "Exact phoneme and word timing reported by the voice model while it spoke this take (seconds on the WAV's own clock). Valid only for the WAV with this sha1; a replaced recording is timed from its own audio.",
+ "wav": "public/audio/voice/L08.wav",
+ "sha1": "c226a4e7b9a97dd3dbe55272302f9168c2004f57",
+ "take": "reza_ibrahim-t1",
+ "voice": "reza_ibrahim",
+ "engine": "piper",
+ "seconds": 2.354,
+ "heard": "اینجا بدون من هیچی نیست.",
+ "match": 1.0,
+ "phones": [
+  {
+   "p": "i",
+   "start": 0.1013,
+   "end": 0.1361
+  },
+  {
+   "p": "n",
+   "start": 0.1361,
+   "end": 0.2174
+  },
+  {
+   "p": "d",
+   "start": 0.2174,
+   "end": 0.2754
+  },
+  {
+   "p": "ʒ",
+   "start": 0.2754,
+   "end": 0.4031
+  },
+  {
+   "p": "ɑ",
+   "start": 0.4031,
+   "end": 0.496
+  },
+  {
+   "p": "b",
+   "start": 0.5541,
+   "end": 0.6469
+  },
+  {
+   "p": "e",
+   "start": 0.6469,
+   "end": 0.6818
+  },
+  {
+   "p": "d",
+   "start": 0.6818,
+   "end": 0.705
+  },
+  {
+   "p": "u",
+   "start": 0.7398,
+   "end": 0.8675
+  },
+  {
+   "p": "n",
+   "start": 0.8675,
+   "end": 0.914
+  },
+  {
+   "p": "e",
+   "start": 0.914,
+   "end": 0.972
+  },
+  {
+   "p": "m",
+   "start": 1.0068,
+   "end": 1.0533
+  },
+  {
+   "p": "a",
+   "start": 1.0533,
+   "end": 1.1346
+  },
+  {
+   "p": "n",
+   "start": 1.1346,
+   "end": 1.2042
+  },
+  {
+   "p": "h",
+   "start": 1.2739,
+   "end": 1.3435
+  },
+  {
+   "p": "i",
+   "start": 1.4712,
+   "end": 1.5293
+  },
+  {
+   "p": "t",
+   "start": 1.5293,
+   "end": 1.5641
+  },
+  {
+   "p": "ʃ",
+   "start": 1.5641,
+   "end": 1.7034
+  },
+  {
+   "p": "i",
+   "start": 1.7034,
+   "end": 1.7499
+  },
+  {
+   "p": "n",
+   "start": 1.8079,
+   "end": 1.866
+  },
+  {
+   "p": "i",
+   "start": 1.9124,
+   "end": 2.075
+  },
+  {
+   "p": "s",
+   "start": 2.075,
+   "end": 2.2143
+  },
+  {
+   "p": "t",
+   "start": 2.2143,
+   "end": 2.3188
+  }
+ ],
+ "words": [
+  {
+   "i": 0,
+   "ph": "ˈindʒɑ",
+   "start": 0.02,
+   "end": 0.496
+  },
+  {
+   "i": 1,
+   "ph": "bedˈuːne",
+   "start": 0.5541,
+   "end": 0.972
+  },
+  {
+   "i": 2,
+   "ph": "man",
+   "start": 1.0068,
+   "end": 1.2042
+  },
+  {
+   "i": 3,
+   "ph": "hˈitʃi",
+   "start": 1.2739,
+   "end": 1.7499
+  },
+  {
+   "i": 4,
+   "ph": "nˈist",
+   "start": 1.8079,
+   "end": 2.3188
+  }
+ ]
+}

@@ -1,0 +1,142 @@
+{
+ "line": "L07",
+ "source": "synthesis",
+ "note": "Exact phoneme and word timing reported by the voice model while it spoke this take (seconds on the WAV's own clock). Valid only for the WAV with this sha1; a replaced recording is timed from its own audio.",
+ "wav": "public/audio/voice/L07.wav",
+ "sha1": "7801d4262ae614d51f4c610e387c93e73713acde",
+ "take": "musa-t3",
+ "voice": "musa",
+ "engine": "matcha",
+ "seconds": 2.196,
+ "heard": "شیش متجا هزار تیکه",
+ "match": 0.968,
+ "phones": [
+  {
+   "p": "ʃ",
+   "start": 0.02,
+   "end": 0.1104
+  },
+  {
+   "p": "i",
+   "start": 0.2099,
+   "end": 0.2913
+  },
+  {
+   "p": "ʃ",
+   "start": 0.2913,
+   "end": 0.3817
+  },
+  {
+   "p": "m",
+   "start": 0.4179,
+   "end": 0.4631
+  },
+  {
+   "p": "e",
+   "start": 0.5174,
+   "end": 0.5626
+  },
+  {
+   "p": "t",
+   "start": 0.5626,
+   "end": 0.6259
+  },
+  {
+   "p": "r",
+   "start": 0.6259,
+   "end": 0.6621
+  },
+  {
+   "p": "d",
+   "start": 0.6983,
+   "end": 0.7525
+  },
+  {
+   "p": "ʒ",
+   "start": 0.7525,
+   "end": 0.8339
+  },
+  {
+   "p": "ɑ",
+   "start": 0.9334,
+   "end": 0.9786
+  },
+  {
+   "p": "h",
+   "start": 1.3586,
+   "end": 1.44
+  },
+  {
+   "p": "e",
+   "start": 1.4852,
+   "end": 1.5485
+  },
+  {
+   "p": "z",
+   "start": 1.5485,
+   "end": 1.6209
+  },
+  {
+   "p": "ɑ",
+   "start": 1.6209,
+   "end": 1.7023
+  },
+  {
+   "p": "r",
+   "start": 1.7023,
+   "end": 1.7475
+  },
+  {
+   "p": "t",
+   "start": 1.7837,
+   "end": 1.8379
+  },
+  {
+   "p": "i",
+   "start": 1.8832,
+   "end": 1.9193
+  },
+  {
+   "p": "k",
+   "start": 1.9193,
+   "end": 1.9736
+  },
+  {
+   "p": "e",
+   "start": 1.9736,
+   "end": 2.1364
+  }
+ ],
+ "words": [
+  {
+   "i": 0,
+   "ph": "ʃˈiʃ",
+   "start": 0.02,
+   "end": 0.3817
+  },
+  {
+   "i": 1,
+   "ph": "mˈetr",
+   "start": 0.4179,
+   "end": 0.6621
+  },
+  {
+   "i": 2,
+   "ph": "dʒˈɑ",
+   "start": 0.6983,
+   "end": 0.9786
+  },
+  {
+   "i": 3,
+   "ph": "hˈezɑr",
+   "start": 1.3586,
+   "end": 1.7475
+  },
+  {
+   "i": 4,
+   "ph": "tˈikeː",
+   "start": 1.7837,
+   "end": 2.1364
+  }
+ ]
+}

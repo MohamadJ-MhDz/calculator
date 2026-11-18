@@ -1,0 +1,167 @@
+{
+ "line": "L01",
+ "source": "synthesis",
+ "note": "Exact phoneme and word timing reported by the voice model while it spoke this take (seconds on the WAV's own clock). Valid only for the WAV with this sha1; a replaced recording is timed from its own audio.",
+ "wav": "public/audio/voice/L01.wav",
+ "sha1": "6cc3f9679a410dae21791670b5b343164b1ca312",
+ "take": "khadijah-t0",
+ "voice": "khadijah",
+ "engine": "matcha",
+ "seconds": 1.481,
+ "heard": "من دیگه اینجا کار نمی کنم",
+ "match": 1.0,
+ "phones": [
+  {
+   "p": "m",
+   "start": 0.02,
+   "end": 0.0897
+  },
+  {
+   "p": "a",
+   "start": 0.0897,
+   "end": 0.1516
+  },
+  {
+   "p": "n",
+   "start": 0.1516,
+   "end": 0.2135
+  },
+  {
+   "p": "d",
+   "start": 0.2522,
+   "end": 0.2909
+  },
+  {
+   "p": "i",
+   "start": 0.3296,
+   "end": 0.3606
+  },
+  {
+   "p": "ɡ",
+   "start": 0.3606,
+   "end": 0.3915
+  },
+  {
+   "p": "e",
+   "start": 0.3915,
+   "end": 0.4534
+  },
+  {
+   "p": "i",
+   "start": 0.5154,
+   "end": 0.5463
+  },
+  {
+   "p": "n",
+   "start": 0.5463,
+   "end": 0.5773
+  },
+  {
+   "p": "d",
+   "start": 0.5773,
+   "end": 0.6237
+  },
+  {
+   "p": "ʒ",
+   "start": 0.6237,
+   "end": 0.6624
+  },
+  {
+   "p": "ɑ",
+   "start": 0.6624,
+   "end": 0.6934
+  },
+  {
+   "p": "k",
+   "start": 0.7243,
+   "end": 0.7553
+  },
+  {
+   "p": "ɑ",
+   "start": 0.8095,
+   "end": 0.8714
+  },
+  {
+   "p": "r",
+   "start": 0.8714,
+   "end": 0.9024
+  },
+  {
+   "p": "n",
+   "start": 0.9411,
+   "end": 0.9643
+  },
+  {
+   "p": "e",
+   "start": 1.003,
+   "end": 1.0494
+  },
+  {
+   "p": "m",
+   "start": 1.0494,
+   "end": 1.0804
+  },
+  {
+   "p": "i",
+   "start": 1.0804,
+   "end": 1.1113
+  },
+  {
+   "p": "k",
+   "start": 1.1113,
+   "end": 1.1423
+  },
+  {
+   "p": "o",
+   "start": 1.1965,
+   "end": 1.2352
+  },
+  {
+   "p": "n",
+   "start": 1.2352,
+   "end": 1.3048
+  },
+  {
+   "p": "a",
+   "start": 1.3048,
+   "end": 1.3668
+  },
+  {
+   "p": "m",
+   "start": 1.3668,
+   "end": 1.4209
+  }
+ ],
+ "words": [
+  {
+   "i": 0,
+   "ph": "man",
+   "start": 0.02,
+   "end": 0.2135
+  },
+  {
+   "i": 1,
+   "ph": "dˈiɡeː",
+   "start": 0.2522,
+   "end": 0.4534
+  },
+  {
+   "i": 2,
+   "ph": "ˈindʒɑ",
+   "start": 0.4844,
+   "end": 0.6934
+  },
+  {
+   "i": 3,
+   "ph": "kˈɑr",
+   "start": 0.7243,
+   "end": 0.9024
+  },
+  {
+   "i": 4,
+   "ph": "nˌemikˈonam",
+   "start": 0.9411,
+   "end": 1.4209
+  }
+ ]
+}

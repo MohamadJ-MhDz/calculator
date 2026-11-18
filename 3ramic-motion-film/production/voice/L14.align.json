@@ -1,0 +1,146 @@
+{
+ "line": "L14",
+ "source": "synthesis",
+ "note": "Exact phoneme and word timing reported by the voice model while it spoke this take (seconds on the WAV's own clock). Valid only for the WAV with this sha1; a replaced recording is timed from its own audio.",
+ "wav": "public/audio/voice/L14.wav",
+ "sha1": "ded9c8d00c18ded28999fdea9d6c079c8df18f6a",
+ "take": "musa-t4",
+ "voice": "musa",
+ "engine": "matcha",
+ "seconds": 1.708,
+ "heard": "خب استفادتو پس میگیری",
+ "match": 0.944,
+ "phones": [
+  {
+   "p": "x",
+   "start": 0.02,
+   "end": 0.1104
+  },
+  {
+   "p": "o",
+   "start": 0.2009,
+   "end": 0.3094
+  },
+  {
+   "p": "b",
+   "start": 0.3094,
+   "end": 0.3456
+  },
+  {
+   "p": "e",
+   "start": 0.4722,
+   "end": 0.5264
+  },
+  {
+   "p": "s",
+   "start": 0.5264,
+   "end": 0.5717
+  },
+  {
+   "p": "t",
+   "start": 0.5717,
+   "end": 0.6078
+  },
+  {
+   "p": "e",
+   "start": 0.6078,
+   "end": 0.6621
+  },
+  {
+   "p": "ʔ",
+   "start": 0.6621,
+   "end": 0.6983
+  },
+  {
+   "p": "f",
+   "start": 0.6983,
+   "end": 0.7616
+  },
+  {
+   "p": "ɑ",
+   "start": 0.8339,
+   "end": 0.8701
+  },
+  {
+   "p": "t",
+   "start": 0.8701,
+   "end": 0.9244
+  },
+  {
+   "p": "o",
+   "start": 0.9244,
+   "end": 0.9786
+  },
+  {
+   "p": "p",
+   "start": 1.0238,
+   "end": 1.06
+  },
+  {
+   "p": "a",
+   "start": 1.1143,
+   "end": 1.1504
+  },
+  {
+   "p": "s",
+   "start": 1.1504,
+   "end": 1.2138
+  },
+  {
+   "p": "m",
+   "start": 1.2499,
+   "end": 1.3042
+  },
+  {
+   "p": "i",
+   "start": 1.3042,
+   "end": 1.3494
+  },
+  {
+   "p": "ɡ",
+   "start": 1.3494,
+   "end": 1.3946
+  },
+  {
+   "p": "i",
+   "start": 1.4489,
+   "end": 1.4941
+  },
+  {
+   "p": "r",
+   "start": 1.4941,
+   "end": 1.5845
+  },
+  {
+   "p": "i",
+   "start": 1.5845,
+   "end": 1.6478
+  }
+ ],
+ "words": [
+  {
+   "i": 0,
+   "ph": "xˈob",
+   "start": 0.02,
+   "end": 0.3456
+  },
+  {
+   "i": 1,
+   "ph": "ˌesteʔfˈɑto",
+   "start": 0.427,
+   "end": 0.9786
+  },
+  {
+   "i": 2,
+   "ph": "pˈas",
+   "start": 1.0238,
+   "end": 1.2138
+  },
+  {
+   "i": 3,
+   "ph": "miɡˈiri",
+   "start": 1.2499,
+   "end": 1.6478
+  }
+ ]
+}

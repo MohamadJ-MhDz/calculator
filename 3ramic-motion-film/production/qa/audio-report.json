@@ -1,0 +1,228 @@
+{
+ "file": "public/audio/mix.wav",
+ "seconds": 39.7,
+ "sampleRate": 48000,
+ "channels": 2,
+ "integratedLUFS": -14.52,
+ "loudnessRangeLU": 5.61,
+ "maxShortTermLUFS": -10.37,
+ "truePeakDBTP": -1.5,
+ "targets": {
+  "integratedLUFS": [
+   -16,
+   -14
+  ],
+  "truePeakDBTP_max": -1.0
+ },
+ "pass": {
+  "loudness": true,
+  "truePeak": true
+ },
+ "mono": {
+  "stereoLUFS": -14.52,
+  "monoFoldLUFS": -14.62,
+  "monoDropLU": 0.1,
+  "correlation": 0.955
+ },
+ "dialogueClarity": {
+  "note": "Loudness of each spoken line minus the music / effects playing under it (LU). 10+ is comfortably clear on phone speakers.",
+  "minOverMusicLU": 9.9,
+  "minOverSfxLU": 8.5,
+  "lines": [
+   {
+    "id": "L01",
+    "dialogueLUFS": -20.6,
+    "overMusicLU": 16.9,
+    "overSfxLU": 10.6
+   },
+   {
+    "id": "L02",
+    "dialogueLUFS": -22.0,
+    "overMusicLU": 14.3,
+    "overSfxLU": 13.6
+   },
+   {
+    "id": "L03",
+    "dialogueLUFS": -20.9,
+    "overMusicLU": 10.6,
+    "overSfxLU": 12.8
+   },
+   {
+    "id": "L04",
+    "dialogueLUFS": -22.6,
+    "overMusicLU": 11.3,
+    "overSfxLU": 47.4
+   },
+   {
+    "id": "L05",
+    "dialogueLUFS": -21.8,
+    "overMusicLU": 12.0,
+    "overSfxLU": 16.3
+   },
+   {
+    "id": "L06",
+    "dialogueLUFS": -21.8,
+    "overMusicLU": 12.5,
+    "overSfxLU": 16.2
+   },
+   {
+    "id": "L07",
+    "dialogueLUFS": -22.4,
+    "overMusicLU": 11.8,
+    "overSfxLU": 10.1
+   },
+   {
+    "id": "L08",
+    "dialogueLUFS": -19.1,
+    "overMusicLU": 16.0,
+    "overSfxLU": 13.8
+   },
+   {
+    "id": "L09",
+    "dialogueLUFS": -23.1,
+    "overMusicLU": 11.4,
+    "overSfxLU": 46.9
+   },
+   {
+    "id": "L10",
+    "dialogueLUFS": -22.4,
+    "overMusicLU": 18.5,
+    "overSfxLU": 13.0
+   },
+   {
+    "id": "L11",
+    "dialogueLUFS": -22.0,
+    "overMusicLU": 17.5,
+    "overSfxLU": 17.9
+   },
+   {
+    "id": "L12",
+    "dialogueLUFS": -21.5,
+    "overMusicLU": 9.9,
+    "overSfxLU": 48.5
+   },
+   {
+    "id": "L13",
+    "dialogueLUFS": -21.2,
+    "overMusicLU": 18.8,
+    "overSfxLU": 48.8
+   },
+   {
+    "id": "L14",
+    "dialogueLUFS": -22.5,
+    "overMusicLU": 18.3,
+    "overSfxLU": 12.1
+   },
+   {
+    "id": "L15",
+    "dialogueLUFS": -22.3,
+    "overMusicLU": 47.7,
+    "overSfxLU": 8.5
+   },
+   {
+    "id": "L16",
+    "dialogueLUFS": -20.8,
+    "overMusicLU": 16.3,
+    "overSfxLU": 20.8
+   }
+  ]
+ },
+ "lines": [
+  {
+   "id": "L01",
+   "from": 3,
+   "to": 48,
+   "endsBeforeFilmEnd": true
+  },
+  {
+   "id": "L02",
+   "from": 55,
+   "to": 72,
+   "endsBeforeFilmEnd": true
+  },
+  {
+   "id": "L03",
+   "from": 77,
+   "to": 119,
+   "endsBeforeFilmEnd": true
+  },
+  {
+   "id": "L04",
+   "from": 127,
+   "to": 186,
+   "endsBeforeFilmEnd": true
+  },
+  {
+   "id": "L05",
+   "from": 206,
+   "to": 251,
+   "endsBeforeFilmEnd": true
+  },
+  {
+   "id": "L06",
+   "from": 256,
+   "to": 297,
+   "endsBeforeFilmEnd": true
+  },
+  {
+   "id": "L07",
+   "from": 308,
+   "to": 374,
+   "endsBeforeFilmEnd": true
+  },
+  {
+   "id": "L08",
+   "from": 385,
+   "to": 456,
+   "endsBeforeFilmEnd": true
+  },
+  {
+   "id": "L09",
+   "from": 468,
+   "to": 527,
+   "endsBeforeFilmEnd": true
+  },
+  {
+   "id": "L10",
+   "from": 543,
+   "to": 658,
+   "endsBeforeFilmEnd": true
+  },
+  {
+   "id": "L11",
+   "from": 663,
+   "to": 692,
+   "endsBeforeFilmEnd": true
+  },
+  {
+   "id": "L12",
+   "from": 803,
+   "to": 833,
+   "endsBeforeFilmEnd": true
+  },
+  {
+   "id": "L13",
+   "from": 884,
+   "to": 949,
+   "endsBeforeFilmEnd": true
+  },
+  {
+   "id": "L14",
+   "from": 956,
+   "to": 1008,
+   "endsBeforeFilmEnd": true
+  },
+  {
+   "id": "L15",
+   "from": 1017,
+   "to": 1043,
+   "endsBeforeFilmEnd": true
+  },
+  {
+   "id": "L16",
+   "from": 1063,
+   "to": 1163,
+   "endsBeforeFilmEnd": true
+  }
+ ]
+}

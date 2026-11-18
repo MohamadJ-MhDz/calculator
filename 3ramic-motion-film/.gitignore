@@ -8,3 +8,4 @@ out
 
 # candidate voice takes (the chosen ones are copied to public/audio/voice)
 production/takes
+production/audio/stems

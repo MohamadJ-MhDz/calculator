@@ -1,0 +1,126 @@
+{
+ "line": "L04",
+ "source": "synthesis",
+ "note": "Exact phoneme and word timing reported by the voice model while it spoke this take (seconds on the WAV's own clock). Valid only for the WAV with this sha1; a replaced recording is timed from its own audio.",
+ "wav": "public/audio/voice/L04.wav",
+ "sha1": "8e25484794ec5c83b877a3b8a160985cbd39c96e",
+ "take": "musa-t1",
+ "voice": "musa",
+ "engine": "matcha",
+ "seconds": 1.957,
+ "heard": "خب پرونده باز شد",
+ "match": 1.0,
+ "phones": [
+  {
+   "p": "x",
+   "start": 0.02,
+   "end": 0.104
+  },
+  {
+   "p": "o",
+   "start": 0.2161,
+   "end": 0.3002
+  },
+  {
+   "p": "b",
+   "start": 0.3002,
+   "end": 0.3749
+  },
+  {
+   "p": "p",
+   "start": 0.7948,
+   "end": 0.8695
+  },
+  {
+   "p": "a",
+   "start": 0.8695,
+   "end": 0.9909
+  },
+  {
+   "p": "r",
+   "start": 0.9909,
+   "end": 1.0283
+  },
+  {
+   "p": "v",
+   "start": 1.0283,
+   "end": 1.075
+  },
+  {
+   "p": "a",
+   "start": 1.131,
+   "end": 1.1684
+  },
+  {
+   "p": "n",
+   "start": 1.1684,
+   "end": 1.2244
+  },
+  {
+   "p": "d",
+   "start": 1.2244,
+   "end": 1.2524
+  },
+  {
+   "p": "e",
+   "start": 1.2524,
+   "end": 1.3271
+  },
+  {
+   "p": "b",
+   "start": 1.3645,
+   "end": 1.4018
+  },
+  {
+   "p": "ɑ",
+   "start": 1.4859,
+   "end": 1.5232
+  },
+  {
+   "p": "z",
+   "start": 1.5232,
+   "end": 1.5886
+  },
+  {
+   "p": "ʃ",
+   "start": 1.6633,
+   "end": 1.7006
+  },
+  {
+   "p": "o",
+   "start": 1.7754,
+   "end": 1.822
+  },
+  {
+   "p": "d",
+   "start": 1.822,
+   "end": 1.8968
+  }
+ ],
+ "words": [
+  {
+   "i": 0,
+   "ph": "xˈob",
+   "start": 0.02,
+   "end": 0.3749
+  },
+  {
+   "i": 1,
+   "ph": "parvˈandeː",
+   "start": 0.7948,
+   "end": 1.3271
+  },
+  {
+   "i": 2,
+   "ph": "bˈɑz",
+   "start": 1.3645,
+   "end": 1.5886
+  },
+  {
+   "i": 3,
+   "ph": "ʃˈod",
+   "start": 1.6633,
+   "end": 1.8968
+  }
+ ]
+}

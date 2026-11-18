@@ -1,0 +1,153 @@
+{
+ "line": "L13",
+ "source": "synthesis",
+ "note": "Exact phoneme and word timing reported by the voice model while it spoke this take (seconds on the WAV's own clock). Valid only for the WAV with this sha1; a replaced recording is timed from its own audio.",
+ "wav": "public/audio/voice/L13.wav",
+ "sha1": "37705f31f93c84674fb70caa9ebed7f6380634e0",
+ "take": "khadijah-t1",
+ "voice": "khadijah",
+ "engine": "matcha",
+ "seconds": 2.153,
+ "heard": "و این دیگه یه چیزه دیگه س",
+ "match": 0.9,
+ "phones": [
+  {
+   "p": "o",
+   "start": 0.108,
+   "end": 0.3192
+  },
+  {
+   "p": "h",
+   "start": 0.3192,
+   "end": 0.416
+  },
+  {
+   "p": "i",
+   "start": 0.756,
+   "end": 0.8703
+  },
+  {
+   "p": "n",
+   "start": 0.8703,
+   "end": 0.9055
+  },
+  {
+   "p": "d",
+   "start": 0.9495,
+   "end": 0.9935
+  },
+  {
+   "p": "i",
+   "start": 1.0375,
+   "end": 1.0727
+  },
+  {
+   "p": "ɡ",
+   "start": 1.0727,
+   "end": 1.1079
+  },
+  {
+   "p": "e",
+   "start": 1.1079,
+   "end": 1.1783
+  },
+  {
+   "p": "j",
+   "start": 1.2135,
+   "end": 1.2487
+  },
+  {
+   "p": "e",
+   "start": 1.2839,
+   "end": 1.3367
+  },
+  {
+   "p": "t",
+   "start": 1.3719,
+   "end": 1.4071
+  },
+  {
+   "p": "ʃ",
+   "start": 1.4071,
+   "end": 1.4599
+  },
+  {
+   "p": "i",
+   "start": 1.5039,
+   "end": 1.5479
+  },
+  {
+   "p": "z",
+   "start": 1.5479,
+   "end": 1.5831
+  },
+  {
+   "p": "e",
+   "start": 1.5831,
+   "end": 1.6271
+  },
+  {
+   "p": "d",
+   "start": 1.6623,
+   "end": 1.6975
+  },
+  {
+   "p": "i",
+   "start": 1.7503,
+   "end": 1.7943
+  },
+  {
+   "p": "ɡ",
+   "start": 1.7943,
+   "end": 1.8998
+  },
+  {
+   "p": "a",
+   "start": 1.8998,
+   "end": 2.0318
+  },
+  {
+   "p": "s",
+   "start": 2.0318,
+   "end": 2.0934
+  }
+ ],
+ "words": [
+  {
+   "i": 0,
+   "ph": "ˈoh",
+   "start": 0.02,
+   "end": 0.416
+  },
+  {
+   "i": 1,
+   "ph": "iːn",
+   "start": 0.756,
+   "end": 0.9055
+  },
+  {
+   "i": 2,
+   "ph": "dˈiɡeː",
+   "start": 0.9495,
+   "end": 1.1783
+  },
+  {
+   "i": 3,
+   "ph": "jˈeː",
+   "start": 1.2135,
+   "end": 1.3367
+  },
+  {
+   "i": 4,
+   "ph": "tʃˈize",
+   "start": 1.3719,
+   "end": 1.6271
+  },
+  {
+   "i": 5,
+   "ph": "dˈiɡas",
+   "start": 1.6623,
+   "end": 2.0934
+  }
+ ]
+}

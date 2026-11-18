@@ -1,0 +1,187 @@
+{
+ "line": "L16",
+ "source": "synthesis",
+ "note": "Exact phoneme and word timing reported by the voice model while it spoke this take (seconds on the WAV's own clock). Valid only for the WAV with this sha1; a replaced recording is timed from its own audio.",
+ "wav": "public/audio/voice/L16.wav",
+ "sha1": "0fb51bb044fcd6c0916789c10d0e72e8cd36d734",
+ "take": "ganji-t4",
+ "voice": "ganji",
+ "engine": "piper",
+ "seconds": 3.313,
+ "heard": "سرامیک، هر سرامیکی جای خودش.",
+ "match": 1.0,
+ "phones": [
+  {
+   "p": "s",
+   "start": 0.02,
+   "end": 0.1129
+  },
+  {
+   "p": "e",
+   "start": 0.1129,
+   "end": 0.1709
+  },
+  {
+   "p": "r",
+   "start": 0.1709,
+   "end": 0.2058
+  },
+  {
+   "p": "ɑ",
+   "start": 0.3219,
+   "end": 0.3567
+  },
+  {
+   "p": "m",
+   "start": 0.3567,
+   "end": 0.4263
+  },
+  {
+   "p": "i",
+   "start": 0.4263,
+   "end": 0.5541
+  },
+  {
+   "p": "k",
+   "start": 0.5541,
+   "end": 0.6818
+  },
+  {
+   "p": "h",
+   "start": 1.0817,
+   "end": 1.1398
+  },
+  {
+   "p": "a",
+   "start": 1.1398,
+   "end": 1.2094
+  },
+  {
+   "p": "r",
+   "start": 1.2094,
+   "end": 1.2442
+  },
+  {
+   "p": "s",
+   "start": 1.3255,
+   "end": 1.372
+  },
+  {
+   "p": "e",
+   "start": 1.3952,
+   "end": 1.4416
+  },
+  {
+   "p": "r",
+   "start": 1.4416,
+   "end": 1.4997
+  },
+  {
+   "p": "ɑ",
+   "start": 1.4997,
+   "end": 1.5577
+  },
+  {
+   "p": "m",
+   "start": 1.5577,
+   "end": 1.6274
+  },
+  {
+   "p": "i",
+   "start": 1.697,
+   "end": 1.7319
+  },
+  {
+   "p": "k",
+   "start": 1.7319,
+   "end": 1.8247
+  },
+  {
+   "p": "i",
+   "start": 1.8247,
+   "end": 1.9873
+  },
+  {
+   "p": "d",
+   "start": 2.2891,
+   "end": 2.324
+  },
+  {
+   "p": "ʒ",
+   "start": 2.324,
+   "end": 2.3472
+  },
+  {
+   "p": "ɑ",
+   "start": 2.4749,
+   "end": 2.5213
+  },
+  {
+   "p": "j",
+   "start": 2.5213,
+   "end": 2.6026
+  },
+  {
+   "p": "e",
+   "start": 2.6026,
+   "end": 2.6374
+  },
+  {
+   "p": "x",
+   "start": 2.6607,
+   "end": 2.7768
+  },
+  {
+   "p": "o",
+   "start": 2.8116,
+   "end": 2.858
+  },
+  {
+   "p": "d",
+   "start": 2.858,
+   "end": 2.8813
+  },
+  {
+   "p": "e",
+   "start": 2.8813,
+   "end": 3.0554
+  },
+  {
+   "p": "ʃ",
+   "start": 3.0554,
+   "end": 3.2528
+  }
+ ],
+ "words": [
+  {
+   "i": 0,
+   "ph": "serˈɑmik",
+   "start": 0.02,
+   "end": 0.6818
+  },
+  {
+   "i": 1,
+   "ph": "har",
+   "start": 1.0817,
+   "end": 1.2442
+  },
+  {
+   "i": 2,
+   "ph": "sˌerɑmˈiki",
+   "start": 1.3255,
+   "end": 1.9873
+  },
+  {
+   "i": 3,
+   "ph": "dʒˈɑje",
+   "start": 2.2891,
+   "end": 2.6374
+  },
+  {
+   "i": 4,
+   "ph": "xˈodeʃ",
+   "start": 2.6607,
+   "end": 3.2528
+  }
+ ]
+}

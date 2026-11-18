@@ -1,0 +1,89 @@
+{
+ "line": "L11",
+ "source": "synthesis",
+ "note": "Exact phoneme and word timing reported by the voice model while it spoke this take (seconds on the WAV's own clock). Valid only for the WAV with this sha1; a replaced recording is timed from its own audio.",
+ "wav": "public/audio/voice/L11.wav",
+ "sha1": "6fd23a96c1f7cf4011c652ff91131d46f7632860",
+ "take": "musa-t1",
+ "voice": "musa",
+ "engine": "matcha",
+ "seconds": 0.956,
+ "heard": "کار سرامیکه",
+ "match": 1.0,
+ "phones": [
+  {
+   "p": "k",
+   "start": 0.02,
+   "end": 0.079
+  },
+  {
+   "p": "ɑ",
+   "start": 0.1379,
+   "end": 0.2222
+  },
+  {
+   "p": "r",
+   "start": 0.2222,
+   "end": 0.2643
+  },
+  {
+   "p": "e",
+   "start": 0.2643,
+   "end": 0.3064
+  },
+  {
+   "p": "s",
+   "start": 0.3401,
+   "end": 0.4075
+  },
+  {
+   "p": "e",
+   "start": 0.4075,
+   "end": 0.458
+  },
+  {
+   "p": "r",
+   "start": 0.458,
+   "end": 0.4917
+  },
+  {
+   "p": "ɑ",
+   "start": 0.5506,
+   "end": 0.5843
+  },
+  {
+   "p": "m",
+   "start": 0.5843,
+   "end": 0.6433
+  },
+  {
+   "p": "i",
+   "start": 0.6433,
+   "end": 0.6854
+  },
+  {
+   "p": "k",
+   "start": 0.6854,
+   "end": 0.7359
+  },
+  {
+   "p": "e",
+   "start": 0.8033,
+   "end": 0.896
+  }
+ ],
+ "words": [
+  {
+   "i": 0,
+   "ph": "kˈɑre",
+   "start": 0.02,
+   "end": 0.3064
+  },
+  {
+   "i": 1,
+   "ph": "serˈɑmikˌeː",
+   "start": 0.3401,
+   "end": 0.896
+  }
+ ]
+}

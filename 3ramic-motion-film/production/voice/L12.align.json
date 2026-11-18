@@ -1,0 +1,105 @@
+{
+ "line": "L12",
+ "source": "synthesis",
+ "note": "Exact phoneme and word timing reported by the voice model while it spoke this take (seconds on the WAV's own clock). Valid only for the WAV with this sha1; a replaced recording is timed from its own audio.",
+ "wav": "public/audio/voice/L12.wav",
+ "sha1": "d77857ac1330e0c7745e1a97ed58070891a8e69c",
+ "take": "amir-t7",
+ "voice": "amir",
+ "engine": "piper",
+ "seconds": 0.986,
+ "heard": "اینجا جای منه",
+ "match": 1.0,
+ "phones": [
+  {
+   "p": "i",
+   "start": 0.1013,
+   "end": 0.1709
+  },
+  {
+   "p": "n",
+   "start": 0.1709,
+   "end": 0.2406
+  },
+  {
+   "p": "d",
+   "start": 0.2406,
+   "end": 0.2638
+  },
+  {
+   "p": "ʒ",
+   "start": 0.2638,
+   "end": 0.2986
+  },
+  {
+   "p": "ɑ",
+   "start": 0.2986,
+   "end": 0.3451
+  },
+  {
+   "p": "d",
+   "start": 0.3683,
+   "end": 0.4031
+  },
+  {
+   "p": "ʒ",
+   "start": 0.4031,
+   "end": 0.4263
+  },
+  {
+   "p": "ɑ",
+   "start": 0.4612,
+   "end": 0.5192
+  },
+  {
+   "p": "j",
+   "start": 0.5192,
+   "end": 0.5541
+  },
+  {
+   "p": "e",
+   "start": 0.5541,
+   "end": 0.6121
+  },
+  {
+   "p": "m",
+   "start": 0.6353,
+   "end": 0.705
+  },
+  {
+   "p": "a",
+   "start": 0.7282,
+   "end": 0.7863
+  },
+  {
+   "p": "n",
+   "start": 0.7863,
+   "end": 0.8907
+  },
+  {
+   "p": "e",
+   "start": 0.8907,
+   "end": 0.9256
+  }
+ ],
+ "words": [
+  {
+   "i": 0,
+   "ph": "ˈindʒɑ",
+   "start": 0.02,
+   "end": 0.3451
+  },
+  {
+   "i": 1,
+   "ph": "dʒˈɑje",
+   "start": 0.3683,
+   "end": 0.6121
+  },
+  {
+   "i": 2,
+   "ph": "mˈane",
+   "start": 0.6353,
+   "end": 0.9256
+  }
+ ]
+}

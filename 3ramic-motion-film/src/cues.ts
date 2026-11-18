@@ -31,7 +31,7 @@ const hT = hold("transform");
 const hC = hold("compare");
 
 /* ---------------- 1 · hook ---------------- */
-const hit = L1.to - 3; // the letter hits the lens on the last word
+const hit = L1.to + 1; // the letter hits the lens right after the last word
 export const HOOK = {
   pop: sHook.from, // the tile springs out of the floor
   letterOut: sHook.from + 9, // it produces the letter
@@ -41,7 +41,7 @@ export const HOOK = {
   clear: hit + 22, // …and is gone; the detective is standing there
   reveal: L3.from + Math.round((L3.to - L3.from) * 0.3), // «این چه ترکیبیه؟!» — we look at the room
   close: L4.from - 6, // close-up: the detective takes the case
-  stamp: L4.words[1].from,
+  stamp: L4.to + 1, // the case stamp punctuates «…باز شد.»
 };
 
 /* ---------------- 2 · suspects ---------------- */
@@ -61,29 +61,33 @@ export const SUSPECTS = {
 };
 
 /* ---------------- 3 · makeover ---------------- */
+// The transformation is choreographed on a 140-beat grid and stretched to the hold's real
+// length, so shortening or lengthening the hold in the screenplay keeps every change in order.
 const T0 = hT.from;
+const u = (beat: number) => T0 + Math.round((beat * (hT.to - hT.from)) / 140);
 export const MAKEOVER = {
   brandCut: L11.from - 3, // «کارِ سه‌رامیکه!»
   wideCut: L11.to - 2, // the master angle: from here to the end of the comparison the camera barely moves
   boxIn: L11.to - 2,
-  boxLand: hBox.from + 8,
-  boxOpen: hBox.from + 12,
+  boxLand: hBox.from + 6,
+  boxOpen: hBox.from + 9,
   T0,
-  samplesUp: [T0 - 6, T0 + 14] as const,
-  vanityOut: [T0 + 6, T0 + 34] as const,
-  grout: [T0 + 26, T0 + 66] as const,
-  walls: [T0 + 34, T0 + 96] as const,
-  glass: [T0 + 44, T0 + 66] as const,
-  vanityIn: [T0 + 62, T0 + 80] as const,
-  warm: [T0 + 70, T0 + 112] as const,
-  fixtures: [T0 + 82, T0 + 98] as const,
-  nicheTrim: T0 + 90,
-  nicheTiles: [T0 + 94, T0 + 99, T0 + 104] as const,
-  leap: [L12.from - 2, L12.from + 14] as const, // the patterned tile jumps into its frame
-  done: T0 + 124,
+  samplesUp: [T0 - 6, u(14)] as const,
+  vanityOut: [u(6), u(34)] as const,
+  grout: [u(26), u(66)] as const,
+  walls: [u(34), u(96)] as const,
+  glass: [u(44), u(66)] as const,
+  vanityIn: [u(62), u(80)] as const,
+  warm: [u(70), u(112)] as const,
+  fixtures: [u(82), u(98)] as const,
+  nicheTrim: u(78),
+  nicheTiles: [u(80), u(83), u(86)] as const,
+  // the patterned tile jumps into its frame, lands, THEN says «این‌جا جای منه!» (no hit under the words)
+  leap: [L12.from - 22, L12.from - 8] as const,
+  done: L12.to + 1,
   C0: hC.from,
-  wipeIn: [hC.from + 2, hC.from + 16] as const,
-  wipeOut: [hC.to - 20, hC.to - 6] as const,
+  wipeIn: [hC.from + 2, hC.from + 15] as const,
+  wipeOut: [hC.to - 17, hC.to - 5] as const,
   end: sMake.to,
 };
 
@@ -100,16 +104,17 @@ export const PAYOFF = {
 };
 
 /* ---------------- 5 · brand ---------------- */
-const home = L16.words[3].from; // «جای خودش»
+// «…هر سرامیکی، جای خودش.» — *click*: the tile drops into its own place right after the words
+const click = L16.to + 1;
 export const BRAND_CUES = {
   from: sBrand.from,
-  walk: [sBrand.from + 2, home - 8] as const,
-  lieDown: [home - 6, home + 6] as const,
-  click: home + 6,
-  hatTip: home + 10,
+  walk: [sBrand.from + 2, click - 14] as const,
+  lieDown: [click - 12, click] as const,
+  click,
+  hatTip: click + 4,
   nameAt: L16.from - 2,
   taglineAt: L16.words[1].from - 2,
-  ctaAt: L16.to - 4,
+  ctaAt: Math.min(L16.to - 4, L16.words[1].from + 28), // readable for well over a second before the end
   end: sBrand.to,
 };
 

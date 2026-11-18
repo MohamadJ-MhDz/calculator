@@ -39,6 +39,7 @@ def normalise(text):
     t = re.sub(r"[ً-ْٰـ]", "", t)  # diacritics, tatweel
     t = t.replace("ي", "ی").replace("ك", "ک").replace("ۀ", "ه").replace("ة", "ه").replace("أ", "ا").replace("إ", "ا").replace("آ", "ا")
     t = t.replace("‌", "").replace("‍", "")
+    t = re.sub(r"[؟،؛٫٬«»…]", " ", t)  # Persian punctuation lives inside the Arabic block
     t = re.sub(r"[^؀-ۿa-zA-Z0-9 ]", " ", t)
     t = re.sub(r"[۰-۹]", lambda m: str("۰۱۲۳۴۵۶۷۸۹".index(m.group())), t)
     return re.sub(r"\s+", " ", t).strip()
@@ -97,7 +98,20 @@ def main():
     ap.add_argument("--lines")
     ap.add_argument("--redo", action="store_true")
     ap.add_argument("--threads", type=int, default=os.cpu_count() or 4)
+    ap.add_argument("--rescore", action="store_true", help="recompute `match` from stored transcripts (no Whisper)")
     args = ap.parse_args()
+    if args.rescore:
+        n = 0
+        for lid in sorted(os.listdir(TAKES)):
+            for name in sorted(os.listdir(os.path.join(TAKES, lid))):
+                if name.endswith(".analysis.json"):
+                    pth = os.path.join(TAKES, lid, name)
+                    row = json.load(open(pth, encoding="utf-8"))
+                    row["match"] = round(similarity(row["text"], row["heard"]), 3)
+                    json.dump(row, open(pth, "w", encoding="utf-8"), ensure_ascii=False)
+                    n += 1
+        print(f"rescored {n} takes")
+        return 0
     torch.set_num_threads(args.threads)
 
     from transformers import pipeline

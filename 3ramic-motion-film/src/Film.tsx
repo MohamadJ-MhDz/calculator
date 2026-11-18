@@ -1,5 +1,6 @@
 import React from "react";
-import { AbsoluteFill, Sequence, useVideoConfig } from "remotion";
+import { Audio } from "@remotion/media";
+import { AbsoluteFill, Sequence, staticFile, useVideoConfig } from "remotion";
 import { ART } from "./config/art";
 import { SceneBrand } from "./scenes/SceneBrand";
 import { SceneHook } from "./scenes/SceneHook";
@@ -10,10 +11,10 @@ import { FilmFrameOffset, scene, SceneId } from "./timeline";
 import { Subtitles } from "./ui/Subtitles";
 
 export type FilmProps = {
+  /** Burned-in Persian subtitles (Instagram plays many Reels muted). */
   readonly showSubtitles: boolean;
-  readonly musicVolume: number;
-  readonly sfxVolume: number;
-  readonly voiceVolume: number;
+  /** The finished mix (dialogue, score, effects, room tone) from scripts/audio/build_audio.py. */
+  readonly withAudio: boolean;
 };
 
 export const SCENES: { id: SceneId; name: string; Component: React.FC }[] = [
@@ -25,7 +26,7 @@ export const SCENES: { id: SceneId; name: string; Component: React.FC }[] = [
 ];
 
 /** «پروندهٔ استعفای سرامیک‌ها» — the whole film. Scene boundaries come from the timeline. */
-export const ThreeRamicFilm: React.FC<FilmProps> = ({ showSubtitles }) => {
+export const ThreeRamicFilm: React.FC<FilmProps> = ({ showSubtitles, withAudio }) => {
   const { fps } = useVideoConfig();
   return (
     <AbsoluteFill style={{ background: ART.backdropBefore }}>
@@ -40,6 +41,7 @@ export const ThreeRamicFilm: React.FC<FilmProps> = ({ showSubtitles }) => {
         );
       })}
       {showSubtitles ? <Subtitles /> : null}
+      {withAudio ? <Audio src={staticFile("audio/mix.wav")} /> : null}
     </AbsoluteFill>
   );
 };
