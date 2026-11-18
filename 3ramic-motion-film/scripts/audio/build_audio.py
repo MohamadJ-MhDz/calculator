@@ -49,7 +49,7 @@ H, SU, M, P, B = CUES["HOOK"], CUES["SUSPECTS"], CUES["MAKEOVER"], CUES["PAYOFF"
 
 
 def s_of(frame):
-    return int(round(frame / FPS * SR))
+    return int(round(max(0, frame) / FPS * SR))  # cues before the first frame sound on frame 0
 
 
 def db(g):

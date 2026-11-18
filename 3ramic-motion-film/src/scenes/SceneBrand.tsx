@@ -18,8 +18,9 @@ import { CamSpec, faceTo, mixCam, Stage } from "./stage";
  * itself fall back into its own place in the floor — click — and the detective tips his hat.
  */
 
-const CAM_0: CamSpec = { pos: [0.95, 5.6, 13.4], target: [0.1, 1.45, 0.9], fov: 38 };
-const CAM_1: CamSpec = { pos: [0.85, 5.0, 12.4], target: [0.2, 1.3, 1.2], fov: 38 };
+// the finished room under the brand card; the tile's own place and the whole detective in frame
+const CAM_0: CamSpec = { pos: [0.2, 5.6, 13.8], target: [-0.2, 1.6, 0.9], fov: 40 };
+const CAM_1: CamSpec = { pos: [0.15, 5.3, 13.0], target: [-0.15, 1.5, 1.0], fov: 40 };
 
 export const SceneBrand: React.FC = () => {
   const f = useFilmFrame();

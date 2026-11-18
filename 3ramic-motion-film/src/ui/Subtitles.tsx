@@ -1,10 +1,9 @@
 import React from "react";
-import { useCurrentFrame } from "remotion";
 import { UI } from "../config/brand";
 import { SAFE } from "../config/art";
 import { PERSIAN } from "../fonts";
 import { E, prog } from "../anim";
-import { LINES, Line, Phrase } from "../timeline";
+import { LINES, Line, Phrase, useFilmFrame } from "../timeline";
 
 /**
  * Persian subtitles, burned in for sound-off viewing.
@@ -78,7 +77,7 @@ const PhraseView: React.FC<{ l: Line; p: Phrase; f: number; wordStart: number }>
 
 /** Place once at film level; it reads the absolute film frame. */
 export const Subtitles: React.FC = () => {
-  const f = useCurrentFrame();
+  const f = useFilmFrame();
   for (const l of LINES) {
     if (!l.subtitle) continue;
     let wordStart = 0;

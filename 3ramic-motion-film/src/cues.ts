@@ -33,7 +33,7 @@ const hC = hold("compare");
 /* ---------------- 1 · hook ---------------- */
 const hit = L1.to + 1; // the letter hits the lens right after the last word
 export const HOOK = {
-  pop: sHook.from, // the tile springs out of the floor
+  pop: sHook.from - 5, // the tile springs out of the floor — already mid-air on the very first frame
   letterOut: sHook.from + 9, // it produces the letter
   throwAt: hit - 6,
   hit,

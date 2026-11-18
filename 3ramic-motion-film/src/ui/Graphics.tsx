@@ -230,7 +230,7 @@ export const BrandLockup: React.FC<{ f: number; nameAt: number; taglineAt: numbe
     <div style={{ position: "absolute", top: SAFE.top + 20, left: 0, right: 0, display: "flex", justifyContent: "center", pointerEvents: "none" }}>
       <div
         style={{
-          width: 800,
+          width: SAFE.right - SAFE.left,
           background: UI.paper,
           borderRadius: 34,
           boxShadow: "0 30px 70px rgba(30,24,16,0.28)",
@@ -246,15 +246,15 @@ export const BrandLockup: React.FC<{ f: number; nameAt: number; taglineAt: numbe
           <LogoSlot />
         </div>
         <div style={{ width: lerp(0, 150, tag), height: 6, borderRadius: 3, background: accent, margin: "30px 0 20px" }} />
-        <div dir="rtl" lang="fa" style={{ fontFamily: PERSIAN, fontWeight: 800, fontSize: 70, lineHeight: 1.45, color: UI.onPaper, opacity: tag, translate: `0 ${(1 - tag) * 20}px`, textAlign: "center" }}>
+        <div dir="rtl" lang="fa" style={{ fontFamily: PERSIAN, fontWeight: 800, fontSize: 62, lineHeight: 1.45, color: UI.onPaper, opacity: tag, translate: `0 ${(1 - tag) * 20}px`, textAlign: "center", whiteSpace: "nowrap" }}>
           {BRAND.taglineFa}
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 22, marginTop: 30, opacity: cta, translate: `0 ${(1 - cta) * 18}px` }}>
-          <div dir="ltr" style={{ fontFamily: LATIN, fontWeight: 800, fontSize: 50, color: UI.onSurface, background: UI.surface, borderRadius: 60, padding: "10px 38px 14px" }}>
-            {BRAND.website}
-          </div>
-          <div dir="rtl" lang="fa" style={{ fontFamily: PERSIAN, fontWeight: 700, fontSize: 44, color: UI.onPaper }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, marginTop: 26, opacity: cta, translate: `0 ${(1 - cta) * 18}px` }}>
+          <div dir="rtl" lang="fa" style={{ fontFamily: PERSIAN, fontWeight: 700, fontSize: 42, color: UI.onPaper, whiteSpace: "nowrap" }}>
             {BRAND.ctaFa}
+          </div>
+          <div dir="ltr" style={{ fontFamily: LATIN, fontWeight: 800, fontSize: 50, color: UI.onSurface, background: UI.surface, borderRadius: 60, padding: "10px 40px 14px" }}>
+            {BRAND.website}
           </div>
         </div>
       </div>

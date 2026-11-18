@@ -118,6 +118,33 @@ const mirror = () => {
   return mirrorMat;
 };
 
+/** The new round mirror: a bright, stylised reflection (soft gradient + two light streaks). */
+let mirrorFaceMat: THREE.MeshBasicMaterial | null = null;
+const mirrorFace = () => {
+  if (mirrorFaceMat) return mirrorFaceMat;
+  const c = document.createElement("canvas");
+  c.width = c.height = 256;
+  const g = c.getContext("2d")!;
+  const grad = g.createLinearGradient(0, 0, 256, 256);
+  grad.addColorStop(0, "#F4F1EC");
+  grad.addColorStop(0.55, "#DCE1E2");
+  grad.addColorStop(1, "#C3CBCE");
+  g.fillStyle = grad;
+  g.fillRect(0, 0, 256, 256);
+  g.globalAlpha = 0.55;
+  g.fillStyle = "#FFFFFF";
+  g.save();
+  g.translate(128, 128);
+  g.rotate(-Math.PI / 4);
+  g.fillRect(-120, -70, 240, 26);
+  g.fillRect(-120, -30, 240, 9);
+  g.restore();
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  mirrorFaceMat = new THREE.MeshBasicMaterial({ map: t, toneMapped: false });
+  return mirrorFaceMat;
+};
+
 /* ------------------------------------------------------------------ */
 /* Suspect 3 — the oversized vanity (it has a face; its drawer talks)   */
 /* ------------------------------------------------------------------ */
@@ -256,7 +283,7 @@ const NewVanity: React.FC<{ arrive: number; fixtures: number; warm: number }> = 
             <mesh material={flat("#FFE2B8", 0.5, 0, ART.after.warmLight, 0.6 + 1.6 * warm)} position={[0, 0, -0.03]} rotation={[Math.PI / 2, 0, 0]}>
               <cylinderGeometry args={[1.52, 1.52, 0.03, 48]} />
             </mesh>
-            <mesh material={mirror()} position={[0, 0, 0.02]} rotation={[Math.PI / 2, 0, 0]}>
+            <mesh material={mirrorFace()} position={[0, 0, 0.02]} rotation={[Math.PI / 2, 0, 0]}>
               <cylinderGeometry args={[1.4, 1.4, 0.05, 48]} />
             </mesh>
           </group>
@@ -414,6 +441,15 @@ export const Bathroom: React.FC<BathroomProps> = ({
       {slotEmpty ? <mesh geometry={plane(0.98, 0.98)} material={flat("#22252A", 0.95)} rotation={[-Math.PI / 2, 0, 0]} position={[SLOT_POS[0], -0.021, SLOT_POS[2]]} /> : null}
 
       {/* the three walls */}
+      {wallHole ? (
+        <group position={[x0 + 0.006, wallHole[1] + 0.5, wallHole[0] - 5.5]} rotation={[0, Math.PI / 2, 0]}>
+          <mesh geometry={plane(0.97, 0.97)} material={flat("#3E3B36", 0.95)} />
+          <mesh geometry={plane(0.8, 0.8)} material={flat("#5C5750", 0.9)} position={[0, 0, 0.002]} />
+          {[-0.24, 0, 0.24].map((y) => (
+            <mesh key={y} geometry={plane(0.7, 0.05)} material={flat("#6E685F", 0.9)} position={[0, y, 0.004]} />
+          ))}
+        </group>
+      ) : null}
       <mesh geometry={roundedBox(w + 0.4, h, 0.2, 0.01)} material={plaster} position={[0, h / 2, z0 - 0.1]} receiveShadow />
       <mesh geometry={roundedBox(0.2, h, d, 0.01)} material={plaster} position={[x0 - 0.1, h / 2, 0]} receiveShadow />
       <mesh geometry={roundedBox(0.2, h, d, 0.01)} material={plaster} position={[x1 + 0.1, h / 2, 0]} receiveShadow />

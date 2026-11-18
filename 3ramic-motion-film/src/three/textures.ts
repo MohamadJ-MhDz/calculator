@@ -286,13 +286,13 @@ const paintGloss = (ctx: Ctx, s: number, rng: Rng) => {
 
 /** The coordinated "after" wall: large-format warm-white matte porcelain, almost featureless. */
 const paintCalm = (ctx: Ctx, s: number, rng: Rng) => {
-  ctx.fillStyle = "#EDE7DD";
+  ctx.fillStyle = "#E2D8CA";
   ctx.fillRect(0, 0, s, s);
   noiseLayer(ctx, s, 5, rng, 0.07, "overlay");
   noiseLayer(ctx, s, 22, rng, 0.035, "multiply");
   ctx.save();
   for (let i = 0; i < 160; i++) {
-    ctx.strokeStyle = rng() > 0.5 ? "#E4DDD2" : "#F4EFE7";
+    ctx.strokeStyle = rng() > 0.5 ? "#D8CDBE" : "#ECE4D8";
     ctx.globalAlpha = 0.18;
     ctx.lineWidth = 0.6 + rng() * 1.6;
     const y = rng() * s;

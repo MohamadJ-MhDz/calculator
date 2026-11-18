@@ -3,6 +3,8 @@ import { Composition, Folder } from "remotion";
 import "./fonts";
 import { FORMAT } from "./config/art";
 import { FilmProps, SCENES, ThreeRamicFilm } from "./Film";
+import { qaFrames } from "./qa/frames";
+import { QAFrames, QAProps } from "./qa/QAFrames";
 import { DURATION, FilmFrameOffset, scene, SceneId } from "./timeline";
 
 /** A single scene as its own composition, for previewing and test renders. */
@@ -28,6 +30,19 @@ export const RemotionRoot: React.FC = () => {
         {SOLOS.map((s) => (
           <Composition key={s.id} id={s.id} component={s.Component} durationInFrames={len(s.scene)} fps={FORMAT.fps} width={FORMAT.width} height={FORMAT.height} />
         ))}
+      </Folder>
+      <Folder name="QA">
+        {/* key moments as a sequence of stills: npm run stills */}
+        <Composition
+          id="QAFrames"
+          component={QAFrames}
+          durationInFrames={qaFrames().length}
+          fps={FORMAT.fps}
+          width={FORMAT.width}
+          height={FORMAT.height}
+          defaultProps={{ frames: qaFrames() } as QAProps}
+          calculateMetadata={({ props }) => ({ durationInFrames: props.frames.length })}
+        />
       </Folder>
     </>
   );

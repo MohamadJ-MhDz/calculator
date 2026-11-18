@@ -24,8 +24,10 @@ import { CamSpec, faceTo, mixCam, mixV, Stage } from "./stage";
  * Finally a before/after wipe with the identical camera: same walls, same 6 m².
  */
 
-const CAM_TWO0: CamSpec = { pos: [0.95, 1.2, 9.7], target: [-0.1, 0.95, 4.7], fov: 38 };
-const CAM_TWO1: CamSpec = { pos: [0.8, 1.15, 9.2], target: [-0.1, 0.95, 4.7], fov: 38 };
+// medium shot on the speaker: the detective large on the left in three-quarter view, the tile
+// listening on the right, the badly matched room behind both; then a punch-in for the brand line
+const CAM_TWO0: CamSpec = { pos: [-1.3, 1.15, 8.0], target: [-0.25, 0.55, 4.9], fov: 38 };
+const CAM_TWO1: CamSpec = { pos: [-1.22, 1.12, 7.7], target: [-0.25, 0.56, 4.9], fov: 38 };
 const CAM_CU0: CamSpec = { pos: [-1.55, 0.7, 8.2], target: [-0.8, 1.02, 5.55], fov: 34 };
 const CAM_CU1: CamSpec = { pos: [-1.45, 0.74, 7.85], target: [-0.8, 1.04, 5.55], fov: 34 };
 
@@ -205,7 +207,7 @@ export const SceneMakeover: React.FC = () => {
           <TileCharacter
             position={TILE_STAND}
             scale={TILE}
-            facing={faceTo(TILE_STAND, DUCK_STAND) * 0.55}
+            facing={shot === 1 ? lerp(faceTo(TILE_STAND, DUCK_STAND), faceTo(TILE_STAND, CAM_TWO0.pos), 0.5) : faceTo(TILE_STAND, DUCK_STAND) * 0.55}
             tex="gloss"
             tie
             shoes="#2B2F36"
@@ -221,7 +223,7 @@ export const SceneMakeover: React.FC = () => {
           <Duck
             position={DUCK_STAND}
             scale={0.8}
-            facing={shot === 1 ? faceTo(DUCK_STAND, CAM_TWO0.pos) - 0.35 : faceTo(DUCK_STAND, CAM_CU0.pos) + 0.25}
+            facing={shot === 1 ? lerp(faceTo(DUCK_STAND, CAM_TWO0.pos), faceTo(DUCK_STAND, TILE_STAND), 0.25) : faceTo(DUCK_STAND, CAM_CU0.pos) + 0.25}
             headTurn={shot === 1 ? lerp(0.45, 0, together) : 0}
             jaw={shot === 1 ? m10.open : m11.open}
             look={shot === 1 ? [0.6 - together * 0.6, -0.1] : [0.2, 0.15]}

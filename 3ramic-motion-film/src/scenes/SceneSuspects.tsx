@@ -21,10 +21,11 @@ import { CamSpec, faceTo, inFrontOf, mixCam, mixV, Stage } from "./stage";
 /* ---- suspect 1: against the patterned left wall ---- */
 export const PATTERN_HOLE: [number, number] = [7, 1]; // left-wall column and row it jumps out of
 const P_WALL: V3 = [-3.92, 1.5, 1.5];
-export const P_FLOOR: V3 = [-2.9, 0, 1.3];
-const D1: V3 = [-0.75, 0, 3.75];
-const CAM_1: CamSpec = { pos: [2.6, 1.3, 5.6], target: [-1.9, 0.85, 2.6], fov: 38 };
-const CAM_1B: CamSpec = { pos: [2.45, 1.28, 5.45], target: [-1.9, 0.86, 2.6], fov: 38 };
+export const P_FLOOR: V3 = [-2.7, 0, 1.6];
+const D1: V3 = [-1.3, 0, 2.6];
+// the speaking pattern left of centre, the wall it left still in shot, the detective whole on the right
+const CAM_1: CamSpec = { pos: [0.7, 1.1, 7.6], target: [-2.25, 0.85, 2.0], fov: 40 };
+const CAM_1B: CamSpec = { pos: [0.56, 1.08, 7.25], target: [-2.25, 0.86, 2.0], fov: 40 };
 
 /* ---- suspect 2: down at the grout ---- */
 const D2: V3 = [1.25, 0, 1.95];
