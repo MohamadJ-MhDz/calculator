@@ -4,27 +4,37 @@
     "en": "The Tiles That Quit"
   },
   "fps": 30,
-  "note": "Single source for the dialogue. `displayText` is what is written on screen (subtitles); `speechText` is what the voice says. They differ only for the brand: written 3ramic, spoken سه‌رامیک. Timing is NOT stored here — scripts/audio/build_audio.py measures the recorded files and writes src/data/timeline.json.",
+  "note": "Single source for the dialogue. `displayText` is what is written on screen (subtitles); `speechText` is what the voice says. They differ only for the brand: always written 3ramic, always spoken «سه‌رامیک» (/serˈɑmik/, se-râ-mik). The exact phonemes are in production/phonemes.json. Timing is NOT stored here — scripts/audio/build_timeline.py measures the recorded files and writes src/data/timeline.json.",
   "cast": {
     "tile": {
       "nameFa": "سرامیک",
-      "role": "the floor tile that resigns"
+      "role": "the floor tile that resigns",
+      "personalityFa": "کاشیِ کفِ سفید و براق، کارمندِ قدیمیِ این حمام. احساساتی، زودرنج و زود ذوق‌زده؛ عصبانیتش هم بامزه است، نه ترسناک.",
+      "voiceFa": "زنانه، جوان، پرانرژی و رسا"
     },
     "detective": {
       "nameFa": "کارآگاه",
-      "role": "a rubber-duck detective"
+      "role": "a rubber-duck detective",
+      "personalityFa": "اردکِ پلاستیکیِ کارآگاه با کلاهِ شاپو و ذره‌بین. کنجکاو، خونسرد، کمی طعنه‌زن؛ هیچ‌وقت داد نمی‌زند، با مکث و کنایه حرف می‌زند.",
+      "voiceFa": "مردانه، میان‌سال، آرام و خشک"
     },
     "pattern": {
       "nameFa": "کاشیِ طرح‌دار",
-      "role": "suspect 1 — the loud patterned wall tile"
+      "role": "suspect 1 — the loud patterned wall tile",
+      "personalityFa": "کاشیِ دیواریِ پرنقش‌ونگار. نمایشی، خودنما و حساس؛ دوست دارد همه نگاهش کنند.",
+      "voiceFa": "مردانهٔ روشن و کمی زیر، اغراق‌شده و تئاتری"
     },
     "vanity": {
       "nameFa": "روشویی",
-      "role": "suspect 3 — the oversized vanity"
+      "role": "suspect 3 — the oversized vanity",
+      "personalityFa": "روشوییِ چوبیِ غول‌پیکر. مغرور، دفاعی و پرمدعا؛ خودش را ستونِ حمام می‌داند.",
+      "voiceFa": "مردانه، بم، سنگین و پرطنین"
     },
     "narrator": {
       "nameFa": "گوینده",
-      "role": "brand voice at the very end"
+      "role": "brand voice at the very end",
+      "personalityFa": "صدای برند در لحظهٔ آخر. گرم، مطمئن و صمیمی؛ بدونِ لحنِ آگهیِ تلویزیونی.",
+      "voiceFa": "مردانه، گرم، آرام"
     }
   },
   "scenes": [
@@ -320,8 +330,8 @@
     {
       "id": "L11",
       "speaker": "detective",
-      "displayText": "کارِ سه‌رامیکه!",
-      "speechText": "کارِ سِرامیکه!",
+      "displayText": "کارِ 3ramicه!",
+      "speechText": "کارِ سه‌رامیکه!",
       "brand": true,
       "emotion": "بازیگوش و مطمئن",
       "intensity": 6,
@@ -331,7 +341,7 @@
       "direction": "سرحال، مثل کسی که راه‌حل را پیدا کرده. نامِ برند واضح و کامل: «سه‌رامیک».",
       "action": "بشکن می‌زند؛ جعبهٔ نمونه‌های 3ramic وارد می‌شود.",
       "phrases": [
-        "کارِ سه‌رامیکه!"
+        "کارِ 3ramicه!"
       ]
     },
     {
@@ -385,24 +395,24 @@
     {
       "id": "L15",
       "speaker": "tile",
-      "displayText": "با اضافه‌حقوق!",
-      "speechText": "با اضافه حقوق!",
+      "displayText": "با پاداش!",
+      "speechText": "با پاداش!",
       "emotion": "جدیِ الکی",
       "intensity": 7,
       "emphasis": [
-        "اضافه‌حقوق"
+        "پاداش"
       ],
-      "direction": "قاطع و کوتاه، با چانهٔ بالا. بعد از یک مکثِ کمدیِ کوچک گفته می‌شود.",
+      "direction": "قاطع و کوتاه، با چانهٔ بالا؛ مثل کسی که سرِ قرارداد چانه می‌زند. بعد از یک مکثِ کمدیِ کوچک گفته می‌شود.",
       "action": "دست‌به‌سینه می‌ایستد.",
       "phrases": [
-        "با اضافه‌حقوق!"
+        "با پاداش!"
       ]
     },
     {
       "id": "L16",
       "speaker": "narrator",
       "displayText": "3ramic — هر سرامیکی، جای خودش.",
-      "speechText": "سِرامیک. هر سرامیکی، جای خودش.",
+      "speechText": "سه‌رامیک. هر سرامیکی، جای خودش.",
       "brand": true,
       "subtitle": false,
       "emotion": "گرم، مطمئن و غیرتبلیغاتی",

@@ -48,30 +48,8 @@ type Finish = {
 };
 
 export const FINISH: Record<TexKey, Finish> = {
-  marble: { roughness: 0.14, clearcoat: 1, clearcoatRoughness: 0.06 },
-  travertine: { roughness: 0.62, bump: 0.6 },
-  terrazzo: { roughness: 0.32, clearcoat: 0.5, clearcoatRoughness: 0.2 },
-  stone: { roughness: 0.82, bump: 1.2 },
-  porcelain: { roughness: 0.74 },
-  neutral: { roughness: 0.5, clearcoat: 0.15 },
-  hero: { roughness: 0.22, clearcoat: 0.9, clearcoatRoughness: 0.08 },
-  pool: { roughness: 0.12, clearcoat: 1, clearcoatRoughness: 0.05 },
-  checker: { roughness: 0.14, clearcoat: 1, clearcoatRoughness: 0.05 },
-  floral: { roughness: 0.25, clearcoat: 0.8 },
-  stripe: { roughness: 0.25, clearcoat: 0.8 },
-  terracotta: { roughness: 0.85, bump: 0.6 },
-  green: { roughness: 0.12, clearcoat: 1 },
-  bluewhite: { roughness: 0.16, clearcoat: 0.9 },
-  gray: { roughness: 0.55 },
   clay: { roughness: 0.95, bump: 0.8 },
-  mortar: { roughness: 0.97, bump: 1.5 },
-  plasterIvory: { roughness: 0.92 },
-  plasterNight: { roughness: 0.92 },
-  plasterStone: { roughness: 0.92 },
   oak: { roughness: 0.55, clearcoat: 0.3 },
-  fabricCharcoal: { roughness: 0.98 },
-  fabricIvory: { roughness: 0.98 },
-  sign: { roughness: 0.8 },
   busy: { roughness: 0.16, clearcoat: 1, clearcoatRoughness: 0.06 },
   veinBrown: { roughness: 0.12, clearcoat: 1, clearcoatRoughness: 0.05 },
   gloss: { roughness: 0.12, clearcoat: 1, clearcoatRoughness: 0.05 },
@@ -81,7 +59,7 @@ export const FINISH: Record<TexKey, Finish> = {
 const matCache = new Map<string, THREE.Material>();
 
 /** Physically-based ceramic material driven by a procedural texture. */
-const HIRES: TexKey[] = ["terrazzo", "marble", "hero", "travertine", "stone"];
+const HIRES: TexKey[] = ["busy", "gloss", "calm"];
 
 export const ceramic = (key: TexKey, repeat = 1, sizeIn?: number): THREE.MeshPhysicalMaterial => {
   const size = sizeIn ?? (HIRES.includes(key) && repeat === 1 ? 1024 : 512);

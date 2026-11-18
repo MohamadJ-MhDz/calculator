@@ -148,7 +148,8 @@ export const CompareOverlay: React.FC<{ x: number; show: number }> = ({ x, show 
       style={{
         position: "absolute",
         top: SAFE.top + 40,
-        ...(side === "before" ? { right: 1080 - x + 26 } : { left: x + 26 }),
+        // RTL reading order: "before" is the layer on the right of the divider, "after" on the left
+        ...(side === "before" ? { left: x + 26 } : { right: 1080 - x + 26 }),
         background: side === "before" ? UI.surface : UI.paper,
         color: side === "before" ? UI.onSurface : UI.onPaper,
         fontFamily: PERSIAN_DISPLAY,
@@ -187,8 +188,8 @@ export const CompareOverlay: React.FC<{ x: number; show: number }> = ({ x, show 
         <div style={{ width: 0, height: 0, borderTop: "13px solid transparent", borderBottom: "13px solid transparent", borderRight: `18px solid ${UI.onPaper}` }} />
         <div style={{ width: 0, height: 0, borderTop: "13px solid transparent", borderBottom: "13px solid transparent", borderLeft: `18px solid ${UI.onPaper}` }} />
       </div>
-      {x > 230 ? chip("قبل", "before") : null}
-      {x < 850 ? chip("بعد", "after") : null}
+      {x < 850 ? chip("قبل", "before") : null}
+      {x > 230 ? chip("بعد", "after") : null}
       <div style={{ position: "absolute", top: SAFE.top + 190, left: 0, right: 0, display: "flex", justifyContent: "center", opacity: show }}>
         <div dir="rtl" lang="fa" style={{ background: UI.surface, color: UI.onSurface, fontFamily: PERSIAN, fontWeight: 800, fontSize: 46, padding: "8px 30px 12px", borderRadius: 40, boxShadow: "0 10px 24px rgba(0,0,0,0.3)" }}>
           همون ۶ متر

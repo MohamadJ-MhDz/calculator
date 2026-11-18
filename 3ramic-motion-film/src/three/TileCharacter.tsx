@@ -29,9 +29,8 @@ const legGeo = () => G("leg", () => new THREE.CylinderGeometry(0.028, 0.03, 1, 1
 const armGeo = () => G("arm", () => new THREE.CylinderGeometry(0.022, 0.024, 1, 8));
 const sphereGeo = () => G("sphere", () => new THREE.SphereGeometry(1, 22, 16));
 const arcGeo = () => G("arc", () => new THREE.TorusGeometry(1, 0.2, 8, 24, Math.PI));
-const cylGeo = () => G("cyl", () => new THREE.CylinderGeometry(1, 1, 1, 18));
 
-export type Carry = "none" | "hand" | "briefcase" | "trolley" | "box" | "sign" | "letter";
+export type Carry = "none" | "letter";
 
 export type TileCharProps = {
   position?: V3;
@@ -56,7 +55,6 @@ export type TileCharProps = {
   mouth?: number;
   happy?: number;
   carry?: Carry;
-  luggage?: string;
   armRaise?: number;
   wave?: number;
   grab?: number;
@@ -81,60 +79,6 @@ export type TileCharProps = {
   crossed?: number;
 };
 
-const DARK = "#161C24";
-
-export const Suitcase: React.FC<{
-  color: string;
-  w?: number;
-  h?: number;
-  d?: number;
-  position?: V3;
-  rotation?: V3;
-  scale?: number;
-  trolley?: number;
-}> = ({ color, w = 0.3, h = 0.24, d = 0.11, position = [0, 0, 0], rotation = [0, 0, 0], scale = 1, trolley = 0 }) => (
-  <group position={position} rotation={rotation} scale={scale}>
-    <mesh geometry={roundedBox(w, h, d, 0.028, 3)} material={flat(color, 0.42)} castShadow />
-    <mesh geometry={roundedBox(0.024, h + 0.006, d + 0.008, 0.008)} material={flat(DARK, 0.5)} position={[-w * 0.28, 0, 0]} />
-    <mesh geometry={roundedBox(0.024, h + 0.006, d + 0.008, 0.008)} material={flat(DARK, 0.5)} position={[w * 0.28, 0, 0]} />
-    {trolley > 0 ? (
-      <>
-        {/* telescopic handle */}
-        <mesh geometry={roundedBox(0.018, 0.34 * trolley, 0.018, 0.006)} material={flat("#9AA3AD", 0.3, 0.8)} position={[-0.07, h / 2 + 0.17 * trolley, d * 0.3]} />
-        <mesh geometry={roundedBox(0.018, 0.34 * trolley, 0.018, 0.006)} material={flat("#9AA3AD", 0.3, 0.8)} position={[0.07, h / 2 + 0.17 * trolley, d * 0.3]} />
-        <mesh geometry={roundedBox(0.17, 0.03, 0.03, 0.012)} material={flat(DARK, 0.5)} position={[0, h / 2 + 0.34 * trolley, d * 0.3]} />
-        {/* wheels */}
-        {[-1, 1].map((s) => (
-          <mesh
-            key={s}
-            geometry={cylGeo()}
-            material={flat(DARK, 0.6)}
-            position={[s * (w / 2 - 0.04), -h / 2 - 0.025, -d * 0.25]}
-            rotation={[0, 0, Math.PI / 2]}
-            scale={[0.028, 0.025, 0.028]}
-          />
-        ))}
-      </>
-    ) : (
-      <mesh geometry={arcGeo()} material={flat(DARK, 0.5)} position={[0, h / 2, 0]} scale={[0.055, 0.05, 0.06]} />
-    )}
-  </group>
-);
-
-/** Cardboard "I quit" box with a tiny plant. */
-const QuitBox: React.FC<{ position: V3 }> = ({ position }) => (
-  <group position={position}>
-    <mesh geometry={roundedBox(0.4, 0.24, 0.28, 0.012)} material={flat("#C79E6B", 0.85)} castShadow />
-    <mesh geometry={roundedBox(0.41, 0.03, 0.06, 0.005)} material={flat("#B78D5B", 0.7)} position={[0, 0.115, 0]} />
-    <mesh geometry={cylGeo()} material={flat("#E9E2D6", 0.6)} position={[-0.08, 0.17, 0]} scale={[0.05, 0.1, 0.05]} />
-    <mesh geometry={sphereGeo()} material={flat("#4E7A55", 0.7)} position={[-0.1, 0.27, 0]} scale={[0.035, 0.08, 0.03]} rotation={[0, 0, 0.4]} />
-    <mesh geometry={sphereGeo()} material={flat("#5E8C63", 0.7)} position={[-0.05, 0.28, 0.01]} scale={[0.035, 0.09, 0.03]} rotation={[0, 0, -0.35]} />
-    <mesh geometry={sphereGeo()} material={flat("#46704C", 0.7)} position={[-0.08, 0.3, -0.01]} scale={[0.03, 0.08, 0.03]} />
-    {/* tiny framed photo */}
-    <mesh geometry={roundedBox(0.12, 0.1, 0.012, 0.004)} material={flat("#121820", 0.5)} position={[0.09, 0.15, -0.03]} rotation={[-0.2, 0, 0.1]} />
-    <mesh geometry={plane(0.09, 0.07)} material={flat("#FF703D", 0.6)} position={[0.09, 0.152, -0.022]} rotation={[-0.2, 0, 0.1]} />
-  </group>
-);
 
 const Face: React.FC<{
   eyes: number;
@@ -214,7 +158,7 @@ export const TileCharacter: React.FC<TileCharProps> = ({
   position = [0, 0, 0],
   facing = 0,
   scale = 1,
-  tex = "hero",
+  tex = "gloss",
   faceRot = 0,
   tilt = 0,
   lift = 0,
@@ -232,7 +176,6 @@ export const TileCharacter: React.FC<TileCharProps> = ({
   mouth = 0,
   happy = 0,
   carry = "none",
-  luggage = "#FF703D",
   armRaise = 0,
   wave = 0,
   grab = 0,
@@ -264,22 +207,6 @@ export const TileCharacter: React.FC<TileCharProps> = ({
   const armPose = (side: number): V3 => {
     let ax = -side * armSwing;
     let az = side * 0.14;
-    if ((carry === "hand" || carry === "briefcase") && side === 1) {
-      ax *= 0.35;
-      az = carry === "hand" ? 0.3 : 0.16;
-    }
-    if (carry === "trolley" && side === 1) {
-      ax = 0.5;
-      az = 0.24;
-    }
-    if (carry === "box") {
-      ax = -1.3;
-      az = side * 0.02;
-    }
-    if (carry === "sign" && side === 1) {
-      ax = 0;
-      az = 2.75 + Math.sin(wave) * 0.12;
-    }
     if (side === 1 && armRaise > 0) {
       az = az + (2.5 - az) * armRaise + Math.sin(wave) * 0.4 * armRaise;
       ax = ax * (1 - armRaise);
@@ -304,9 +231,6 @@ export const TileCharacter: React.FC<TileCharProps> = ({
     }
     return [ax, 0, az];
   };
-
-  const signAz = 2.75 + Math.sin(wave) * 0.12;
-  const handSign: V3 = [0.53 + ARM * Math.sin(signAz), 0.06 - ARM * Math.cos(signAz), 0];
 
   return (
     <group position={position} rotation={[0, facing, 0]} scale={scale}>
@@ -353,35 +277,16 @@ export const TileCharacter: React.FC<TileCharProps> = ({
                   <group key={side} position={[side * 0.53, 0.06, 0]} rotation={r} scale={arms}>
                     <mesh geometry={armGeo()} material={legMat} position={[0, -ARM / 2, 0]} scale={[1, ARM, 1]} />
                     <mesh geometry={sphereGeo()} material={legMat} position={[0, -ARM, 0]} scale={0.042} />
-                    {carry === "hand" && side === 1 ? (
-                      <Suitcase color={luggage} position={[0, -ARM - 0.155, 0]} rotation={[0, Math.PI / 2, 0]} />
-                    ) : null}
                     {carry === "letter" && side === 1 ? <Letter3D position={[0.02, -ARM - 0.26, 0.03]} rotation={[0, 0, Math.PI]} scale={0.9} /> : null}
-                    {carry === "briefcase" && side === 1 ? (
-                      <Suitcase color={luggage} w={0.3} h={0.2} d={0.07} scale={0.72} position={[0, -ARM - 0.1, 0]} rotation={[0, Math.PI / 2, 0]} />
-                    ) : null}
                   </group>
                 );
               })
             : null}
 
-          {carry === "box" && arms > 0.5 ? <QuitBox position={[0, -0.12, 0.3]} /> : null}
 
-          {carry === "sign" && arms > 0.5 ? (
-            <group position={handSign} rotation={[0, 0, Math.sin(wave) * 0.12]}>
-              <mesh geometry={cylGeo()} material={flat("#B88A5E", 0.7)} position={[0, 0.22, 0]} scale={[0.016, 0.6, 0.016]} castShadow />
-              <mesh geometry={roundedBox(0.5, 0.4, 0.025, 0.01)} material={flat("#E4DDD1", 0.8)} position={[0, 0.6, 0]} castShadow />
-              <mesh geometry={plane(0.46, 0.36)} material={ceramic("sign")} position={[0, 0.6, 0.014]} />
-            </group>
-          ) : null}
         </group>
       </group>
 
-      {carry === "trolley" ? (
-        <group position={[0.62, 0, -0.42]} rotation={[0.55, 0, 0]}>
-          <Suitcase color={luggage} w={0.32} h={0.4} d={0.15} position={[0, 0.25, 0]} trolley={1} />
-        </group>
-      ) : null}
     </group>
   );
 };

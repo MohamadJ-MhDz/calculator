@@ -35,7 +35,7 @@ TAKES = os.path.join(ROOT, "production", "takes")
 
 def normalise(text):
     """Fold spelling variants so «دیگه‌س» and «دیگه ست» compare fairly."""
-    t = text
+    t = text.replace("سه‌رامیک", "سرامیک").replace("سه رامیک", "سرامیک")  # the brand is spoken se-râ-mik either way
     t = re.sub(r"[ً-ْٰـ]", "", t)  # diacritics, tatweel
     t = t.replace("ي", "ی").replace("ك", "ک").replace("ۀ", "ه").replace("ة", "ه").replace("أ", "ا").replace("إ", "ا").replace("آ", "ا")
     t = t.replace("‌", "").replace("‍", "")

@@ -145,15 +145,28 @@ const OldVanity: React.FC<{ face: VanityFace; exit: number; f: number }> = ({ fa
   const W = 6.4;
   const Hc = 3.4;
   const Dc = 2.4;
-  // sulks out toward the camera, rocking from side to side like something being walked out
-  const out = E.inOutCubic(exit);
-  const z = -6 + Dc / 2 + out * 24;
-  const rock = exit > 0 ? Math.sin(exit * 26) * 0.06 * (1 - exit * 0.3) : 0;
+  // hoisted out on a rope: a jolt as the rope takes the weight, then up and out of frame,
+  // swinging a little like anything heavy on a hook
+  const z = -6 + Dc / 2;
+  const jolt = exit > 0 ? Math.sin(clamp(exit / 0.12) * Math.PI) * 0.25 : 0;
+  const up = E.inCubic(clamp((exit - 0.1) / 0.9)) * 18 + jolt;
+  const rock = exit > 0 ? Math.sin(exit * 19) * 0.05 * (0.4 + exit) : 0;
   const talk = face.open * 0.34;
   const drawerZ = face.drawer * 1.7 + talk;
   const huff = face.on > 0.5 ? Math.sin(f * 0.21) * 0.012 : 0;
   return (
-    <group position={[-0.8, 0, z]} rotation={[0, 0, rock]} scale={[1, 1 + huff, 1]}>
+    <group position={[-0.8, up, z]} rotation={[0, 0, rock]} scale={[1, 1 + huff, 1]}>
+      {exit > 0 ? (
+        <>
+          {/* rope and hook */}
+          <mesh material={flat("#3A3530", 0.9)} position={[0, Hc + 0.6 + 15, 0]}>
+            <cylinderGeometry args={[0.05, 0.05, 30, 8]} />
+          </mesh>
+          <mesh material={flat("#9A9FA6", 0.3, 0.9)} position={[0, Hc + 0.45, 0]} rotation={[Math.PI / 2, 0, 0]}>
+            <torusGeometry args={[0.22, 0.05, 8, 20]} />
+          </mesh>
+        </>
+      ) : null}
       {/* cabinet */}
       <mesh geometry={roundedBox(W, Hc - 0.3, Dc, 0.06)} material={cherry} position={[0, 0.3 + (Hc - 0.3) / 2, 0]} castShadow receiveShadow />
       <mesh geometry={roundedBox(W - 0.3, 0.3, Dc - 0.3, 0.02)} material={flat("#2A0E10", 0.6)} position={[0, 0.15, -0.05]} />

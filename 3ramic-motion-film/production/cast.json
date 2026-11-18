@@ -1,20 +1,130 @@
 {
-  "note": "Voice of each character. Every voice is a different speaker model (not one voice re-pitched), all trained on public-domain (CC0) recordings and free to use commercially. `length` is the model's base tempo (lower = faster). `candidates` are the models auditioned for the role by scripts/audio/voice_synthesize.py --audition.",
+  "note": "Voice of each character. Every voice is a different speaker model (not one voice re-pitched), all trained on public-domain (CC0) recordings and free to use commercially. `length` is the model's base tempo (lower = faster). `why` records the audition evidence. `candidates` are the models auditioned for the role by scripts/audio/voice_synthesize.py --audition.",
   "sampleRate": 48000,
   "voices": {
-    "tile": { "engine": "matcha", "model": "khadijah", "length": 0.72, "candidates": ["khadijah"] },
-    "detective": { "engine": "piper", "model": "amir", "length": 1.0, "candidates": ["amir", "ganji", "mana", "musa", "reza_ibrahim"] },
-    "pattern": { "engine": "matcha", "model": "musa", "length": 0.74, "candidates": ["musa", "ganji", "amir", "mana", "reza_ibrahim"] },
-    "vanity": { "engine": "piper", "model": "reza_ibrahim", "length": 1.06, "candidates": ["reza_ibrahim", "ganji", "mana", "amir", "musa"] },
-    "narrator": { "engine": "piper", "model": "mana", "length": 1.0, "candidates": ["mana", "ganji", "amir", "khadijah", "musa"] }
+    "tile": {
+      "engine": "matcha",
+      "model": "khadijah",
+      "length": 0.72,
+      "candidates": [
+        "khadijah"
+      ],
+      "why": "the only female voice that stays stable on short exclamations; expressive pitch range (±3–4 semitones)"
+    },
+    "detective": {
+      "engine": "matcha",
+      "model": "musa",
+      "length": 0.74,
+      "candidates": [
+        "musa",
+        "ganji",
+        "amir",
+        "mana",
+        "reza_ibrahim"
+      ],
+      "why": "best intelligibility in the audition (mean Whisper match 0.94 over his lines; «کارِ سه‌رامیکه» 1.00)"
+    },
+    "pattern": {
+      "engine": "piper",
+      "model": "amir",
+      "length": 1.0,
+      "candidates": [
+        "amir",
+        "ganji",
+        "mana",
+        "reza_ibrahim"
+      ],
+      "why": "brighter, higher male voice (≈130–145 Hz) for the show-off pattern; «من فقط می‌خواستم دیده بشم» 1.00"
+    },
+    "vanity": {
+      "engine": "piper",
+      "model": "reza_ibrahim",
+      "length": 1.06,
+      "candidates": [
+        "reza_ibrahim",
+        "ganji",
+        "amir"
+      ],
+      "why": "the darkest, heaviest voice (spectral centroid ≈ 300 Hz) for the big proud vanity"
+    },
+    "narrator": {
+      "engine": "piper",
+      "model": "ganji",
+      "length": 1.0,
+      "candidates": [
+        "ganji",
+        "musa",
+        "khadijah",
+        "mana",
+        "amir"
+      ],
+      "why": "says the brand line most clearly (match 0.98, «سه‌رامیک» recognised as the first word)"
+    }
   },
   "models": {
-    "amir": { "engine": "piper", "file": "piper/fa_IR-amir-medium.onnx", "repo": "rhasspy/piper-voices", "path": "fa/fa_IR/amir/medium/fa_IR-amir-medium.onnx", "length": 1.0, "license": "model MIT · dataset CC0", "speaker": "male" },
-    "ganji": { "engine": "piper", "file": "piper/fa_IR-ganji-medium.onnx", "repo": "rhasspy/piper-voices", "path": "fa/fa_IR/ganji/medium/fa_IR-ganji-medium.onnx", "length": 1.0, "license": "model MIT · dataset CC0", "speaker": "male" },
-    "reza_ibrahim": { "engine": "piper", "file": "piper/fa_IR-reza_ibrahim-medium.onnx", "repo": "rhasspy/piper-voices", "path": "fa/fa_IR/reza_ibrahim/medium/fa_IR-reza_ibrahim-medium.onnx", "length": 1.0, "license": "model MIT · dataset CC0", "speaker": "male" },
-    "mana": { "engine": "piper", "file": "piper/fa_IR-mana-medium.onnx", "repo": "MahtaFetrat/Mana-Persian-Piper", "path": "fa_IR-mana-medium.onnx", "length": 1.0, "license": "model MIT · dataset CC0 (Mana-TTS)", "speaker": "male" },
-    "khadijah": { "engine": "matcha", "file": "matcha/khadijah-5.onnx", "tokens": "matcha/khadijah-tokens.txt", "repo": "mah92/Khadijah-FA_EN-Matcha-TTS-Model", "path": "matcha-fa_en-khadijah-22050-5.onnx", "tokensPath": "tokens_sherpa_with_fa.txt", "length": 0.72, "license": "CC0-1.0", "speaker": "female" },
-    "musa": { "engine": "matcha", "file": "matcha/musa-5.onnx", "tokens": "matcha/musa-tokens.txt", "repo": "mah92/Musa-FA_EN-Matcha-TTS-Model", "path": "matcha-fa_en-musa-22050-5.onnx", "tokensPath": "tokens_sherpa_with_fa.txt", "length": 0.74, "license": "CC0-1.0", "speaker": "male" }
+    "amir": {
+      "engine": "piper",
+      "file": "piper/fa_IR-amir-medium.onnx",
+      "repo": "rhasspy/piper-voices",
+      "path": "fa/fa_IR/amir/medium/fa_IR-amir-medium.onnx",
+      "length": 1.0,
+      "license": "model MIT · dataset CC0",
+      "speaker": "male"
+    },
+    "ganji": {
+      "engine": "piper",
+      "file": "piper/fa_IR-ganji-medium.onnx",
+      "repo": "rhasspy/piper-voices",
+      "path": "fa/fa_IR/ganji/medium/fa_IR-ganji-medium.onnx",
+      "length": 1.0,
+      "license": "model MIT · dataset CC0",
+      "speaker": "male"
+    },
+    "reza_ibrahim": {
+      "engine": "piper",
+      "file": "piper/fa_IR-reza_ibrahim-medium.onnx",
+      "repo": "rhasspy/piper-voices",
+      "path": "fa/fa_IR/reza_ibrahim/medium/fa_IR-reza_ibrahim-medium.onnx",
+      "length": 1.0,
+      "license": "model MIT · dataset CC0",
+      "speaker": "male"
+    },
+    "mana": {
+      "engine": "piper",
+      "file": "piper/fa_IR-mana-medium.onnx",
+      "repo": "MahtaFetrat/Mana-Persian-Piper",
+      "path": "fa_IR-mana-medium.onnx",
+      "length": 1.0,
+      "license": "model MIT · dataset CC0 (Mana-TTS)",
+      "speaker": "female (measured median pitch ≈ 230 Hz)"
+    },
+    "khadijah": {
+      "engine": "matcha",
+      "file": "matcha/khadijah-5.onnx",
+      "tokens": "matcha/khadijah-tokens.txt",
+      "repo": "mah92/Khadijah-FA_EN-Matcha-TTS-Model",
+      "path": "matcha-fa_en-khadijah-22050-5.onnx",
+      "tokensPath": "tokens_sherpa_with_fa.txt",
+      "length": 0.72,
+      "license": "CC0-1.0",
+      "speaker": "female"
+    },
+    "musa": {
+      "engine": "matcha",
+      "file": "matcha/musa-5.onnx",
+      "tokens": "matcha/musa-tokens.txt",
+      "repo": "mah92/Musa-FA_EN-Matcha-TTS-Model",
+      "path": "matcha-fa_en-musa-22050-5.onnx",
+      "tokensPath": "tokens_sherpa_with_fa.txt",
+      "length": 0.74,
+      "license": "CC0-1.0",
+      "speaker": "male"
+    }
   },
-  "vocoder": { "file": "matcha/vocos-22khz-univ.onnx", "repo": "BSC-LT/vocos-mel-22khz", "path": "mel_spec_22khz_univ.onnx", "license": "Apache-2.0" }
+  "vocoder": {
+    "file": "matcha/vocos-22khz-univ.onnx",
+    "repo": "BSC-LT/vocos-mel-22khz",
+    "path": "mel_spec_22khz_univ.onnx",
+    "license": "Apache-2.0"
+  }
 }
