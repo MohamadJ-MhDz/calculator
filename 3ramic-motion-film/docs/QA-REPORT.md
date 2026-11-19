@@ -19,14 +19,14 @@ test.
 | Wrong brand pronunciation | ✔ | phonemes `serˈɑmik` in L11/L16; Whisper heard «سرامیک» in both (match 1.00); `npm run validate` blocks "three/tri/sri" |
 | Inaccurate logo | ✔ (none invented) | logo slot shows the plain name until the official file is supplied |
 | Invented colours | ✔ (none claimed) | `colors.*` are `null`, status `unverified`; validator blocks colours while unverified; `#FF703D` removed |
-| Low resolution | ✔ | native 1080×1920, 30 fps; render RENDER_RES |
+| Low resolution | ✔ | native 1080×1920, 30 fps; the delivered MP4 is 1080×1920, 30/1 fps, 1191 frames |
 | Broken Persian | ✔ | Vazirmatn/Lalezar, `dir="rtl"`; brand/suffix bidi checked («کارِ 3ramic ه!»); see stills |
 | Audio cut-off | ✔ | no line overlaps another or the film's end (validator) |
 | Missing scene | ✔ | five scenes cover frames 0–1190 without gaps |
 | Confusing transformation | ✔ (see visual QA) | one locked camera, changes in a readable order, same-camera before/after wipe |
 | Missing dependencies | ✔ | `package-lock.json`, fonts vendored, mix and voices included; `npm ci` |
 | Unfinished animation | ✔ | all scenes animated end to end (contact sheet) |
-| Project cannot render locally | ✔ | full render completed here: RENDER_STATS |
+| Project cannot render locally | ✔ | full render completed here with `npm run render`: `out/3ramic-reel-1080x1920.mp4`, H.264 1080×1920 30 fps, 1191 frames, 39.70 s, stereo AAC 48 kHz, 91.6 MB; about 45 min on 4 CPU cores with software WebGL, resumed twice after interruptions |
 
 ## Audio QA (measured)
 
@@ -40,7 +40,8 @@ test.
 | Dialogue over effects, every line | ≥ 8.5 LU | comfortably clear |
 | Intelligibility of chosen takes (Whisper large-v3-turbo) | mean 0.984 (every line ≥ 0.90) | — |
 | Intelligibility through the finished mix | mean 0.96 (hook 1.00, suspects 0.94, makeover 0.97, payoff 0.88, brand 1.00) | — |
-| Delivered MP4 audio | RENDER_AUDIO | — |
+| Delivered MP4 audio (AAC decoded) | −14.54 LUFS, −1.34 dBTP, mono −0.1 LU | same targets |
+| Intelligibility in the delivered MP4 | mean 0.968 (hook 1.00, suspects 0.98, makeover 0.97, payoff 0.88, brand 1.00 — «سرامیک هر سرامیکی جای خودش») | — |
 
 Files: `production/qa/audio-report.json`, `production/qa/dialogue-in-mix.json`,
 `production/voice/VOICE-REPORT.md`, `production/voice/audition.json`.
@@ -52,8 +53,10 @@ taste and effect quality were checked only by measurement (levels, spectrum, mas
 
 ## Visual QA
 
-Key moments were rendered as stills (`QAFrames` composition) at full resolution and checked at
-full size and at phone size (`docs/qa/contact-sheet.jpg`). Fixes made after the first pass:
+Key moments were rendered as stills (`QAFrames` composition) and checked; the final evidence was
+extracted from the delivered MP4 itself: `docs/qa/contact-sheet.jpg` (44 moments) and
+`docs/qa/contact-sheet-phone-size.jpg` (the same at phone-thumbnail size); the cover is
+`docs/qa/cover-1080x1920.jpg`. Fixes made after the first pass:
 
 - Suspect 1 re-framed on the speaking patterned tile; the hole it leaves now reads as a missing tile.
 - The diagnosis is played on the speaker (the detective faced away from camera before), followed

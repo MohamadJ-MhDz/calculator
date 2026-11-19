@@ -10,6 +10,7 @@ src/data/timeline.json), in the order the stills were rendered by `npm run still
 import argparse
 import json
 import os
+import re
 
 from PIL import Image, ImageDraw, ImageFont
 
@@ -43,7 +44,8 @@ def main():
         x = pad + (k % a.cols) * (w + pad)
         y = pad + (k // a.cols) * (h + lab + pad)
         sheet.paste(im, (x, y))
-        f = frames[k] if k < len(frames) else k
+        m = re.search(r"-(\d{4})\.", name)  # stills extracted from the MP4 carry their frame number
+        f = int(m.group(1)) if m else (frames[k] if k < len(frames) else k)
         sc = next((s["id"] for s in tl["scenes"] if s["from"] <= f < s["to"]), "")
         d.text((x + 2, y + h + 4), f"f{f:04d}  {f / fps:5.2f}s  {sc}", fill=(21, 24, 28), font=font)
     os.makedirs(os.path.dirname(a.out), exist_ok=True)
