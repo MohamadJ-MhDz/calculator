@@ -2,7 +2,7 @@ import React from "react";
 import { AbsoluteFill } from "remotion";
 import { blink, clamp, E, lerp, prog } from "../anim";
 import { BRAND_CUES } from "../cues";
-import { line, scene, useFilmFrame } from "../timeline";
+import { line, mouthOf, scene, useFilmFrame } from "../timeline";
 import { TILE } from "../three/Bathroom";
 import { Duck } from "../three/Duck";
 import { TileCharacter, TILE_T } from "../three/TileCharacter";
@@ -13,14 +13,14 @@ import { finishedRoom, PatternInNiche } from "./room";
 import { CamSpec, faceTo, mixCam, Stage } from "./stage";
 
 /**
- * 5 · BRAND CLOSE — «سه‌رامیک. هر سرامیکی، جای خودش.»
+ * 5 · BRAND CLOSE — the detective closes the case: «سه‌رامیک. هر سرامیکی، جای خودش.»
  * The finished room stays in view under the brand card. On «جای خودش» the tile lets
  * itself fall back into its own place in the floor — click — and the detective tips his hat.
  */
 
 // the finished room under the brand card; the tile's own place and the whole detective in frame
-const CAM_0: CamSpec = { pos: [0.2, 5.6, 13.8], target: [-0.2, 1.6, 0.9], fov: 40 };
-const CAM_1: CamSpec = { pos: [0.15, 5.3, 13.0], target: [-0.15, 1.5, 1.0], fov: 40 };
+const CAM_0: CamSpec = { pos: [0.15, 4.6, 12.2], target: [-0.15, 1.0, 2.2], fov: 40 };
+const CAM_1: CamSpec = { pos: [0.05, 3.8, 10.8], target: [-0.2, 0.55, 2.9], fov: 40 };
 
 export const SceneBrand: React.FC = () => {
   const f = useFilmFrame();
@@ -41,6 +41,8 @@ export const SceneBrand: React.FC = () => {
   const facing = lerp(faceTo(TILE_STAND, DUCK_STAND) * 0.5, 0, turn);
 
   const hat = Math.sin(prog(f, B.hatTip, 22) * Math.PI);
+  // the detective closes the case himself: «سه‌رامیک. هر سرامیکی، جای خودش.»
+  const m16 = mouthOf("L16", f);
 
   return (
     <AbsoluteFill>
@@ -67,6 +69,7 @@ export const SceneBrand: React.FC = () => {
         <Duck
           position={DUCK_STAND}
           scale={0.8}
+          jaw={m16.open}
           facing={faceTo(DUCK_STAND, cam.pos) + lerp(-0.5, 0, E.inOutCubic(prog(f, B.click - 4, 10)))}
           look={f < B.click ? [0.6, 0.6] : [0, 0]}
           lid={0.2}

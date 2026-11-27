@@ -99,6 +99,9 @@ for l in TL["lines"]:
         bands = [("hp", 320), ("lp", 2600), ("peak", 1200, 1.2, 4.0)]
         wet = 0.02
         x = x * db(3.5)
+    if l["id"] == "L16":
+        # the detective's closing line: close and dry, like a sign-off
+        wet = 0.03
     if l["id"] == "L12":
         # said from the inlay, far back in the shower
         bands = bands + [("lp", 7000)]

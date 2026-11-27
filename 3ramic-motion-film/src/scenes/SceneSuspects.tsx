@@ -29,14 +29,16 @@ const CAM_1B: CamSpec = { pos: [0.56, 1.08, 7.25], target: [-2.25, 0.86, 2.0], f
 
 /* ---- suspect 2: down at the grout ---- */
 const D2: V3 = [1.25, 0, 1.95];
-const CAM_2: CamSpec = { pos: [-0.9, 1.95, -0.35], target: [1.0, 0.45, 1.65], fov: 40 };
-const CAM_2B: CamSpec = { pos: [-0.72, 1.8, -0.2], target: [1.0, 0.48, 1.65], fov: 40 };
-const TWITCH_CENTRE: [number, number] = [3.9, 6.6];
+// from the front: his face while he inspects, the twitching floor between us and him
+const CAM_2: CamSpec = { pos: [0.3, 1.25, 5.0], target: [1.1, 0.35, 2.2], fov: 42 };
+const CAM_2B: CamSpec = { pos: [0.34, 1.2, 4.7], target: [1.1, 0.36, 2.2], fov: 42 };
+const TWITCH_CENTRE: [number, number] = [4.4, 7.6];
 
 /* ---- suspect 3: the vanity fills the frame ---- */
 const D3: V3 = [-0.3, 0, -1.9];
-const CAM_3: CamSpec = { pos: [-0.55, 2.35, 3.7], target: [-0.8, 2.05, -3.6], fov: 42 };
-const CAM_3B: CamSpec = { pos: [-0.62, 2.3, 3.3], target: [-0.8, 2.05, -3.6], fov: 42 };
+// eyes high, drawer-mouth above the subtitle lane
+const CAM_3: CamSpec = { pos: [-0.55, 1.75, 3.9], target: [-0.8, 1.35, -3.6], fov: 44 };
+const CAM_3B: CamSpec = { pos: [-0.62, 1.72, 3.5], target: [-0.8, 1.35, -3.6], fov: 44 };
 
 export const SceneSuspects: React.FC = () => {
   const f = useFilmFrame();
@@ -163,11 +165,11 @@ export const SceneSuspects: React.FC = () => {
             scale={0.8}
             facing={faceTo(D2, CAM_2.pos) + 0.1}
             jaw={m7.open}
-            look={f >= C.twitch ? [0, 0.15] : [-0.2, -0.85]}
+            look={f >= C.twitch ? [0, 0.15] : [-0.25, -0.55]}
             lid={f >= C.twitch ? 0 : 0.22}
             brow={f >= C.twitch ? -0.35 : 0.45}
             browLift={f >= C.twitch ? 0.06 : 0}
-            lean={lerp(0.34, 0.12, E.outBack(prog(f, C.twitch, 7)))}
+            lean={lerp(0.14, 0.02, E.outBack(prog(f, C.twitch, 7)))}
             wingR={0.62}
             magnifier={E.outBack(prog(f, C.groutCut, 7), 1.4)}
             bob={Math.sin(prog(f, C.twitch, 9) * Math.PI) * 0.12}
@@ -196,9 +198,9 @@ export const SceneSuspects: React.FC = () => {
       </Stage>
       <Vignette strength={0.42} />
       {/* a mugshot flash for each suspect */}
-      <Flash f={f} at={C.tag1} dur={5} max={0.5} />
-      <Flash f={f} at={C.tag2} dur={5} max={0.5} />
-      <Flash f={f} at={C.tag3} dur={5} max={0.5} />
+      <Flash f={f} at={C.tag1} dur={3} max={0.22} />
+      <Flash f={f} at={C.tag2} dur={3} max={0.22} />
+      <Flash f={f} at={C.tag3} dur={3} max={0.22} />
       <Flash f={f} at={C.smack} dur={4} max={0.25} />
       <SuspectTag f={f} from={C.tag1} to={L6.from + 4} n="۱" label="طرحِ شلوغ" />
       <SuspectTag f={f} from={C.tag2} to={L7.to + 2} n="۲" label="بندکشیِ مشکی" />

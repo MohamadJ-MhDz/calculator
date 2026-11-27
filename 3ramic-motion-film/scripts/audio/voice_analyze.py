@@ -5,6 +5,8 @@
 For every production/takes/<line>/<take>.wav this measures what can be measured without
 ears, and writes the result next to the take (<take>.analysis.json):
 
+  * accent         Whisper's language identification: probability that the take is Persian
+                   (a non-native accent shows up as English/Arabic/Turkish probability).
   * transcript     Whisper large-v3-turbo (MIT), Persian. Compared with the intended
                    words: `match` is the similarity of the two normalised strings.
   * word timing    Whisper word timestamps (used later for subtitles and mouth shapes).
@@ -118,6 +120,18 @@ def main():
     import torchaudio
 
     asr = pipeline("automatic-speech-recognition", model=args.whisper, dtype=torch.float32, device="cpu")
+    # accent check: how sure Whisper is that this is Persian (vs. Arabic, Urdu, English, Turkish…)
+    tok = asr.tokenizer
+    lang_codes = ["fa", "ar", "ur", "en", "tr", "ps", "tg", "az", "hi"]
+    lang_ids = [tok.convert_tokens_to_ids(f"<|{c}|>") for c in lang_codes]
+    sot = tok.convert_tokens_to_ids("<|startoftranscript|>")
+
+    def persian_prob(x16):
+        feats = asr.feature_extractor(x16, sampling_rate=16000, return_tensors="pt").input_features
+        with torch.no_grad():
+            logits = asr.model(input_features=feats, decoder_input_ids=torch.tensor([[sot]])).logits[0, -1, lang_ids]
+        p = torch.softmax(logits, -1).numpy()
+        return float(p[0]), lang_codes[int(np.argmax(p))]
     want = set(args.lines.split(",")) if args.lines else None
     rows = []
     for lid in sorted(os.listdir(TAKES)):
@@ -139,6 +153,7 @@ def main():
             res = asr({"raw": x16, "sampling_rate": 16000}, return_timestamps="word", generate_kwargs={"language": "fa", "task": "transcribe"})
             heard = res["text"].strip()
             words = [{"w": c["text"].strip(), "start": c["timestamp"][0], "end": c["timestamp"][1]} for c in res.get("chunks", []) if c["timestamp"][0] is not None]
+            fa, top_lang = persian_prob(x16)
             f0 = pitch_track(x, sr)
             prof, centroid = band_profile(x, sr)
             dur = len(x) / sr
@@ -148,7 +163,7 @@ def main():
             silence = float(np.mean(20 * np.log10(e / (e.max() + 1e-9) + 1e-9) < -35))
             row = {
                 "line": lid, "take": name[:-4], "speaker": meta.get("speaker"), "text": meta["text"], "heard": heard,
-                "match": round(similarity(meta["text"], heard), 3), "seconds": round(dur, 2), "ended": bool(meta.get("ended")),
+                "match": round(similarity(meta["text"], heard), 3), "persian": round(fa, 3), "heardAs": top_lang, "seconds": round(dur, 2), "ended": bool(meta.get("ended")),
                 "f0": round(float(np.median(f0)), 1) if len(f0) else 0.0,
                 "f0_spread_st": round(float(np.std(12 * np.log2(f0 / np.median(f0)))), 2) if len(f0) > 5 else 0.0,
                 "voiced_frames": int(len(f0)), "centroid": round(centroid), "silence": round(silence, 2),
@@ -156,7 +171,7 @@ def main():
             }
             json.dump(row, open(out_path, "w", encoding="utf-8"), ensure_ascii=False)
             rows.append(row)
-            print(f"{lid} {name[:-4]:<7} {row['seconds']:5.2f}s  f0 {row['f0']:6.1f} Hz ±{row['f0_spread_st']:4.2f}st  bright {row['centroid']:5d}  match {row['match']:.2f}  | {heard}", flush=True)
+            print(f"{lid} {name[:-4]:<7} {row['seconds']:5.2f}s  f0 {row['f0']:6.1f} Hz ±{row['f0_spread_st']:4.2f}st  bright {row['centroid']:5d}  match {row['match']:.2f}  fa {row['persian']:.2f}  | {heard}", flush=True)
     print(f"analysed {len(rows)} takes")
 
 

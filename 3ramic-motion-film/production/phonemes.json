@@ -1,5 +1,5 @@
 {
-  "note": "Exact pronunciation of every spoken line, as the phoneme string that is fed to the voice models. The strings follow the conventions of the eSpeak-NG Persian front-end the models were trained with (stress marks ˈ ˌ, length ː, 'q1' for ق/غ) and were corrected by hand wherever the automatic front-end misread colloquial Persian (e.g. استعفاتو, نمی‌شه, دیگه‌س, the ezafe in «بدونِ من» and «جایِ خودش»). A space separates spoken words; '+' joins two spoken words that are one written word in the subtitle. Each phrase is synthesised on its own and `pause` (seconds) is the silence after it. `rate` > 1 is faster; `noise` is the models' own intonation variability (higher = livelier). Tested variants and the reasons for each change are in production/voice/VOICE-REPORT.md.",
+  "note": "Exact pronunciation of every spoken line, as the phoneme string that is fed to the voice models. The strings follow the conventions of the eSpeak-NG Persian front-end the models were trained with (stress marks ˈ ˌ, length ː, 'q1' for ق/غ) and were corrected by hand wherever the automatic front-end misread colloquial Persian (e.g. استعفاتو, نمی‌شه, دیگه‌س, the ezafe in «بدونِ من» and «جایِ خودش»). A space separates spoken words; '+' joins two spoken words that are one written word in the subtitle. Each phrase is synthesised on its own and `pause` (seconds) is the silence after it. `rate` > 1 is faster; `noise` is the models' own intonation variability (higher = livelier).  Where natural Persian stress (stress on the verb prefix: nˈemikonam) measured clearer it is used; otherwise the eSpeak stress the voices were trained with is kept. Tested variants are summarised in production/voice/VOICE-REPORT.md.",
   "brand": {
     "written": "3ramic",
     "spokenFa": "سه‌رامیک",
@@ -15,7 +15,7 @@
       "noise": 0.9,
       "phrases": [
         {
-          "ph": "man dˈiɡeː ˈindʒɑ kˈɑr nˌemikˈonam!"
+          "ph": "man dˈiɡe ˈindʒɑ kˈɑr nˈemikonam!"
         }
       ]
     },
@@ -99,19 +99,19 @@
       "noise": 0.7,
       "phrases": [
         {
-          "ph": "mˈetrɑʒ kˈeː ˈavaz nˌemiʃˈe.",
-          "pause": 0.34
+          "ph": "mˈetrɑʒ ke ˈavaz nˈemiʃe.",
+          "pause": 0.3
         },
         {
-          "ph": "ˌentexˈɑbhɑ bˈɑjad bɑ hˈam dʒˈuːr bˈɑʃan."
+          "ph": "ˌentexɑbˈɑ bˈɑjad bɑ hˈam dʒˈuːr bˈɑʃan."
         }
       ]
     },
-    "L11": { "rate": 1.02,
-      "noise": 0.85,
+    "L11": { "rate": 1.0,
+      "noise": 0.8,
       "phrases": [
         {
-          "ph": "kˈɑre serˈɑmikˌeː!"
+          "ph": "bˈɑjad bˈerim sorˈɑq1e serˈɑmik!"
         }
       ]
     },
@@ -124,14 +124,10 @@
       ]
     },
     "L13": { "rate": 0.95,
-      "noise": 0.9,
+      "noise": 0.85,
       "phrases": [
         {
-          "ph": "ˈoh,",
-          "pause": 0.26
-        },
-        {
-          "ph": "iːn dˈiɡeː jˈeː tʃˈize dˈiɡas!"
+          "ph": "vˈɑːj iːn dˈiɡe je tʃˈize dˈiɡas!"
         }
       ]
     },
@@ -143,11 +139,11 @@
         }
       ]
     },
-    "L15": { "rate": 0.9,
-      "noise": 0.7,
+    "L15": { "rate": 0.95,
+      "noise": 0.75,
       "phrases": [
         {
-          "ph": "bɑ pɑdˈɑʃ!"
+          "ph": "fˈaq1at bɑ pɑːdˈɑʃ!"
         }
       ]
     },

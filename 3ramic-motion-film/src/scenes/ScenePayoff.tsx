@@ -22,8 +22,8 @@ import { finishedRoom, PatternInNiche } from "./room";
 const CAM_AWE0: CamSpec = { pos: [0.92, 0.66, 7.25], target: [0.5, 0.78, 4.0], fov: 36 };
 const CAM_AWE1: CamSpec = { pos: [0.85, 0.7, 6.95], target: [0.5, 0.8, 4.0], fov: 36 };
 // the hook's two-shot, now warm
-const CAM_TWO0: CamSpec = { pos: [-0.5, 0.92, 9.0], target: [-0.15, 0.76, 4.75], fov: 40 };
-const CAM_TWO1: CamSpec = { pos: [-0.46, 0.9, 8.6], target: [-0.15, 0.76, 4.75], fov: 40 };
+const CAM_TWO0: CamSpec = { pos: [-0.55, 1.05, 10.0], target: [-0.22, 0.62, 4.8], fov: 42 };
+const CAM_TWO1: CamSpec = { pos: [-0.52, 1.02, 9.7], target: [-0.22, 0.63, 4.8], fov: 42 };
 
 export const ScenePayoff: React.FC = () => {
   const f = useFilmFrame();
@@ -44,7 +44,7 @@ export const ScenePayoff: React.FC = () => {
   // the tile turns from the room to camera in awe, then to the detective
   const awe = E.outBack(prog(f, L13.from - 3, 8), 1.6);
   const toDuck = E.inOutCubic(prog(f, P.twoShot - 2, 8));
-  const tileFacing = lerp(lerp(Math.PI - 0.4, 0.15, E.inOutCubic(prog(f, S.from, 10))), faceTo(TILE_STAND, DUCK_STAND) * 0.5, toDuck);
+  const tileFacing = lerp(0.15, faceTo(TILE_STAND, DUCK_STAND) * 0.5, toDuck);
   const cross = E.outBack(prog(f, P.cross, 7), 1.5);
   const think = Math.sin(prog(f, P.think, P.cross - P.think) * Math.PI);
   const deadpan = E.inOutCubic(prog(f, P.deadpan, 6));

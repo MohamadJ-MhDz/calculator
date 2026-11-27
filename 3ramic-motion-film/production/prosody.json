@@ -1,0 +1,60 @@
+{
+  "note": "Intonation shaping applied by scripts/audio/voice_prosody.py when a take is installed. targetHz: the character's steady median pitch (shift limited to ±4 semitones); range: scale of pitch movement; endRise: semitones of rise over the last `endDur` seconds (questions); lift: semitones added to the whole line (shouting).",
+  "characters": {
+    "tile": {
+      "targetHz": 235,
+      "range": 1.35
+    },
+    "detective": {
+      "targetHz": 108,
+      "range": 1.1
+    },
+    "pattern": {
+      "targetHz": 145,
+      "range": 1.35
+    },
+    "vanity": {
+      "targetHz": 95,
+      "range": 1.2
+    }
+  },
+  "lines": {
+    "L01": {
+      "range": 1.5,
+      "lift": 1.5
+    },
+    "L02": {
+      "endRise": 4,
+      "endDur": 0.25
+    },
+    "L03": {
+      "range": 1.45,
+      "endRise": 3
+    },
+    "L05": {
+      "range": 1.5
+    },
+    "L07": {
+      "endRise": 5,
+      "endDur": 0.3
+    },
+    "L11": {
+      "range": 1.25,
+      "lift": 0.5
+    },
+    "L13": {
+      "range": 1.5,
+      "lift": 1.0
+    },
+    "L14": {
+      "endRise": 6,
+      "endDur": 0.35
+    },
+    "L15": {
+      "range": 1.2
+    },
+    "L16": {
+      "range": 1.05
+    }
+  }
+}

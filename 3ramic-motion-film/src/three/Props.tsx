@@ -66,9 +66,10 @@ export const SampleBox: React.FC<{ position: V3; rotation?: V3; open: number; gl
 };
 
 /** One sample from the box: a real tile body with the chosen surface. */
-export const Chip: React.FC<{ tex?: TexKey; color?: string; position: V3; rotation?: V3; w?: number; d?: number; scale?: number }> = ({
+export const Chip: React.FC<{ tex?: TexKey; color?: string; edge?: string; position: V3; rotation?: V3; w?: number; d?: number; scale?: number }> = ({
   tex,
   color,
+  edge = "#EDE6DA",
   position,
   rotation = [0, 0, 0],
   w = 0.9,
@@ -76,7 +77,7 @@ export const Chip: React.FC<{ tex?: TexKey; color?: string; position: V3; rotati
   scale = 1,
 }) => (
   <group position={position} rotation={rotation} scale={scale}>
-    <mesh geometry={roundedBox(w, 0.08, d, 0.02)} material={flat("#EDE6DA", 0.5)} castShadow />
+    <mesh geometry={roundedBox(w, 0.08, d, 0.02)} material={flat(edge, 0.5)} castShadow />
     <mesh geometry={plane(w * 0.95, d * 0.95)} material={tex ? ceramic(tex) : flat(color ?? "#ccc", 0.8)} position={[0, 0.0415, 0]} rotation={[-Math.PI / 2, 0, 0]} />
   </group>
 );

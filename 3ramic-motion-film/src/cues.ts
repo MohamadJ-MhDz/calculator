@@ -41,7 +41,8 @@ export const HOOK = {
   clear: hit + 22, // …and is gone; the detective is standing there
   reveal: L3.from + Math.round((L3.to - L3.from) * 0.3), // «این چه ترکیبیه؟!» — we look at the room
   close: L4.from - 6, // close-up: the detective takes the case
-  stamp: L4.to + 1, // the case stamp punctuates «…باز شد.»
+  // the case stamp lands in the pause after «خب…» and holds to the end of the scene
+  stamp: Math.min(L4.words[0].to + 1, sHook.to - 30),
 };
 
 /* ---------------- 2 · suspects ---------------- */

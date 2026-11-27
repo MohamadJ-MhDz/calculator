@@ -20,6 +20,14 @@ import { clamp, E, lerp, V3 } from "../anim";
  * The white floor tiles are the same tiles in both states — nothing was wrong with them.
  */
 
+/** Blend two hex colours (returns hex, so materials stay cacheable per colour). */
+const mixHex = (a: string, b: string, t: number) => {
+  const h = (c: string, i: number) => parseInt(c.slice(1 + i * 2, 3 + i * 2), 16);
+  const q = (t2: number) => Math.round(t2 * 4) / 4; // 5 steps: few distinct materials
+  const tt = q(clamp(t));
+  return "#" + [0, 1, 2].map((i) => Math.round(h(a, i) + (h(b, i) - h(a, i)) * tt).toString(16).padStart(2, "0")).join("");
+};
+
 export const ROOM = { w: 8, d: 12, h: 10, x0: -4, x1: 4, z0: -6, z1: 6 } as const;
 export const TILE = 0.94; // visible tile size; the rest of each unit is grout
 export const TILE_H = 0.07;
@@ -361,7 +369,9 @@ export const Bathroom: React.FC<BathroomProps> = ({
     let lift = 0;
     if (floorTwitch >= 0) {
       const dist = Math.hypot(i - twitchCentre[0], j - twitchCentre[1]);
-      lift += Math.sin(clamp((floorTwitch - dist * 1.7) / 7) * Math.PI) * 0.09;
+      const k = Math.sin(clamp((floorTwitch - dist * 1.2) / 7) * Math.PI);
+      lift += k * 0.2;
+      if (k > 0.01) return { p: [x, -TILE_H / 2 + lift, z], r: [k * 0.22 * Math.sin(n * 2.3), 0, k * 0.22 * Math.cos(n * 1.7)] };
     }
     if (grout > 0 && grout < 1) {
       // each tile gets a little press as the float passes over it
@@ -398,7 +408,7 @@ export const Bathroom: React.FC<BathroomProps> = ({
   const rightOld = (n: number): Inst => {
     const j = n % 12;
     const k = Math.floor(n / 12);
-    return oldTile(0.3 + j / 12, k / 10, [x1 - 0.03, k + 0.5, j - 5.5], [0, -Math.PI / 2, 0], [-1, 0, 0]);
+    return oldTile(0.08 + j / 12, k / 10, [x1 - 0.03, k + 0.5, j - 5.5], [0, -Math.PI / 2, 0], [-1, 0, 0]);
   };
   const backNew = (n: number): Inst => {
     const c = n % 2;
@@ -417,7 +427,7 @@ export const Bathroom: React.FC<BathroomProps> = ({
   };
 
   const glassX = lerp(2.4, 0.8, E.inOutCubic(glassT));
-  const towel = warm > 0.5 ? ART.after.towel : ART.before.towel;
+  const towel = mixHex(ART.before.towel, ART.after.towel, clamp(warm * 1.4));
   const fix = E.outBack(clamp(fixtures), 1.6);
   const metal = flat("#B9BEC4", 0.25, 0.9);
 
@@ -503,7 +513,7 @@ export const Bathroom: React.FC<BathroomProps> = ({
       {/* towels on the left wall */}
       <mesh geometry={roundedBox(0.08, 0.08, 2.4, 0.03)} material={metal} position={[x0 + 0.25, 5.2, 1.2]} />
       <mesh geometry={roundedBox(0.1, 1.9, 1.0, 0.04)} material={flat(towel, 0.95)} position={[x0 + 0.26, 4.3, 0.7]} castShadow />
-      <mesh geometry={roundedBox(0.1, 1.5, 0.9, 0.04)} material={flat(warm > 0.5 ? "#E9E3D8" : "#F2C230", 0.95)} position={[x0 + 0.27, 4.5, 1.75]} castShadow />
+      <mesh geometry={roundedBox(0.1, 1.5, 0.9, 0.04)} material={flat(mixHex("#F2C230", "#E9E3D8", clamp(warm * 1.4)), 0.95)} position={[x0 + 0.27, 4.5, 1.75]} castShadow />
 
       <OldVanity face={vanityFace} exit={oldVanity} f={f} />
       <NewVanity arrive={newVanity} fixtures={fixtures} warm={warm} />

@@ -28,8 +28,9 @@ const CAM_B: CamSpec = { pos: [-0.5, 0.92, 9.0], target: [-0.15, 0.76, 4.75], fo
 // C: «این چه ترکیبیه؟!» — the master angle: the whole combination at once
 const CAM_C = MASTER;
 // D: the detective takes the case
-const CAM_D0: CamSpec = { pos: [-1.62, 0.62, 8.5], target: [-0.8, 1.02, 5.55], fov: 36 };
-const CAM_D1: CamSpec = { pos: [-1.5, 0.7, 8.15], target: [-0.8, 1.04, 5.55], fov: 36 };
+// the beak sits above the subtitle lane
+const CAM_D0: CamSpec = { pos: [-1.62, 0.62, 8.5], target: [-0.8, 0.74, 5.55], fov: 36 };
+const CAM_D1: CamSpec = { pos: [-1.5, 0.7, 8.15], target: [-0.8, 0.76, 5.55], fov: 36 };
 
 export const SceneHook: React.FC = () => {
   const f = useFilmFrame();
@@ -67,7 +68,7 @@ export const SceneHook: React.FC = () => {
   const sulk = E.inOutCubic(prog(f, HOOK.hit + 2, 8)) * (1 - E.inOutCubic(prog(f, L3.from - 4, 6)));
   const rant = E.outBack(prog(f, L3.from - 1, 6)) * (1 - prog(f, HOOK.reveal - 1, 5));
   const toRoom = E.inOutCubic(prog(f, HOOK.reveal - 2, 8));
-  const tileFacing = lerp(lerp(0, 0.6, sulk) + lerp(0, -0.42, E.inOutCubic(prog(f, L3.from - 4, 6))), Math.PI - 0.45, toRoom);
+  const tileFacing = lerp(lerp(0, 0.6, sulk) + lerp(0, -0.42, E.inOutCubic(prog(f, L3.from - 4, 6))), 0.35, toRoom); // in the master it faces us and looks up at the room
 
   /* ---------------- the letter in flight ---------------- */
   const flyT = prog(f, HOOK.throwAt + 2, HOOK.hit - HOOK.throwAt - 2);
@@ -83,7 +84,7 @@ export const SceneHook: React.FC = () => {
   const inClose = f >= HOOK.close;
   const duckFacing = inClose
     ? faceTo(DUCK_STAND, CAM_D0.pos) + 0.28
-    : lerp(0.38, Math.PI + 0.55, E.inOutCubic(prog(f, HOOK.reveal, 9)));
+    : lerp(0.38, 0.6, E.inOutCubic(prog(f, HOOK.reveal, 9)));
   const magnify = inClose ? E.outBack(prog(f, HOOK.close + 3, 9), 1.5) : 0;
   const startle = Math.sin(prog(f, L2.from - 1, 9) * Math.PI);
 
@@ -103,7 +104,7 @@ export const SceneHook: React.FC = () => {
           arms={E.outBack(prog(d, 7, 7))}
           squash={d >= 10 ? Math.sin(land * Math.PI) * 0.8 * (1 - land) : 0}
           eyes={blink(f, [HOOK.hit + 14, L3.from + 22])}
-          look={afterThrow && f < L3.from - 4 ? [-0.9, 0.05] : toRoom > 0.5 ? [0.3, 0.5] : [0, 0]}
+          look={afterThrow && f < L3.from - 4 ? [-0.9, 0.05] : toRoom > 0.5 ? [0.2, 0.95] : [0, 0]}
           brow={lerp(0.95, 0.6, rant)}
           browLift={speak.energy * 0.03}
           mouth={-0.85}

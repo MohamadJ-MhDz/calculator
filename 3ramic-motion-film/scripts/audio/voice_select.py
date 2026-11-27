@@ -31,6 +31,7 @@ import shutil
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
 ROOT = os.path.normpath(os.path.join(HERE, "..", ".."))
 TAKES = os.path.join(ROOT, "production", "takes")
 VOICE_OUT = os.path.join(ROOT, "public", "audio", "voice")
@@ -47,7 +48,7 @@ def sha1(path):
 
 
 def score(a, median_len):
-    s = 10.0 * a["match"]
+    s = 10.0 * a["match"] + 3.0 * a.get("persian", 0.5)  # clear first, then native-sounding
     if a["seconds"] > 1.35 * median_len + 0.15:
         s -= 4.0  # runaway / stretched take
     if a["peak"] >= 0.99:
@@ -61,6 +62,7 @@ def score(a, median_len):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--pick", action="append", default=[], help="LINE=take, e.g. L05=amir-t3")
+    ap.add_argument("--no-prosody", action="store_true", help="install the takes without intonation shaping")
     args = ap.parse_args()
     picks = dict(p.split("=", 1) for p in args.pick)
 
@@ -119,6 +121,19 @@ def main():
         src = os.path.join(d, best["take"] + ".wav")
         dst = os.path.join(VOICE_OUT, f"{lid}.wav")
         shutil.copyfile(src, dst)
+        prosody = None
+        if not args.no_prosody and os.path.exists(os.path.join(ROOT, "production", "prosody.json")):
+            # intonation shaping (questions rise, livelier range, one steady pitch per character);
+            # timing is unchanged, so the phoneme alignment below stays valid
+            try:
+                import soundfile as sf
+                from voice_prosody import settings as prosody_settings, shape as prosody_shape
+
+                x, sr = sf.read(dst, dtype="float64")
+                y, prosody = prosody_shape(x, sr, prosody_settings(l["speaker"], lid))
+                sf.write(dst, y, sr, subtype="PCM_16")
+            except ImportError as e:
+                problems.append(f"{lid}: intonation shaping skipped ({e}; pip install pyworld soundfile)")
         meta = json.load(open(os.path.join(d, best["take"] + ".json"), encoding="utf-8"))
         align = {
             "line": lid,
@@ -132,6 +147,7 @@ def main():
             "seconds": meta["seconds"],
             "heard": best["heard"],
             "match": best["match"],
+            "prosody": prosody,
             "phones": meta["phones"],
             "words": meta["words"],
         }

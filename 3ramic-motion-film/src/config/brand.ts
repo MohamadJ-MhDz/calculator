@@ -35,7 +35,7 @@ export const BRAND = {
   spokenIpa: "serɒːmik",
   taglineFa: "هر سرامیکی، جای خودش.",
   /** Short call to action shown next to the web address. */
-  ctaFa: "مدل‌های هماهنگ رو ببین",
+  ctaFa: "مدل‌های هماهنگ رو توی سایت ببین",
   website: "3ramic.ir",
   websiteUrl: "https://3ramic.ir/fa",
 

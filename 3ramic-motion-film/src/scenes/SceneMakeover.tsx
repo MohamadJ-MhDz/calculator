@@ -28,20 +28,24 @@ import { CamSpec, faceTo, mixCam, mixV, Stage } from "./stage";
 // listening on the right, the badly matched room behind both; then a punch-in for the brand line
 const CAM_TWO0: CamSpec = { pos: [-1.3, 1.15, 8.0], target: [-0.25, 0.55, 4.9], fov: 38 };
 const CAM_TWO1: CamSpec = { pos: [-1.22, 1.12, 7.7], target: [-0.25, 0.56, 4.9], fov: 38 };
-const CAM_CU0: CamSpec = { pos: [-1.55, 0.7, 8.2], target: [-0.8, 1.02, 5.55], fov: 34 };
-const CAM_CU1: CamSpec = { pos: [-1.45, 0.74, 7.85], target: [-0.8, 1.04, 5.55], fov: 34 };
+const CAM_CU0: CamSpec = { pos: [-1.55, 0.7, 8.2], target: [-0.8, 0.74, 5.55], fov: 34 };
+const CAM_CU1: CamSpec = { pos: [-1.45, 0.74, 7.85], target: [-0.8, 0.76, 5.55], fov: 34 };
+// «اینجا جای منه!» — close on the patterned tile in its new frame
+const CAM_NICHE0: CamSpec = { pos: [2.3, 5.25, -3.1], target: [2.75, 5.05, -5.9], fov: 40 };
+const CAM_NICHE1: CamSpec = { pos: [2.4, 5.3, -3.4], target: [2.8, 5.1, -5.9], fov: 40 };
 
 const BOX_AT: V3 = [-2.0, 0, 2.2];
 const BOX_FROM: V3 = [-6.5, 0, 2.2];
 /** Coordinated samples: wall, floor, grout and the accent, fanned out above the box. */
-const SAMPLES: { tex?: "calm" | "gloss" | "busy"; color?: string; hover: V3; dest: V3 }[] = [
+// distinct at a glance: greige wall tile, oak, warm grout, the patterned accent
+const SAMPLES: { tex?: "calm" | "oak" | "busy"; color?: string; hover: V3; dest: V3 }[] = [
   { tex: "calm", hover: [-3.0, 2.35, 2.2], dest: [-1.0, 5.0, -5.6] },
-  { tex: "gloss", hover: [-2.35, 2.75, 2.1], dest: [0.5, 0.1, 0.0] },
-  { color: "#D9D3C8", hover: [-1.65, 2.75, 2.1], dest: [-0.5, 0.1, -2.0] },
+  { tex: "oak", hover: [-2.35, 2.75, 2.1], dest: [-1.8, 2.75, -5.1] },
+  { color: "#B5A894", hover: [-1.65, 2.75, 2.1], dest: [-0.5, 0.1, -2.0] },
   { tex: "busy", hover: [-1.0, 2.35, 2.2], dest: NICHE[0] },
 ];
 
-const T_FACING = Math.PI; // facing the back wall
+const T_FACING = 0.3; // facing us (looking up at the room) so faces read in the wide shot
 const hopOver = (z: number, sweepZ: number, active: boolean) => (active ? Math.sin(clamp(1 - Math.abs(sweepZ - z) / 0.7) * Math.PI * 0.5) ** 2 * 0.55 : 0);
 
 /** The room at transformation progress `f` (or forced to the "before" state). */
@@ -88,7 +92,7 @@ const Watchers: React.FC<{ f: number; frozen?: boolean }> = ({ f, frozen = false
         arms={1}
         cheer={delight * 0.7}
         wave={f * 0.3}
-        look={[lookX, 0.4]}
+        look={[lookX, 0.9]}
         happy={delight > 0.6 ? 1 : 0}
         mouth={0.2 + delight * 0.7}
         squash={tHop > 0.05 ? -0.4 : 0}
@@ -96,8 +100,8 @@ const Watchers: React.FC<{ f: number; frozen?: boolean }> = ({ f, frozen = false
       <Duck
         position={[DUCK_STAND[0], dHop, DUCK_STAND[2]]}
         scale={0.8}
-        facing={Math.PI - 0.25 + lookX * 0.3}
-        look={[lookX, 0.3]}
+        facing={0.55 + lookX * 0.3}
+        look={[lookX, 0.85]}
         lid={0.15}
         brow={0.2 - delight * 0.4}
         bob={dHop > 0.05 ? 0.1 : 0}
@@ -124,6 +128,7 @@ export const SceneMakeover: React.FC = () => {
   let cam: CamSpec;
   if (shot === 1) cam = mixCam(CAM_TWO0, CAM_TWO1, E.inOutSine(prog(f, S.from, M.brandCut - S.from)));
   else if (shot === 2) cam = mixCam(CAM_CU0, CAM_CU1, E.outCubic(prog(f, M.brandCut, M.wideCut - M.brandCut)));
+  else if (f >= L12.from - 2 && f < L12.to + 4) cam = mixCam(CAM_NICHE0, CAM_NICHE1, prog(f, L12.from - 2, L12.to - L12.from + 6));
   else cam = mixCam(MASTER, MASTER_IN, E.inOutSine(prog(f, T.from, T.to - T.from)));
 
   /* ---------------- the conversation (shots 1–2) ---------------- */
@@ -171,7 +176,7 @@ export const SceneMakeover: React.FC = () => {
             const go = E.inCubic(prog(f, M.walls[0] - 4 + k * 3, 16));
             const at = mixV(mixV([BOX_AT[0], 0.6, BOX_AT[2]], s.hover, rise), s.dest, go);
             const bobY = Math.sin(f * 0.18 + k) * 0.05 * (1 - go);
-            return <Chip key={k} tex={s.tex} color={s.color} position={[at[0], at[1] + bobY, at[2]]} rotation={[Math.PI / 2 - 0.25 + go * 1.2, 0.15 * (k - 1.5), 0]} w={0.62} d={0.62} scale={1 - go * 0.6} />;
+            return <Chip key={k} tex={s.tex} color={s.color} position={[at[0], at[1] + bobY, at[2]]} rotation={[1.17 + go * 1.2, 0.15 * (k - 1.5), 0]} w={0.82} d={0.82} edge="#8A7E6E" scale={1 - go * 0.6} />;
           })
         : null}
       {frozenBefore ? (

@@ -137,10 +137,10 @@ const Face: React.FC<{
       })}
       {jaw > 0.05 ? (
         // talking: an open mouth whose height follows the jaw and whose width narrows for rounded vowels
-        <group position={[0, 0.035 - jaw * 0.02, z + 0.012]}>
-          <mesh geometry={sphereGeo()} material={ink} scale={[0.105 - lipRound * 0.045, 0.02 + jaw * 0.085, 0.02]} />
+        <group position={[0, 0.03 - jaw * 0.035, z + 0.012]}>
+          <mesh geometry={sphereGeo()} material={ink} scale={[0.12 - lipRound * 0.05, 0.022 + jaw * 0.14, 0.02]} />
           {jaw > 0.4 ? (
-            <mesh geometry={sphereGeo()} material={flat("#B8493F", 0.6)} position={[0, -(0.02 + jaw * 0.085) * 0.5, 0.012]} scale={[0.06 - lipRound * 0.02, (0.02 + jaw * 0.085) * 0.38, 0.012]} />
+            <mesh geometry={sphereGeo()} material={flat("#B8493F", 0.6)} position={[0, -(0.022 + jaw * 0.14) * 0.5, 0.012]} scale={[0.07 - lipRound * 0.02, (0.022 + jaw * 0.14) * 0.38, 0.012]} />
           ) : null}
         </group>
       ) : mouth > 0.08 ? (

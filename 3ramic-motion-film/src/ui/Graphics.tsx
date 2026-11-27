@@ -220,9 +220,11 @@ export const LogoSlot: React.FC<{ width?: number }> = ({ width = BRAND.logo.widt
 };
 
 export const BrandLockup: React.FC<{ f: number; nameAt: number; taglineAt: number; ctaAt: number }> = ({ f, nameAt, taglineAt, ctaAt }) => {
-  if (f < nameAt - 6) return null;
-  const card = E.outCubic(prog(f, nameAt - 6, 10));
-  const name = E.outExpo(prog(f, nameAt, 12));
+  if (f < nameAt - 4) return null;
+  // the card grows with its content: name first, then the tagline, then the call to action —
+  // it is never shown with empty space waiting to be filled
+  const card = E.outCubic(prog(f, nameAt - 4, 8));
+  const name = E.outExpo(prog(f, nameAt - 2, 12));
   const tag = E.outCubic(prog(f, taglineAt, 10));
   const cta = E.outCubic(prog(f, ctaAt, 10));
   const accent = UI.accent ?? UI.onPaper;
@@ -234,7 +236,7 @@ export const BrandLockup: React.FC<{ f: number; nameAt: number; taglineAt: numbe
           background: UI.paper,
           borderRadius: 34,
           boxShadow: "0 30px 70px rgba(30,24,16,0.28)",
-          padding: `${BRAND.logo.width * BRAND.logo.clearSpace}px 50px 46px`,
+          padding: `${BRAND.logo.width * BRAND.logo.clearSpace}px 50px ${lerp(40, 46, cta)}px`,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -245,11 +247,13 @@ export const BrandLockup: React.FC<{ f: number; nameAt: number; taglineAt: numbe
         <div style={{ opacity: clamp(name * 1.5), translate: `0 ${(1 - name) * 26}px`, scale: String(0.94 + 0.06 * name) }}>
           <LogoSlot />
         </div>
-        <div style={{ width: lerp(0, 150, tag), height: 6, borderRadius: 3, background: accent, margin: "30px 0 20px" }} />
-        <div dir="rtl" lang="fa" style={{ fontFamily: PERSIAN, fontWeight: 800, fontSize: 62, lineHeight: 1.45, color: UI.onPaper, opacity: tag, translate: `0 ${(1 - tag) * 20}px`, textAlign: "center", whiteSpace: "nowrap" }}>
-          {BRAND.taglineFa}
+        <div style={{ maxHeight: lerp(0, 150, tag), overflow: "hidden", display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <div style={{ width: lerp(0, 150, tag), height: 6, borderRadius: 3, background: accent, margin: "30px 0 20px" }} />
+          <div dir="rtl" lang="fa" style={{ fontFamily: PERSIAN, fontWeight: 800, fontSize: 62, lineHeight: 1.45, color: UI.onPaper, opacity: tag, textAlign: "center", whiteSpace: "nowrap" }}>
+            {BRAND.taglineFa}
+          </div>
         </div>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, marginTop: 26, opacity: cta, translate: `0 ${(1 - cta) * 18}px` }}>
+        <div style={{ maxHeight: lerp(0, 190, cta), overflow: "hidden", display: "flex", flexDirection: "column", alignItems: "center", gap: 16, marginTop: lerp(0, 26, cta), opacity: cta }}>
           <div dir="rtl" lang="fa" style={{ fontFamily: PERSIAN, fontWeight: 700, fontSize: 42, color: UI.onPaper, whiteSpace: "nowrap" }}>
             {BRAND.ctaFa}
           </div>
