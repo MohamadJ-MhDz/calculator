@@ -51,7 +51,8 @@ to the film here: where a check needs ears (acting, comic timing, music taste) i
 | Every line over the effects | ≥ 9.0 LU | clear on a phone |
 | Clarity per line after shaping (Whisper) | mean 0.987, every line ≥ 0.94 | — |
 | Clarity through the finished mix | mean 0.973 (hook 0.95, suspects 0.98, makeover 0.98, payoff 0.96, brand 1.00) | — |
-| Delivered MP4 audio | RENDER_AUDIO | same targets |
+| Delivered MP4 audio (AAC decoded) | −14.55 LUFS, −1.29 dBTP, mono −0.09 LU | same targets |
+| Clarity in the delivered MP4 | mean 0.969 (hook 0.95, suspects 0.97, makeover 0.97, payoff 0.96, brand 1.00 — «سرامیک هر سرامیکی جای خودش») | — |
 
 Files: `production/qa/audio-report.json`, `production/qa/dialogue-in-mix.json`,
 `production/voice/VOICE-REPORT.md`, `production/prosody.json`.
@@ -60,7 +61,7 @@ Files: `production/qa/audio-report.json`, `production/qa/dialogue-in-mix.json`,
 
 Key moments rendered as stills and checked at full and phone size: `docs/qa/contact-sheet.jpg`,
 `docs/qa/contact-sheet-phone-size.jpg` (taken from the delivered MP4), cover `docs/qa/cover-1080x1920.jpg`.
-Render: RENDER_STATS.
+Render: `npm run render` → `out/3ramic-reel-1080x1920.mp4`, H.264 1080×1920 30 fps, 1226 frames, 40.87 s, stereo AAC 48 kHz, 92.5 MB, about 50 min on 4 CPU cores (software WebGL).
 
 ## Release-blocking checklist
 
