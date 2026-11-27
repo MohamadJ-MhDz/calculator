@@ -3,46 +3,53 @@
  "source": "synthesis",
  "note": "Exact phoneme and word timing reported by the voice model while it spoke this take (seconds on the WAV's own clock). Valid only for the WAV with this sha1; a replaced recording is timed from its own audio.",
  "wav": "public/audio/voice/L02.wav",
- "sha1": "bb9a34d8c21b7438b03bdc89a8875f8a928e9257",
- "take": "musa-t3",
- "voice": "musa",
- "engine": "matcha",
- "seconds": 0.545,
+ "sha1": "89d7316dbdec79fdef9880a4586d936e02d0a937",
+ "take": "ganji_adabi-t3",
+ "voice": "ganji_adabi",
+ "engine": "piper",
+ "seconds": 0.453,
  "heard": "چرا.",
  "match": 1.0,
+ "prosody": {
+  "medianHz": 81.5,
+  "shiftSt": 4.0,
+  "range": 1.05,
+  "endRiseSt": 4,
+  "tempo": 1.1
+ },
  "phones": [
   {
    "p": "t",
-   "start": 0.02,
-   "end": 0.0908
+   "start": 0.0182,
+   "end": 0.0393
   },
   {
    "p": "ʃ",
-   "start": 0.0908,
-   "end": 0.1716
+   "start": 0.0393,
+   "end": 0.1026
   },
   {
    "p": "e",
-   "start": 0.1716,
-   "end": 0.2323
+   "start": 0.1026,
+   "end": 0.1448
   },
   {
    "p": "r",
-   "start": 0.2323,
-   "end": 0.3131
+   "start": 0.1448,
+   "end": 0.2187
   },
   {
    "p": "ɑ",
-   "start": 0.4041,
-   "end": 0.4849
+   "start": 0.282,
+   "end": 0.3982
   }
  ],
  "words": [
   {
    "i": 0,
    "ph": "tʃerˈɑ",
-   "start": 0.02,
-   "end": 0.4849
+   "start": 0.0182,
+   "end": 0.3982
   }
  ]
 }

@@ -3,144 +3,151 @@
  "source": "synthesis",
  "note": "Exact phoneme and word timing reported by the voice model while it spoke this take (seconds on the WAV's own clock). Valid only for the WAV with this sha1; a replaced recording is timed from its own audio.",
  "wav": "public/audio/voice/L14.wav",
- "sha1": "ded9c8d00c18ded28999fdea9d6c079c8df18f6a",
- "take": "musa-t4",
- "voice": "musa",
- "engine": "matcha",
- "seconds": 1.708,
- "heard": "خب استفادتو پس میگیری",
+ "sha1": "d390fc7c864b27f1c7e421737d2801cabdc545ba",
+ "take": "ganji_adabi-t4",
+ "voice": "ganji_adabi",
+ "engine": "piper",
+ "seconds": 2.152,
+ "heard": "خب، استفادتو پس میگیری.",
  "match": 0.944,
+ "prosody": {
+  "medianHz": 98.4,
+  "shiftSt": 1.61,
+  "range": 1.05,
+  "endRiseSt": 6,
+  "tempo": 1.1
+ },
  "phones": [
   {
    "p": "x",
-   "start": 0.02,
-   "end": 0.1104
+   "start": 0.0182,
+   "end": 0.1132
   },
   {
    "p": "o",
-   "start": 0.2009,
-   "end": 0.3094
+   "start": 0.1871,
+   "end": 0.2398
   },
   {
    "p": "b",
-   "start": 0.3094,
-   "end": 0.3456
+   "start": 0.2398,
+   "end": 0.3559
   },
   {
    "p": "e",
-   "start": 0.4722,
-   "end": 0.5264
+   "start": 0.6409,
+   "end": 0.7254
   },
   {
    "p": "s",
-   "start": 0.5264,
-   "end": 0.5717
+   "start": 0.7254,
+   "end": 0.7992
   },
   {
    "p": "t",
-   "start": 0.5717,
-   "end": 0.6078
+   "start": 0.7992,
+   "end": 0.8309
   },
   {
    "p": "e",
-   "start": 0.6078,
-   "end": 0.6621
+   "start": 0.8309,
+   "end": 0.8836
   },
   {
    "p": "ʔ",
-   "start": 0.6621,
-   "end": 0.6983
+   "start": 0.8836,
+   "end": 0.947
   },
   {
    "p": "f",
-   "start": 0.6983,
-   "end": 0.7616
+   "start": 0.947,
+   "end": 0.9892
   },
   {
    "p": "ɑ",
-   "start": 0.8339,
-   "end": 0.8701
+   "start": 1.1053,
+   "end": 1.1792
   },
   {
    "p": "t",
-   "start": 0.8701,
-   "end": 0.9244
+   "start": 1.1792,
+   "end": 1.2108
   },
   {
    "p": "o",
-   "start": 0.9244,
-   "end": 0.9786
+   "start": 1.2108,
+   "end": 1.2742
   },
   {
    "p": "p",
-   "start": 1.0238,
-   "end": 1.06
+   "start": 1.3164,
+   "end": 1.3903
   },
   {
    "p": "a",
-   "start": 1.1143,
-   "end": 1.1504
+   "start": 1.443,
+   "end": 1.4853
   },
   {
    "p": "s",
-   "start": 1.1504,
-   "end": 1.2138
+   "start": 1.4853,
+   "end": 1.5485
   },
   {
    "p": "m",
-   "start": 1.2499,
-   "end": 1.3042
+   "start": 1.5803,
+   "end": 1.6435
   },
   {
    "p": "i",
-   "start": 1.3042,
-   "end": 1.3494
+   "start": 1.6435,
+   "end": 1.6753
   },
   {
    "p": "ɡ",
-   "start": 1.3494,
-   "end": 1.3946
+   "start": 1.6753,
+   "end": 1.7491
   },
   {
    "p": "i",
-   "start": 1.4489,
-   "end": 1.4941
+   "start": 1.8125,
+   "end": 1.8758
   },
   {
    "p": "r",
-   "start": 1.4941,
-   "end": 1.5845
+   "start": 1.8758,
+   "end": 1.9285
   },
   {
    "p": "i",
-   "start": 1.5845,
-   "end": 1.6478
+   "start": 1.9285,
+   "end": 2.0975
   }
  ],
  "words": [
   {
    "i": 0,
    "ph": "xˈob",
-   "start": 0.02,
-   "end": 0.3456
+   "start": 0.0182,
+   "end": 0.3559
   },
   {
    "i": 1,
    "ph": "ˌesteʔfˈɑto",
-   "start": 0.427,
-   "end": 0.9786
+   "start": 0.5986,
+   "end": 1.2742
   },
   {
    "i": 2,
    "ph": "pˈas",
-   "start": 1.0238,
-   "end": 1.2138
+   "start": 1.3164,
+   "end": 1.5485
   },
   {
    "i": 3,
    "ph": "miɡˈiri",
-   "start": 1.2499,
-   "end": 1.6478
+   "start": 1.5803,
+   "end": 2.0975
   }
  ]
 }

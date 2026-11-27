@@ -1,11 +1,11 @@
 {
  "file": "public/audio/mix.wav",
- "seconds": 39.7,
+ "seconds": 40.867,
  "sampleRate": 48000,
  "channels": 2,
  "integratedLUFS": -14.52,
- "loudnessRangeLU": 5.61,
- "maxShortTermLUFS": -10.37,
+ "loudnessRangeLU": 5.48,
+ "maxShortTermLUFS": -10.2,
  "truePeakDBTP": -1.5,
  "targets": {
   "integratedLUFS": [
@@ -20,110 +20,110 @@
  },
  "mono": {
   "stereoLUFS": -14.52,
-  "monoFoldLUFS": -14.62,
-  "monoDropLU": 0.1,
-  "correlation": 0.955
+  "monoFoldLUFS": -14.61,
+  "monoDropLU": 0.09,
+  "correlation": 0.96
  },
  "dialogueClarity": {
   "note": "Loudness of each spoken line minus the music / effects playing under it (LU). 10+ is comfortably clear on phone speakers.",
-  "minOverMusicLU": 9.9,
-  "minOverSfxLU": 8.5,
+  "minOverMusicLU": 10.3,
+  "minOverSfxLU": 9.0,
   "lines": [
    {
     "id": "L01",
-    "dialogueLUFS": -20.6,
-    "overMusicLU": 16.9,
-    "overSfxLU": 10.6
+    "dialogueLUFS": -20.2,
+    "overMusicLU": 17.5,
+    "overSfxLU": 11.0
    },
    {
     "id": "L02",
-    "dialogueLUFS": -22.0,
-    "overMusicLU": 14.3,
-    "overSfxLU": 13.6
+    "dialogueLUFS": -21.3,
+    "overMusicLU": 15.1,
+    "overSfxLU": 15.6
    },
    {
     "id": "L03",
     "dialogueLUFS": -20.9,
-    "overMusicLU": 10.6,
-    "overSfxLU": 12.8
+    "overMusicLU": 10.3,
+    "overSfxLU": 12.9
    },
    {
     "id": "L04",
-    "dialogueLUFS": -22.6,
-    "overMusicLU": 11.3,
-    "overSfxLU": 47.4
+    "dialogueLUFS": -23.6,
+    "overMusicLU": 10.8,
+    "overSfxLU": 12.5
    },
    {
     "id": "L05",
-    "dialogueLUFS": -21.8,
-    "overMusicLU": 12.0,
-    "overSfxLU": 16.3
+    "dialogueLUFS": -21.6,
+    "overMusicLU": 12.4,
+    "overSfxLU": 16.5
    },
    {
     "id": "L06",
-    "dialogueLUFS": -21.8,
-    "overMusicLU": 12.5,
-    "overSfxLU": 16.2
+    "dialogueLUFS": -21.5,
+    "overMusicLU": 12.7,
+    "overSfxLU": 16.5
    },
    {
     "id": "L07",
-    "dialogueLUFS": -22.4,
-    "overMusicLU": 11.8,
-    "overSfxLU": 10.1
+    "dialogueLUFS": -21.6,
+    "overMusicLU": 12.7,
+    "overSfxLU": 11.3
    },
    {
     "id": "L08",
-    "dialogueLUFS": -19.1,
-    "overMusicLU": 16.0,
-    "overSfxLU": 13.8
+    "dialogueLUFS": -20.0,
+    "overMusicLU": 15.2,
+    "overSfxLU": 12.9
    },
    {
     "id": "L09",
-    "dialogueLUFS": -23.1,
-    "overMusicLU": 11.4,
-    "overSfxLU": 46.9
+    "dialogueLUFS": -22.8,
+    "overMusicLU": 11.6,
+    "overSfxLU": 47.2
    },
    {
     "id": "L10",
-    "dialogueLUFS": -22.4,
-    "overMusicLU": 18.5,
-    "overSfxLU": 13.0
+    "dialogueLUFS": -22.3,
+    "overMusicLU": 19.8,
+    "overSfxLU": 13.5
    },
    {
     "id": "L11",
-    "dialogueLUFS": -22.0,
-    "overMusicLU": 17.5,
-    "overSfxLU": 17.9
+    "dialogueLUFS": -21.7,
+    "overMusicLU": 33.7,
+    "overSfxLU": 18.1
    },
    {
     "id": "L12",
-    "dialogueLUFS": -21.5,
-    "overMusicLU": 9.9,
-    "overSfxLU": 48.5
+    "dialogueLUFS": -21.2,
+    "overMusicLU": 10.8,
+    "overSfxLU": 27.7
    },
    {
     "id": "L13",
-    "dialogueLUFS": -21.2,
-    "overMusicLU": 18.8,
-    "overSfxLU": 48.8
+    "dialogueLUFS": -21.8,
+    "overMusicLU": 17.9,
+    "overSfxLU": 48.2
    },
    {
     "id": "L14",
-    "dialogueLUFS": -22.5,
-    "overMusicLU": 18.3,
-    "overSfxLU": 12.1
+    "dialogueLUFS": -22.0,
+    "overMusicLU": 18.6,
+    "overSfxLU": 13.0
    },
    {
     "id": "L15",
-    "dialogueLUFS": -22.3,
-    "overMusicLU": 47.7,
-    "overSfxLU": 8.5
+    "dialogueLUFS": -21.8,
+    "overMusicLU": 48.2,
+    "overSfxLU": 9.0
    },
    {
     "id": "L16",
-    "dialogueLUFS": -20.8,
-    "overMusicLU": 16.3,
-    "overSfxLU": 20.8
+    "dialogueLUFS": -22.5,
+    "overMusicLU": 16.0,
+    "overSfxLU": 19.1
    }
   ]
  },
@@ -131,97 +131,97 @@
   {
    "id": "L01",
    "from": 3,
-   "to": 48,
+   "to": 47,
    "endsBeforeFilmEnd": true
   },
   {
    "id": "L02",
-   "from": 55,
-   "to": 72,
+   "from": 54,
+   "to": 68,
    "endsBeforeFilmEnd": true
   },
   {
    "id": "L03",
-   "from": 77,
-   "to": 119,
+   "from": 73,
+   "to": 112,
    "endsBeforeFilmEnd": true
   },
   {
    "id": "L04",
-   "from": 127,
-   "to": 186,
+   "from": 120,
+   "to": 174,
    "endsBeforeFilmEnd": true
   },
   {
    "id": "L05",
-   "from": 206,
-   "to": 251,
+   "from": 194,
+   "to": 237,
    "endsBeforeFilmEnd": true
   },
   {
    "id": "L06",
-   "from": 256,
-   "to": 297,
+   "from": 242,
+   "to": 289,
    "endsBeforeFilmEnd": true
   },
   {
    "id": "L07",
-   "from": 308,
-   "to": 374,
+   "from": 300,
+   "to": 372,
    "endsBeforeFilmEnd": true
   },
   {
    "id": "L08",
-   "from": 385,
-   "to": 456,
+   "from": 383,
+   "to": 448,
    "endsBeforeFilmEnd": true
   },
   {
    "id": "L09",
-   "from": 468,
-   "to": 527,
+   "from": 460,
+   "to": 519,
    "endsBeforeFilmEnd": true
   },
   {
    "id": "L10",
-   "from": 543,
-   "to": 658,
+   "from": 535,
+   "to": 650,
    "endsBeforeFilmEnd": true
   },
   {
    "id": "L11",
-   "from": 663,
-   "to": 692,
+   "from": 655,
+   "to": 709,
    "endsBeforeFilmEnd": true
   },
   {
    "id": "L12",
-   "from": 803,
-   "to": 833,
+   "from": 820,
+   "to": 856,
    "endsBeforeFilmEnd": true
   },
   {
    "id": "L13",
-   "from": 884,
-   "to": 949,
+   "from": 901,
+   "to": 959,
    "endsBeforeFilmEnd": true
   },
   {
    "id": "L14",
-   "from": 956,
-   "to": 1008,
+   "from": 966,
+   "to": 1031,
    "endsBeforeFilmEnd": true
   },
   {
    "id": "L15",
-   "from": 1017,
-   "to": 1043,
+   "from": 1040,
+   "to": 1075,
    "endsBeforeFilmEnd": true
   },
   {
    "id": "L16",
-   "from": 1063,
-   "to": 1163,
+   "from": 1095,
+   "to": 1198,
    "endsBeforeFilmEnd": true
   }
  ]

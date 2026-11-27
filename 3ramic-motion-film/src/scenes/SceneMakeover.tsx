@@ -31,8 +31,9 @@ const CAM_TWO1: CamSpec = { pos: [-1.22, 1.12, 7.7], target: [-0.25, 0.56, 4.9],
 const CAM_CU0: CamSpec = { pos: [-1.55, 0.7, 8.2], target: [-0.8, 0.74, 5.55], fov: 34 };
 const CAM_CU1: CamSpec = { pos: [-1.45, 0.74, 7.85], target: [-0.8, 0.76, 5.55], fov: 34 };
 // «اینجا جای منه!» — close on the patterned tile in its new frame
-const CAM_NICHE0: CamSpec = { pos: [2.3, 5.25, -3.1], target: [2.75, 5.05, -5.9], fov: 40 };
-const CAM_NICHE1: CamSpec = { pos: [2.4, 5.3, -3.4], target: [2.8, 5.1, -5.9], fov: 40 };
+// the whole framed 2×2 inlay in the calm wall, so the one tile with a face reads at once
+const CAM_NICHE0: CamSpec = { pos: [2.55, 5.0, 0.6], target: [2.6, 5.0, -5.9], fov: 38 };
+const CAM_NICHE1: CamSpec = { pos: [2.55, 5.0, -0.2], target: [2.6, 5.0, -5.9], fov: 38 };
 
 const BOX_AT: V3 = [-2.0, 0, 2.2];
 const BOX_FROM: V3 = [-6.5, 0, 2.2];

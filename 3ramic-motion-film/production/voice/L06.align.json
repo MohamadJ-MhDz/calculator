@@ -3,119 +3,126 @@
  "source": "synthesis",
  "note": "Exact phoneme and word timing reported by the voice model while it spoke this take (seconds on the WAV's own clock). Valid only for the WAV with this sha1; a replaced recording is timed from its own audio.",
  "wav": "public/audio/voice/L06.wav",
- "sha1": "49982aa05c56e976a850c88f0c6b799c86a1fdf6",
- "take": "musa-t4",
- "voice": "musa",
- "engine": "matcha",
- "seconds": 1.361,
- "heard": "خب زیادی دیده شدی",
+ "sha1": "803c5dc843a26c711eb2e56dc4fe01dbed17c03c",
+ "take": "ganji_adabi-t5",
+ "voice": "ganji_adabi",
+ "engine": "piper",
+ "seconds": 1.54,
+ "heard": "خب زیادی دیده شدی.",
  "match": 1.0,
+ "prosody": {
+  "medianHz": 96.9,
+  "shiftSt": 1.88,
+  "range": 1.05,
+  "endRiseSt": 0.0,
+  "tempo": 1.1
+ },
  "phones": [
   {
    "p": "x",
-   "start": 0.02,
-   "end": 0.1011
+   "start": 0.0182,
+   "end": 0.0815
   },
   {
    "p": "o",
-   "start": 0.1902,
-   "end": 0.3037
+   "start": 0.1343,
+   "end": 0.1976
   },
   {
    "p": "b",
-   "start": 0.3037,
-   "end": 0.3442
+   "start": 0.1976,
+   "end": 0.3032
   },
   {
    "p": "z",
-   "start": 0.4496,
-   "end": 0.5144
+   "start": 0.4087,
+   "end": 0.5248
   },
   {
    "p": "i",
-   "start": 0.5144,
-   "end": 0.563
+   "start": 0.5248,
+   "end": 0.5986
   },
   {
    "p": "ɑ",
-   "start": 0.6279,
-   "end": 0.6603
+   "start": 0.6831,
+   "end": 0.7465
   },
   {
    "p": "d",
-   "start": 0.6603,
-   "end": 0.6927
+   "start": 0.7465,
+   "end": 0.7992
   },
   {
    "p": "i",
-   "start": 0.6927,
-   "end": 0.7332
+   "start": 0.7992,
+   "end": 0.852
   },
   {
    "p": "d",
-   "start": 0.7738,
-   "end": 0.7981
+   "start": 0.8836,
+   "end": 0.9153
   },
   {
    "p": "i",
-   "start": 0.8467,
-   "end": 0.8791
+   "start": 0.9681,
+   "end": 1.0103
   },
   {
    "p": "d",
-   "start": 0.8791,
-   "end": 0.9116
+   "start": 1.0103,
+   "end": 1.0525
   },
   {
    "p": "e",
-   "start": 0.9116,
-   "end": 0.9764
+   "start": 1.0525,
+   "end": 1.137
   },
   {
    "p": "ʃ",
-   "start": 1.0331,
-   "end": 1.0656
+   "start": 1.1792,
+   "end": 1.2319
   },
   {
    "p": "o",
-   "start": 1.1061,
-   "end": 1.1466
+   "start": 1.2742,
+   "end": 1.3269
   },
   {
    "p": "d",
-   "start": 1.1466,
-   "end": 1.2358
+   "start": 1.3269,
+   "end": 1.3692
   },
   {
    "p": "i",
-   "start": 1.2358,
-   "end": 1.3006
+   "start": 1.3692,
+   "end": 1.4853
   }
  ],
  "words": [
   {
    "i": 0,
    "ph": "xˈob",
-   "start": 0.02,
-   "end": 0.3442
+   "start": 0.0182,
+   "end": 0.3032
   },
   {
    "i": 1,
    "ph": "ziˈɑdi",
-   "start": 0.4496,
-   "end": 0.7332
+   "start": 0.4087,
+   "end": 0.852
   },
   {
    "i": 2,
    "ph": "dˈideː",
-   "start": 0.7738,
-   "end": 0.9764
+   "start": 0.8836,
+   "end": 1.137
   },
   {
    "i": 3,
    "ph": "ʃˈodi",
-   "start": 1.0331,
-   "end": 1.3006
+   "start": 1.1792,
+   "end": 1.4853
   }
  ]
 }

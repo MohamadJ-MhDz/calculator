@@ -3,103 +3,110 @@
  "source": "synthesis",
  "note": "Exact phoneme and word timing reported by the voice model while it spoke this take (seconds on the WAV's own clock). Valid only for the WAV with this sha1; a replaced recording is timed from its own audio.",
  "wav": "public/audio/voice/L03.wav",
- "sha1": "5da5164853bd108a19a9a844ea7d1e07c8032e80",
- "take": "khadijah-t0",
- "voice": "khadijah",
- "engine": "matcha",
- "seconds": 1.391,
+ "sha1": "937d6faa4e1adeccee74d0ec1c7777104ae1efbb",
+ "take": "mana-t1",
+ "voice": "mana",
+ "engine": "piper",
+ "seconds": 1.287,
  "heard": "آخه این چه ترکیبیه؟",
  "match": 1.0,
+ "prosody": {
+  "medianHz": 237.3,
+  "shiftSt": -0.17,
+  "range": 1.25,
+  "endRiseSt": 3,
+  "tempo": 1.0
+ },
  "phones": [
   {
    "p": "ɑ",
-   "start": 0.0904,
-   "end": 0.1784
+   "start": 0.078,
+   "end": 0.1593
   },
   {
    "p": "x",
-   "start": 0.1784,
-   "end": 0.24
+   "start": 0.1593,
+   "end": 0.2174
   },
   {
    "p": "e",
-   "start": 0.24,
-   "end": 0.2752
+   "start": 0.2174,
+   "end": 0.2522
   },
   {
    "p": "i",
-   "start": 0.3192,
-   "end": 0.3896
+   "start": 0.2754,
+   "end": 0.3335
   },
   {
    "p": "n",
-   "start": 0.3896,
-   "end": 0.4336
+   "start": 0.3335,
+   "end": 0.3799
   },
   {
    "p": "t",
-   "start": 0.4688,
-   "end": 0.504
+   "start": 0.4147,
+   "end": 0.4496
   },
   {
    "p": "ʃ",
-   "start": 0.504,
-   "end": 0.5567
+   "start": 0.4496,
+   "end": 0.5192
   },
   {
    "p": "e",
-   "start": 0.5567,
-   "end": 0.6095
+   "start": 0.5192,
+   "end": 0.5424
   },
   {
    "p": "t",
-   "start": 0.6535,
-   "end": 0.7151
+   "start": 0.6237,
+   "end": 0.6702
   },
   {
    "p": "a",
-   "start": 0.7151,
-   "end": 0.8119
+   "start": 0.6702,
+   "end": 0.7282
   },
   {
    "p": "r",
-   "start": 0.8119,
-   "end": 0.8735
+   "start": 0.7282,
+   "end": 0.7746
   },
   {
    "p": "r",
-   "start": 0.8735,
-   "end": 0.9175
+   "start": 0.7746,
+   "end": 0.8211
   },
   {
    "p": "k",
-   "start": 0.9175,
-   "end": 0.9791
+   "start": 0.8211,
+   "end": 0.9024
   },
   {
    "p": "i",
-   "start": 0.9791,
-   "end": 1.0495
+   "start": 0.9024,
+   "end": 0.972
   },
   {
    "p": "b",
-   "start": 1.0495,
-   "end": 1.0935
+   "start": 0.972,
+   "end": 1.0185
   },
   {
    "p": "i",
-   "start": 1.1551,
-   "end": 1.2079
+   "start": 1.0881,
+   "end": 1.1113
   },
   {
    "p": "j",
-   "start": 1.2079,
-   "end": 1.2783
+   "start": 1.1113,
+   "end": 1.1694
   },
   {
    "p": "e",
-   "start": 1.2783,
-   "end": 1.3311
+   "start": 1.1694,
+   "end": 1.2274
   }
  ],
  "words": [
@@ -107,25 +114,25 @@
    "i": 0,
    "ph": "ˈɑxe",
    "start": 0.02,
-   "end": 0.2752
+   "end": 0.2522
   },
   {
    "i": 1,
    "ph": "iːn",
-   "start": 0.3192,
-   "end": 0.4336
+   "start": 0.2754,
+   "end": 0.3799
   },
   {
    "i": 2,
    "ph": "tʃe",
-   "start": 0.4688,
-   "end": 0.6095
+   "start": 0.4147,
+   "end": 0.5424
   },
   {
    "i": 3,
    "ph": "tarrkibˈije",
-   "start": 0.6535,
-   "end": 1.3311
+   "start": 0.6237,
+   "end": 1.2274
   }
  ]
 }

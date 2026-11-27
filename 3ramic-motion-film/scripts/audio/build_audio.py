@@ -102,10 +102,6 @@ for l in TL["lines"]:
     if l["id"] == "L16":
         # the detective's closing line: close and dry, like a sign-off
         wet = 0.03
-    if l["id"] == "L12":
-        # said from the inlay, far back in the shower
-        bands = bands + [("lp", 7000)]
-        wet = 0.24
     y = dsp.eq(x, *bands)
     y = dsp.compress(y, threshold_db=thr, ratio=2.6, attack=0.004, release=0.09, makeup_db=2.0)
     st = dsp.reverb(y, ROOM, wet) if wet > 0 else np.stack([y, y], axis=1)
@@ -300,7 +296,7 @@ sfx.add(S.thud(0.2, 150, 1.0, seed=203), frame=H["hit"], gain_db=-8)
 sfx.add(S.paper(0.14, seed=204, vel=1.4), frame=H["hit"], gain_db=-9)
 sfx.add(S.paper(0.6, seed=205, vel=0.6), frame=H["peel"], gain_db=-17)
 sfx.add(S.whoosh(0.32, 250, 1800, seed=206, vel=0.8), frame=H["reveal"], gain_db=-15)
-sfx.add(S.stamp(), frame=H["stamp"], gain_db=-7)
+sfx.add(S.pad_len(S.stamp(), int(0.12 * SR)) * np.linspace(1, 0, int(0.12 * SR)) ** 2, frame=H["stamp"], gain_db=-14)  # in the pause, short, under the next word
 # 2 · suspects
 sfx.add(clack(1.35, seed=210), frame=SU["patternPop"], gain_db=-9, pan=-0.5)
 sfx.add(S.whoosh(0.3, 500, 2400, seed=211, vel=0.6), frame=SU["patternPop"] + 2, gain_db=-16, pan=-0.4)

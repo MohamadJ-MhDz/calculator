@@ -3,160 +3,167 @@
  "source": "synthesis",
  "note": "Exact phoneme and word timing reported by the voice model while it spoke this take (seconds on the WAV's own clock). Valid only for the WAV with this sha1; a replaced recording is timed from its own audio.",
  "wav": "public/audio/voice/L08.wav",
- "sha1": "c226a4e7b9a97dd3dbe55272302f9168c2004f57",
- "take": "reza_ibrahim-t1",
+ "sha1": "8563a29a74387fc6366e4a8c4b43a07682b94eba",
+ "take": "reza_ibrahim-t2",
  "voice": "reza_ibrahim",
  "engine": "piper",
- "seconds": 2.354,
+ "seconds": 2.164,
  "heard": "اینجا بدون من هیچی نیست.",
  "match": 1.0,
+ "prosody": {
+  "medianHz": 107.9,
+  "shiftSt": -1.67,
+  "range": 1.1,
+  "endRiseSt": 0.0,
+  "tempo": 1.05
+ },
  "phones": [
   {
    "p": "i",
-   "start": 0.1013,
-   "end": 0.1361
+   "start": 0.0522,
+   "end": 0.1517
   },
   {
    "p": "n",
-   "start": 0.1361,
-   "end": 0.2174
+   "start": 0.1517,
+   "end": 0.196
   },
   {
    "p": "d",
-   "start": 0.2174,
-   "end": 0.2754
+   "start": 0.196,
+   "end": 0.2402
   },
   {
    "p": "ʒ",
-   "start": 0.2754,
-   "end": 0.4031
+   "start": 0.2402,
+   "end": 0.3176
   },
   {
    "p": "ɑ",
-   "start": 0.4031,
-   "end": 0.496
+   "start": 0.3176,
+   "end": 0.4392
   },
   {
    "p": "b",
-   "start": 0.5541,
-   "end": 0.6469
+   "start": 0.5055,
+   "end": 0.5719
   },
   {
    "p": "e",
-   "start": 0.6469,
-   "end": 0.6818
+   "start": 0.5719,
+   "end": 0.605
   },
   {
    "p": "d",
-   "start": 0.6818,
-   "end": 0.705
+   "start": 0.605,
+   "end": 0.6825
   },
   {
    "p": "u",
-   "start": 0.7398,
-   "end": 0.8675
+   "start": 0.7489,
+   "end": 0.8372
   },
   {
    "p": "n",
-   "start": 0.8675,
-   "end": 0.914
+   "start": 0.8372,
+   "end": 0.8815
   },
   {
    "p": "e",
-   "start": 0.914,
-   "end": 0.972
+   "start": 0.8815,
+   "end": 0.9036
   },
   {
    "p": "m",
-   "start": 1.0068,
-   "end": 1.0533
+   "start": 0.97,
+   "end": 1.0252
   },
   {
    "p": "a",
-   "start": 1.0533,
-   "end": 1.1346
+   "start": 1.0252,
+   "end": 1.0916
   },
   {
    "p": "n",
-   "start": 1.1346,
-   "end": 1.2042
+   "start": 1.0916,
+   "end": 1.18
   },
   {
    "p": "h",
-   "start": 1.2739,
-   "end": 1.3435
+   "start": 1.2132,
+   "end": 1.2464
   },
   {
    "p": "i",
-   "start": 1.4712,
-   "end": 1.5293
+   "start": 1.368,
+   "end": 1.4233
   },
   {
    "p": "t",
-   "start": 1.5293,
-   "end": 1.5641
+   "start": 1.4233,
+   "end": 1.5007
   },
   {
    "p": "ʃ",
-   "start": 1.5641,
-   "end": 1.7034
+   "start": 1.5007,
+   "end": 1.5339
   },
   {
    "p": "i",
-   "start": 1.7034,
-   "end": 1.7499
+   "start": 1.5339,
+   "end": 1.6112
   },
   {
    "p": "n",
-   "start": 1.8079,
-   "end": 1.866
+   "start": 1.6555,
+   "end": 1.7218
   },
   {
    "p": "i",
-   "start": 1.9124,
-   "end": 2.075
+   "start": 1.7771,
+   "end": 1.8877
   },
   {
    "p": "s",
-   "start": 2.075,
-   "end": 2.2143
+   "start": 1.8877,
+   "end": 2.0535
   },
   {
    "p": "t",
-   "start": 2.2143,
-   "end": 2.3188
+   "start": 2.0535,
+   "end": 2.131
   }
  ],
  "words": [
   {
    "i": 0,
    "ph": "ˈindʒɑ",
-   "start": 0.02,
-   "end": 0.496
+   "start": 0.019,
+   "end": 0.4392
   },
   {
    "i": 1,
    "ph": "bedˈuːne",
-   "start": 0.5541,
-   "end": 0.972
+   "start": 0.5055,
+   "end": 0.9036
   },
   {
    "i": 2,
    "ph": "man",
-   "start": 1.0068,
-   "end": 1.2042
+   "start": 0.97,
+   "end": 1.18
   },
   {
    "i": 3,
    "ph": "hˈitʃi",
-   "start": 1.2739,
-   "end": 1.7499
+   "start": 1.2132,
+   "end": 1.6112
   },
   {
    "i": 4,
    "ph": "nˈist",
-   "start": 1.8079,
-   "end": 2.3188
+   "start": 1.6555,
+   "end": 2.131
   }
  ]
 }

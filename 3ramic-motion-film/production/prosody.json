@@ -1,60 +1,58 @@
 {
-  "note": "Intonation shaping applied by scripts/audio/voice_prosody.py when a take is installed. targetHz: the character's steady median pitch (shift limited to ±4 semitones); range: scale of pitch movement; endRise: semitones of rise over the last `endDur` seconds (questions); lift: semitones added to the whole line (shouting).",
+  "note": "Intonation shaping applied by scripts/audio/voice_prosody.py when a take is installed. targetHz: the character's steady median pitch (shift limited to ±4 semitones); range: scale of pitch movement; endRise: semitones of rise over the last `endDur` seconds (questions); lift: semitones added to the whole line (shouting). tempo: speed factor (1.1 = 10% quicker), pitch unchanged; phoneme timing is rescaled to match.",
   "characters": {
     "tile": {
       "targetHz": 235,
-      "range": 1.35
+      "range": 1.2
     },
     "detective": {
       "targetHz": 108,
-      "range": 1.1
+      "range": 1.05,
+      "tempo": 1.1
     },
     "pattern": {
-      "targetHz": 145,
-      "range": 1.35
+      "targetHz": 148,
+      "range": 1.2
     },
     "vanity": {
-      "targetHz": 95,
-      "range": 1.2
+      "targetHz": 98,
+      "range": 1.1,
+      "tempo": 1.05
     }
   },
   "lines": {
     "L01": {
-      "range": 1.5,
-      "lift": 1.5
+      "range": 1.3,
+      "lift": 1.0
     },
     "L02": {
-      "endRise": 4,
-      "endDur": 0.25
+      "endRise": 4
     },
     "L03": {
-      "range": 1.45,
+      "range": 1.25,
       "endRise": 3
     },
     "L05": {
-      "range": 1.5
+      "range": 1.3
     },
     "L07": {
-      "endRise": 5,
-      "endDur": 0.3
+      "endRise": 5
     },
     "L11": {
-      "range": 1.25,
-      "lift": 0.5
+      "range": 1.1
     },
     "L13": {
-      "range": 1.5,
-      "lift": 1.0
+      "range": 1.3,
+      "lift": 0.8
     },
     "L14": {
-      "endRise": 6,
-      "endDur": 0.35
+      "endRise": 6
     },
     "L15": {
-      "range": 1.2
+      "range": 1.15
     },
     "L16": {
-      "range": 1.05
+      "range": 1.0
     }
   }
 }

@@ -1,22 +1,22 @@
 {
  "chosen": {
-  "L01": "khadijah-t0",
-  "L02": "musa-t3",
-  "L03": "khadijah-t0",
-  "L04": "musa-t1",
+  "L01": "mana-t1",
+  "L02": "ganji_adabi-t3",
+  "L03": "mana-t1",
+  "L04": "ganji_adabi-t0",
   "L05": "amir-t1",
-  "L06": "musa-t4",
-  "L07": "musa-t3",
-  "L08": "reza_ibrahim-t1",
-  "L09": "musa-t4",
-  "L10": "musa-t4",
-  "L11": "musa-t1",
-  "L12": "amir-t7",
-  "L13": "khadijah-t1",
-  "L14": "musa-t4",
-  "L15": "khadijah-t2",
-  "L16": "ganji-t4"
+  "L06": "ganji_adabi-t5",
+  "L07": "ganji_adabi-t5",
+  "L08": "reza_ibrahim-t2",
+  "L09": "ganji_adabi-t5",
+  "L10": "ganji_adabi-t3",
+  "L11": "ganji_adabi-t4",
+  "L12": "amir-t3",
+  "L13": "mana-t2",
+  "L14": "ganji_adabi-t4",
+  "L15": "mana-t5",
+  "L16": "ganji_adabi-t2"
  },
  "problems": [],
- "meanMatch": 0.984
+ "meanMatch": 0.987
 }

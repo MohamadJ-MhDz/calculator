@@ -3,140 +3,147 @@
  "source": "synthesis",
  "note": "Exact phoneme and word timing reported by the voice model while it spoke this take (seconds on the WAV's own clock). Valid only for the WAV with this sha1; a replaced recording is timed from its own audio.",
  "wav": "public/audio/voice/L07.wav",
- "sha1": "7801d4262ae614d51f4c610e387c93e73713acde",
- "take": "musa-t3",
- "voice": "musa",
- "engine": "matcha",
- "seconds": 2.196,
- "heard": "شیش متجا هزار تیکه",
- "match": 0.968,
+ "sha1": "96cb3331395b01dd3dc4120a95e6cf7524ff9af7",
+ "take": "ganji_adabi-t5",
+ "voice": "ganji_adabi",
+ "engine": "piper",
+ "seconds": 2.392,
+ "heard": "شیش متر جا. هزار تیکه.",
+ "match": 1.0,
+ "prosody": {
+  "medianHz": 88.3,
+  "shiftSt": 3.48,
+  "range": 1.05,
+  "endRiseSt": 5,
+  "tempo": 1.1
+ },
  "phones": [
   {
    "p": "ʃ",
-   "start": 0.02,
-   "end": 0.1104
+   "start": 0.0182,
+   "end": 0.1026
   },
   {
    "p": "i",
-   "start": 0.2099,
-   "end": 0.2913
+   "start": 0.1871,
+   "end": 0.2715
   },
   {
    "p": "ʃ",
-   "start": 0.2913,
-   "end": 0.3817
+   "start": 0.2715,
+   "end": 0.3559
   },
   {
    "p": "m",
-   "start": 0.4179,
-   "end": 0.4631
+   "start": 0.4404,
+   "end": 0.4931
   },
   {
    "p": "e",
-   "start": 0.5174,
-   "end": 0.5626
+   "start": 0.5459,
+   "end": 0.5986
   },
   {
    "p": "t",
-   "start": 0.5626,
-   "end": 0.6259
+   "start": 0.5986,
+   "end": 0.6409
   },
   {
    "p": "r",
-   "start": 0.6259,
-   "end": 0.6621
+   "start": 0.6409,
+   "end": 0.7465
   },
   {
    "p": "d",
-   "start": 0.6983,
-   "end": 0.7525
+   "start": 0.7992,
+   "end": 0.852
   },
   {
    "p": "ʒ",
-   "start": 0.7525,
-   "end": 0.8339
+   "start": 0.852,
+   "end": 0.9047
   },
   {
    "p": "ɑ",
-   "start": 0.9334,
-   "end": 0.9786
+   "start": 0.9892,
+   "end": 1.0631
   },
   {
    "p": "h",
-   "start": 1.3586,
-   "end": 1.44
+   "start": 1.4085,
+   "end": 1.4507
   },
   {
    "p": "e",
-   "start": 1.4852,
-   "end": 1.5485
+   "start": 1.4929,
+   "end": 1.5563
   },
   {
    "p": "z",
-   "start": 1.5485,
-   "end": 1.6209
+   "start": 1.5563,
+   "end": 1.609
   },
   {
    "p": "ɑ",
-   "start": 1.6209,
-   "end": 1.7023
+   "start": 1.609,
+   "end": 1.8095
   },
   {
    "p": "r",
-   "start": 1.7023,
-   "end": 1.7475
+   "start": 1.8095,
+   "end": 1.8729
   },
   {
    "p": "t",
-   "start": 1.7837,
-   "end": 1.8379
+   "start": 1.9467,
+   "end": 2.0101
   },
   {
    "p": "i",
-   "start": 1.8832,
-   "end": 1.9193
+   "start": 2.0735,
+   "end": 2.1262
   },
   {
    "p": "k",
-   "start": 1.9193,
-   "end": 1.9736
+   "start": 2.1262,
+   "end": 2.179
   },
   {
    "p": "e",
-   "start": 1.9736,
-   "end": 2.1364
+   "start": 2.179,
+   "end": 2.3373
   }
  ],
  "words": [
   {
    "i": 0,
    "ph": "ʃˈiʃ",
-   "start": 0.02,
-   "end": 0.3817
+   "start": 0.0182,
+   "end": 0.3559
   },
   {
    "i": 1,
    "ph": "mˈetr",
-   "start": 0.4179,
-   "end": 0.6621
+   "start": 0.4404,
+   "end": 0.7465
   },
   {
    "i": 2,
    "ph": "dʒˈɑ",
-   "start": 0.6983,
-   "end": 0.9786
+   "start": 0.7992,
+   "end": 1.0631
   },
   {
    "i": 3,
    "ph": "hˈezɑr",
-   "start": 1.3586,
-   "end": 1.7475
+   "start": 1.4085,
+   "end": 1.8729
   },
   {
    "i": 4,
    "ph": "tˈikeː",
-   "start": 1.7837,
-   "end": 2.1364
+   "start": 1.9467,
+   "end": 2.3373
   }
  ]
 }

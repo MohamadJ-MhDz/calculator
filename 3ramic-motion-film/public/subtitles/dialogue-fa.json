@@ -15,121 +15,121 @@
       "id": 2,
       "line": "L02",
       "speaker": "detective",
-      "from": 55,
-      "to": 77,
+      "from": 54,
+      "to": 73,
       "text": "چرا؟!"
     },
     {
       "id": 3,
       "line": "L03",
       "speaker": "tile",
-      "from": 77,
-      "to": 125,
+      "from": 73,
+      "to": 118,
       "text": "آخه این چه ترکیبیه؟!"
     },
     {
       "id": 4,
       "line": "L04",
       "speaker": "detective",
-      "from": 127,
-      "to": 192,
+      "from": 120,
+      "to": 180,
       "text": "خب… پرونده باز شد."
     },
     {
       "id": 5,
       "line": "L05",
       "speaker": "pattern",
-      "from": 206,
-      "to": 256,
+      "from": 194,
+      "to": 242,
       "text": "من فقط می‌خواستم دیده بشم!"
     },
     {
       "id": 6,
       "line": "L06",
       "speaker": "detective",
-      "from": 256,
-      "to": 304,
+      "from": 242,
+      "to": 295,
       "text": "خب، زیادی دیده شدی!"
     },
     {
       "id": 7,
       "line": "L07",
       "speaker": "detective",
-      "from": 308,
-      "to": 381,
+      "from": 300,
+      "to": 379,
       "text": "شیش متر جا… هزار تیکه؟!"
     },
     {
       "id": 8,
       "line": "L08",
       "speaker": "vanity",
-      "from": 385,
-      "to": 463,
-      "text": "این‌جا بدون من هیچی نیست!"
+      "from": 383,
+      "to": 455,
+      "text": "اینجا بدون من هیچی نیست!"
     },
     {
       "id": 9,
       "line": "L09",
       "speaker": "detective",
-      "from": 468,
-      "to": 533,
+      "from": 460,
+      "to": 525,
       "text": "با تو هم که… جایی نمونده!"
     },
     {
       "id": 10,
       "line": "L10",
       "speaker": "detective",
-      "from": 543,
-      "to": 593,
+      "from": 535,
+      "to": 589,
       "text": "متراژ که عوض نمی‌شه…"
     },
     {
       "id": 11,
       "line": "L10",
       "speaker": "detective",
-      "from": 595,
-      "to": 663,
-      "text": "انتخاب‌ها باید با هم جور باشن."
+      "from": 589,
+      "to": 655,
+      "text": "انتخابا باید با هم جور باشن."
     },
     {
       "id": 12,
       "line": "L11",
       "speaker": "detective",
-      "from": 663,
-      "to": 698,
-      "text": "کارِ 3ramic ه!"
+      "from": 655,
+      "to": 715,
+      "text": "باید بریم سراغِ 3ramic!"
     },
     {
       "id": 13,
       "line": "L12",
       "speaker": "pattern",
-      "from": 803,
-      "to": 839,
-      "text": "این‌جا جای منه!"
+      "from": 820,
+      "to": 862,
+      "text": "اینجا جای منه!"
     },
     {
       "id": 14,
       "line": "L13",
       "speaker": "tile",
-      "from": 884,
-      "to": 955,
-      "text": "اوه… این دیگه یه چیز دیگه‌س!"
+      "from": 901,
+      "to": 965,
+      "text": "وای، این دیگه یه چیز دیگه‌س!"
     },
     {
       "id": 15,
       "line": "L14",
       "speaker": "detective",
-      "from": 956,
-      "to": 1014,
+      "from": 966,
+      "to": 1037,
       "text": "خب، استعفاتو پس می‌گیری؟"
     },
     {
       "id": 16,
       "line": "L15",
       "speaker": "tile",
-      "from": 1017,
-      "to": 1049,
-      "text": "با پاداش!"
+      "from": 1040,
+      "to": 1081,
+      "text": "فقط با پاداش!"
     }
   ]
 }

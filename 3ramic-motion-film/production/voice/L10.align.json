@@ -3,305 +3,307 @@
  "source": "synthesis",
  "note": "Exact phoneme and word timing reported by the voice model while it spoke this take (seconds on the WAV's own clock). Valid only for the WAV with this sha1; a replaced recording is timed from its own audio.",
  "wav": "public/audio/voice/L10.wav",
- "sha1": "dbbeae3d7f9b7dda24407770acf8e38b7b311e13",
- "take": "musa-t4",
- "voice": "musa",
- "engine": "matcha",
- "seconds": 3.83,
- "heard": "متراش که عوض نمیشه. انتخاب ها باید با همجور باشن.",
- "match": 0.974,
+ "sha1": "1d7d3851c311eb0980b9f02475a2411f488d06f5",
+ "take": "ganji_adabi-t3",
+ "voice": "ganji_adabi",
+ "engine": "piper",
+ "seconds": 3.827,
+ "heard": "مترهایی که عوض نمیشه، انتخابا باید با همجور باشن.",
+ "match": 0.947,
+ "prosody": {
+  "medianHz": 96.4,
+  "shiftSt": 1.97,
+  "range": 1.05,
+  "endRiseSt": 0.0,
+  "tempo": 1.1
+ },
  "phones": [
   {
    "p": "m",
-   "start": 0.02,
-   "end": 0.0997
+   "start": 0.0182,
+   "end": 0.0709
   },
   {
    "p": "e",
-   "start": 0.1794,
-   "end": 0.2326
+   "start": 0.1132,
+   "end": 0.1659
   },
   {
    "p": "t",
-   "start": 0.2326,
-   "end": 0.2946
+   "start": 0.1659,
+   "end": 0.2293
   },
   {
    "p": "r",
-   "start": 0.2946,
-   "end": 0.3389
+   "start": 0.2293,
+   "end": 0.3348
   },
   {
    "p": "ɑ",
-   "start": 0.3389,
-   "end": 0.4009
+   "start": 0.3348,
+   "end": 0.4193
   },
   {
    "p": "ʒ",
-   "start": 0.4009,
-   "end": 0.454
+   "start": 0.4193,
+   "end": 0.5037
   },
   {
    "p": "k",
-   "start": 0.4894,
-   "end": 0.5249
+   "start": 0.5986,
+   "end": 0.6515
   },
   {
    "p": "e",
-   "start": 0.5514,
-   "end": 0.6223
+   "start": 0.6515,
+   "end": 0.7042
   },
   {
    "p": "a",
-   "start": 0.7286,
-   "end": 0.7729
+   "start": 0.8204,
+   "end": 0.852
   },
   {
    "p": "v",
-   "start": 0.7729,
-   "end": 0.826
+   "start": 0.852,
+   "end": 0.9047
   },
   {
    "p": "a",
-   "start": 0.826,
-   "end": 0.8614
+   "start": 0.9047,
+   "end": 0.9681
   },
   {
    "p": "z",
-   "start": 0.8614,
-   "end": 0.9146
+   "start": 0.9681,
+   "end": 1.042
   },
   {
    "p": "n",
-   "start": 0.95,
-   "end": 0.9854
+   "start": 1.0736,
+   "end": 1.1475
   },
   {
    "p": "e",
-   "start": 1.0386,
-   "end": 1.0917
+   "start": 1.1686,
+   "end": 1.2214
   },
   {
    "p": "m",
-   "start": 1.0917,
-   "end": 1.1271
+   "start": 1.2214,
+   "end": 1.3058
   },
   {
    "p": "i",
-   "start": 1.1271,
-   "end": 1.1626
+   "start": 1.3058,
+   "end": 1.3481
   },
   {
    "p": "ʃ",
-   "start": 1.1626,
-   "end": 1.2423
+   "start": 1.3481,
+   "end": 1.4008
   },
   {
    "p": "e",
-   "start": 1.3397,
-   "end": 1.384
+   "start": 1.4008,
+   "end": 1.5275
   },
   {
    "p": "e",
-   "start": 1.8748,
-   "end": 1.9457
+   "start": 1.9468,
+   "end": 2.0102
   },
   {
    "p": "n",
-   "start": 1.9457,
-   "end": 1.9988
+   "start": 2.0102,
+   "end": 2.0524
   },
   {
    "p": "t",
-   "start": 1.9988,
-   "end": 2.0431
+   "start": 2.0524,
+   "end": 2.0946
   },
   {
    "p": "e",
-   "start": 2.0431,
-   "end": 2.0963
+   "start": 2.0946,
+   "end": 2.1368
   },
   {
    "p": "x",
-   "start": 2.0963,
-   "end": 2.1494
+   "start": 2.1368,
+   "end": 2.2107
   },
   {
    "p": "ɑ",
-   "start": 2.2203,
-   "end": 2.2557
+   "start": 2.2107,
+   "end": 2.2635
   },
   {
    "p": "b",
-   "start": 2.2557,
-   "end": 2.2911
-  },
-  {
-   "p": "h",
-   "start": 2.2911,
-   "end": 2.4063
+   "start": 2.2635,
+   "end": 2.3163
   },
   {
    "p": "ɑ",
-   "start": 2.4063,
-   "end": 2.4505
+   "start": 2.3585,
+   "end": 2.3902
   },
   {
    "p": "b",
-   "start": 2.4948,
-   "end": 2.5303
+   "start": 2.4324,
+   "end": 2.4851
   },
   {
    "p": "ɑ",
-   "start": 2.5834,
-   "end": 2.6365
+   "start": 2.5168,
+   "end": 2.5801
   },
   {
    "p": "j",
-   "start": 2.6365,
-   "end": 2.6808
+   "start": 2.5801,
+   "end": 2.6013
   },
   {
    "p": "a",
-   "start": 2.6808,
-   "end": 2.7251
+   "start": 2.6013,
+   "end": 2.654
   },
   {
    "p": "d",
-   "start": 2.7251,
-   "end": 2.7517
+   "start": 2.654,
+   "end": 2.6856
   },
   {
    "p": "b",
-   "start": 2.7871,
-   "end": 2.8225
+   "start": 2.7279,
+   "end": 2.7806
   },
   {
    "p": "ɑ",
-   "start": 2.8225,
-   "end": 2.8757
+   "start": 2.7806,
+   "end": 2.844
   },
   {
    "p": "h",
-   "start": 2.9111,
-   "end": 2.9643
+   "start": 2.8756,
+   "end": 2.9285
   },
   {
    "p": "a",
-   "start": 2.9997,
-   "end": 3.0351
+   "start": 2.9495,
+   "end": 2.9812
   },
   {
    "p": "m",
-   "start": 3.0351,
-   "end": 3.0705
+   "start": 2.9812,
+   "end": 3.0445
   },
   {
    "p": "d",
-   "start": 3.106,
-   "end": 3.1414
+   "start": 3.0762,
+   "end": 3.1184
   },
   {
    "p": "ʒ",
-   "start": 3.1414,
-   "end": 3.1857
+   "start": 3.1184,
+   "end": 3.1712
   },
   {
    "p": "u",
-   "start": 3.2211,
-   "end": 3.292
+   "start": 3.1923,
+   "end": 3.2873
   },
   {
    "p": "r",
-   "start": 3.292,
-   "end": 3.3274
+   "start": 3.2873,
+   "end": 3.3506
   },
   {
    "p": "b",
-   "start": 3.3717,
-   "end": 3.4071
+   "start": 3.3823,
+   "end": 3.4562
   },
   {
    "p": "ɑ",
-   "start": 3.4603,
-   "end": 3.4957
+   "start": 3.4984,
+   "end": 3.5512
   },
   {
    "p": "ʃ",
-   "start": 3.4957,
-   "end": 3.6374
+   "start": 3.5512,
+   "end": 3.6145
   },
   {
    "p": "a",
-   "start": 3.6374,
-   "end": 3.7171
+   "start": 3.6145,
+   "end": 3.6567
   },
   {
    "p": "n",
-   "start": 3.7171,
-   "end": 3.7703
+   "start": 3.6567,
+   "end": 3.7728
   }
  ],
  "words": [
   {
    "i": 0,
    "ph": "mˈetrɑʒ",
-   "start": 0.02,
-   "end": 0.454
+   "start": 0.0182,
+   "end": 0.5037
   },
   {
    "i": 1,
-   "ph": "kˈeː",
-   "start": 0.4894,
-   "end": 0.6223
+   "ph": "ke",
+   "start": 0.5986,
+   "end": 0.7042
   },
   {
    "i": 2,
    "ph": "ˈavaz",
-   "start": 0.6666,
-   "end": 0.9146
+   "start": 0.757,
+   "end": 1.042
   },
   {
    "i": 3,
-   "ph": "nˌemiʃˈe",
-   "start": 0.95,
-   "end": 1.384
+   "ph": "nˈemiʃe",
+   "start": 1.0736,
+   "end": 1.5275
   },
   {
    "i": 4,
-   "ph": "ˌentexˈɑbhɑ",
-   "start": 1.804,
-   "end": 2.4505
+   "ph": "ˌentexɑbˈɑ",
+   "start": 1.873,
+   "end": 2.3902
   },
   {
    "i": 5,
    "ph": "bˈɑjad",
-   "start": 2.4948,
-   "end": 2.7517
+   "start": 2.4324,
+   "end": 2.6856
   },
   {
    "i": 6,
    "ph": "bɑ",
-   "start": 2.7871,
-   "end": 2.8757
+   "start": 2.7279,
+   "end": 2.844
   },
   {
    "i": 7,
    "ph": "hˈam",
-   "start": 2.9111,
-   "end": 3.0705
+   "start": 2.8756,
+   "end": 3.0445
   },
   {
    "i": 8,
    "ph": "dʒˈuːr",
-   "start": 3.106,
-   "end": 3.3274
+   "start": 3.0762,
+   "end": 3.3506
   },
   {
    "i": 9,
    "ph": "bˈɑʃan",
-   "start": 3.3717,
-   "end": 3.7703
+   "start": 3.3823,
+   "end": 3.7728
   }
  ]
 }

@@ -3,185 +3,192 @@
  "source": "synthesis",
  "note": "Exact phoneme and word timing reported by the voice model while it spoke this take (seconds on the WAV's own clock). Valid only for the WAV with this sha1; a replaced recording is timed from its own audio.",
  "wav": "public/audio/voice/L16.wav",
- "sha1": "0fb51bb044fcd6c0916789c10d0e72e8cd36d734",
- "take": "ganji-t4",
- "voice": "ganji",
+ "sha1": "f886108e37aede19364d9f0c5f5430ea417e86af",
+ "take": "ganji_adabi-t2",
+ "voice": "ganji_adabi",
  "engine": "piper",
- "seconds": 3.313,
- "heard": "سرامیک، هر سرامیکی جای خودش.",
+ "seconds": 3.424,
+ "heard": "سرامیک هر سرامیکی جای خودش.",
  "match": 1.0,
+ "prosody": {
+  "medianHz": 81.8,
+  "shiftSt": 4.0,
+  "range": 1.0,
+  "endRiseSt": 0.0,
+  "tempo": 1.1
+ },
  "phones": [
   {
    "p": "s",
-   "start": 0.02,
-   "end": 0.1129
+   "start": 0.0182,
+   "end": 0.0921
   },
   {
    "p": "e",
-   "start": 0.1129,
-   "end": 0.1709
+   "start": 0.0921,
+   "end": 0.1448
   },
   {
    "p": "r",
-   "start": 0.1709,
-   "end": 0.2058
+   "start": 0.1448,
+   "end": 0.1871
   },
   {
    "p": "ɑ",
-   "start": 0.3219,
-   "end": 0.3567
+   "start": 0.2609,
+   "end": 0.3454
   },
   {
    "p": "m",
-   "start": 0.3567,
-   "end": 0.4263
+   "start": 0.3454,
+   "end": 0.3665
   },
   {
    "p": "i",
-   "start": 0.4263,
-   "end": 0.5541
+   "start": 0.3665,
+   "end": 0.472
   },
   {
    "p": "k",
-   "start": 0.5541,
-   "end": 0.6818
+   "start": 0.472,
+   "end": 0.6093
   },
   {
    "p": "h",
-   "start": 1.0817,
-   "end": 1.1398
+   "start": 0.9729,
+   "end": 1.0045
   },
   {
    "p": "a",
-   "start": 1.1398,
-   "end": 1.2094
+   "start": 1.0045,
+   "end": 1.0785
   },
   {
    "p": "r",
-   "start": 1.2094,
-   "end": 1.2442
+   "start": 1.0785,
+   "end": 1.1312
   },
   {
    "p": "s",
-   "start": 1.3255,
-   "end": 1.372
+   "start": 1.1735,
+   "end": 1.2895
   },
   {
    "p": "e",
-   "start": 1.3952,
-   "end": 1.4416
+   "start": 1.3528,
+   "end": 1.3845
   },
   {
    "p": "r",
-   "start": 1.4416,
-   "end": 1.4997
+   "start": 1.3845,
+   "end": 1.4478
   },
   {
    "p": "ɑ",
-   "start": 1.4997,
-   "end": 1.5577
+   "start": 1.4478,
+   "end": 1.5428
   },
   {
    "p": "m",
-   "start": 1.5577,
-   "end": 1.6274
+   "start": 1.5428,
+   "end": 1.6167
   },
   {
    "p": "i",
-   "start": 1.697,
-   "end": 1.7319
+   "start": 1.6906,
+   "end": 1.7539
   },
   {
    "p": "k",
-   "start": 1.7319,
-   "end": 1.8247
+   "start": 1.7539,
+   "end": 1.8278
   },
   {
    "p": "i",
-   "start": 1.8247,
-   "end": 1.9873
+   "start": 1.8278,
+   "end": 2.0916
   },
   {
    "p": "d",
-   "start": 2.2891,
-   "end": 2.324
+   "start": 2.4927,
+   "end": 2.5138
   },
   {
    "p": "ʒ",
-   "start": 2.324,
-   "end": 2.3472
+   "start": 2.5138,
+   "end": 2.5455
   },
   {
    "p": "ɑ",
-   "start": 2.4749,
-   "end": 2.5213
+   "start": 2.6722,
+   "end": 2.6933
   },
   {
    "p": "j",
-   "start": 2.5213,
-   "end": 2.6026
+   "start": 2.6933,
+   "end": 2.7566
   },
   {
    "p": "e",
-   "start": 2.6026,
-   "end": 2.6374
+   "start": 2.7566,
+   "end": 2.7883
   },
   {
    "p": "x",
-   "start": 2.6607,
-   "end": 2.7768
+   "start": 2.8305,
+   "end": 2.9255
   },
   {
    "p": "o",
-   "start": 2.8116,
-   "end": 2.858
+   "start": 2.9677,
+   "end": 3.0205
   },
   {
    "p": "d",
-   "start": 2.858,
-   "end": 2.8813
+   "start": 3.0205,
+   "end": 3.0944
   },
   {
    "p": "e",
-   "start": 2.8813,
-   "end": 3.0554
+   "start": 3.0944,
+   "end": 3.1894
   },
   {
    "p": "ʃ",
-   "start": 3.0554,
-   "end": 3.2528
+   "start": 3.1894,
+   "end": 3.3688
   }
  ],
  "words": [
   {
    "i": 0,
    "ph": "serˈɑmik",
-   "start": 0.02,
-   "end": 0.6818
+   "start": 0.0182,
+   "end": 0.6093
   },
   {
    "i": 1,
    "ph": "har",
-   "start": 1.0817,
-   "end": 1.2442
+   "start": 0.9729,
+   "end": 1.1312
   },
   {
    "i": 2,
    "ph": "sˌerɑmˈiki",
-   "start": 1.3255,
-   "end": 1.9873
+   "start": 1.1735,
+   "end": 2.0916
   },
   {
    "i": 3,
    "ph": "dʒˈɑje",
-   "start": 2.2891,
-   "end": 2.6374
+   "start": 2.4927,
+   "end": 2.7883
   },
   {
    "i": 4,
    "ph": "xˈodeʃ",
-   "start": 2.6607,
-   "end": 3.2528
+   "start": 2.8305,
+   "end": 3.3688
   }
  ]
 }

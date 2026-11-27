@@ -3,83 +3,90 @@
  "source": "synthesis",
  "note": "Exact phoneme and word timing reported by the voice model while it spoke this take (seconds on the WAV's own clock). Valid only for the WAV with this sha1; a replaced recording is timed from its own audio.",
  "wav": "public/audio/voice/L12.wav",
- "sha1": "d77857ac1330e0c7745e1a97ed58070891a8e69c",
- "take": "amir-t7",
+ "sha1": "c32db6b52f88ac47e872cec691830998ab9def4b",
+ "take": "amir-t3",
  "voice": "amir",
  "engine": "piper",
- "seconds": 0.986,
+ "seconds": 1.171,
  "heard": "اینجا جای منه",
  "match": 1.0,
+ "prosody": {
+  "medianHz": 130.0,
+  "shiftSt": 2.25,
+  "range": 1.2,
+  "endRiseSt": 0.0,
+  "tempo": 1.0
+ },
  "phones": [
   {
    "p": "i",
-   "start": 0.1013,
-   "end": 0.1709
+   "start": 0.0897,
+   "end": 0.1825
   },
   {
    "p": "n",
-   "start": 0.1709,
-   "end": 0.2406
+   "start": 0.1825,
+   "end": 0.2522
   },
   {
    "p": "d",
-   "start": 0.2406,
-   "end": 0.2638
-  },
-  {
-   "p": "ʒ",
-   "start": 0.2638,
+   "start": 0.2522,
    "end": 0.2986
   },
   {
-   "p": "ɑ",
+   "p": "ʒ",
    "start": 0.2986,
    "end": 0.3451
   },
   {
+   "p": "ɑ",
+   "start": 0.3451,
+   "end": 0.4496
+  },
+  {
    "p": "d",
-   "start": 0.3683,
-   "end": 0.4031
+   "start": 0.4728,
+   "end": 0.5076
   },
   {
    "p": "ʒ",
-   "start": 0.4031,
-   "end": 0.4263
+   "start": 0.5076,
+   "end": 0.5424
   },
   {
    "p": "ɑ",
-   "start": 0.4612,
-   "end": 0.5192
+   "start": 0.6005,
+   "end": 0.6469
   },
   {
    "p": "j",
-   "start": 0.5192,
-   "end": 0.5541
+   "start": 0.6469,
+   "end": 0.6934
   },
   {
    "p": "e",
-   "start": 0.5541,
-   "end": 0.6121
+   "start": 0.6934,
+   "end": 0.7282
   },
   {
    "p": "m",
-   "start": 0.6353,
-   "end": 0.705
+   "start": 0.763,
+   "end": 0.8095
   },
   {
    "p": "a",
-   "start": 0.7282,
-   "end": 0.7863
+   "start": 0.8675,
+   "end": 0.9372
   },
   {
    "p": "n",
-   "start": 0.7863,
-   "end": 0.8907
+   "start": 0.9372,
+   "end": 1.0533
   },
   {
    "p": "e",
-   "start": 0.8907,
-   "end": 0.9256
+   "start": 1.0533,
+   "end": 1.1113
   }
  ],
  "words": [
@@ -87,19 +94,19 @@
    "i": 0,
    "ph": "ˈindʒɑ",
    "start": 0.02,
-   "end": 0.3451
+   "end": 0.4496
   },
   {
    "i": 1,
    "ph": "dʒˈɑje",
-   "start": 0.3683,
-   "end": 0.6121
+   "start": 0.4728,
+   "end": 0.7282
   },
   {
    "i": 2,
    "ph": "mˈane",
-   "start": 0.6353,
-   "end": 0.9256
+   "start": 0.763,
+   "end": 1.1113
   }
  ]
 }

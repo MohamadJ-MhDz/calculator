@@ -3,151 +3,158 @@
  "source": "synthesis",
  "note": "Exact phoneme and word timing reported by the voice model while it spoke this take (seconds on the WAV's own clock). Valid only for the WAV with this sha1; a replaced recording is timed from its own audio.",
  "wav": "public/audio/voice/L09.wav",
- "sha1": "2e8f0952f8b6dbce6e6b3d154ff97789384a938b",
- "take": "musa-t4",
- "voice": "musa",
- "engine": "matcha",
- "seconds": 1.935,
- "heard": "با تو هم که جایی نمونده",
+ "sha1": "c2844f1b81981783f783e337e7cf6eadf035f481",
+ "take": "ganji_adabi-t5",
+ "voice": "ganji_adabi",
+ "engine": "piper",
+ "seconds": 1.939,
+ "heard": "با تو هم که جایی نمونده،",
  "match": 1.0,
+ "prosody": {
+  "medianHz": 92.1,
+  "shiftSt": 2.75,
+  "range": 1.05,
+  "endRiseSt": 0.0,
+  "tempo": 1.1
+ },
  "phones": [
   {
    "p": "b",
-   "start": 0.02,
-   "end": 0.1059
+   "start": 0.0182,
+   "end": 0.0815
   },
   {
    "p": "ɑ",
-   "start": 0.1059,
-   "end": 0.1918
+   "start": 0.0815,
+   "end": 0.1448
   },
   {
    "p": "t",
-   "start": 0.2262,
-   "end": 0.2777
+   "start": 0.1765,
+   "end": 0.2082
   },
   {
    "p": "o",
-   "start": 0.3121,
-   "end": 0.3465
+   "start": 0.2398,
+   "end": 0.2715
   },
   {
    "p": "h",
-   "start": 0.3808,
-   "end": 0.4152
+   "start": 0.3137,
+   "end": 0.3454
   },
   {
    "p": "a",
-   "start": 0.4496,
-   "end": 0.4839
+   "start": 0.377,
+   "end": 0.4404
   },
   {
    "p": "m",
-   "start": 0.4839,
-   "end": 0.5183
+   "start": 0.4404,
+   "end": 0.4615
   },
   {
    "p": "k",
-   "start": 0.5527,
-   "end": 0.6042
+   "start": 0.4931,
+   "end": 0.5354
   },
   {
    "p": "e",
-   "start": 0.6815,
-   "end": 0.776
+   "start": 0.6409,
+   "end": 0.757
   },
   {
    "p": "d",
-   "start": 1.076,
-   "end": 1.1534
+   "start": 1.0297,
+   "end": 1.0508
   },
   {
    "p": "ʒ",
-   "start": 1.1534,
-   "end": 1.2049
+   "start": 1.0508,
+   "end": 1.0719
   },
   {
    "p": "ɑ",
-   "start": 1.2393,
-   "end": 1.308
+   "start": 1.1669,
+   "end": 1.2092
   },
   {
    "p": "i",
-   "start": 1.308,
-   "end": 1.3853
+   "start": 1.2092,
+   "end": 1.2935
   },
   {
    "p": "n",
-   "start": 1.4283,
-   "end": 1.4627
+   "start": 1.378,
+   "end": 1.4203
   },
   {
    "p": "a",
-   "start": 1.4627,
-   "end": 1.5228
+   "start": 1.4203,
+   "end": 1.4519
   },
   {
    "p": "m",
-   "start": 1.5228,
-   "end": 1.5658
+   "start": 1.4519,
+   "end": 1.4835
   },
   {
    "p": "u",
-   "start": 1.6001,
-   "end": 1.6345
+   "start": 1.5364,
+   "end": 1.5996
   },
   {
    "p": "n",
-   "start": 1.6345,
-   "end": 1.686
+   "start": 1.5996,
+   "end": 1.6735
   },
   {
    "p": "d",
-   "start": 1.686,
-   "end": 1.7548
+   "start": 1.6735,
+   "end": 1.7475
   },
   {
    "p": "e",
-   "start": 1.7548,
-   "end": 1.875
+   "start": 1.7475,
+   "end": 1.8846
   }
  ],
  "words": [
   {
    "i": 0,
    "ph": "bɑ",
-   "start": 0.02,
-   "end": 0.1918
+   "start": 0.0182,
+   "end": 0.1448
   },
   {
    "i": 1,
    "ph": "tˈo",
-   "start": 0.2262,
-   "end": 0.3465
+   "start": 0.1765,
+   "end": 0.2715
   },
   {
    "i": 2,
    "ph": "hˈam",
-   "start": 0.3808,
-   "end": 0.5183
+   "start": 0.3137,
+   "end": 0.4615
   },
   {
    "i": 3,
    "ph": "kˈeː",
-   "start": 0.5527,
-   "end": 0.776
+   "start": 0.4931,
+   "end": 0.757
   },
   {
    "i": 4,
    "ph": "dʒˌɑiː",
-   "start": 1.076,
-   "end": 1.3853
+   "start": 1.0297,
+   "end": 1.2935
   },
   {
    "i": 5,
    "ph": "namˈundeː",
-   "start": 1.4283,
-   "end": 1.875
+   "start": 1.378,
+   "end": 1.8846
   }
  ]
 }
