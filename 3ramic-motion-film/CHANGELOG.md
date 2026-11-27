@@ -1,5 +1,36 @@
 # Changelog
 
+## 2.1.0 — Fix round: accent, intonation, text and picture (25 audited issues)
+
+### Voices: accent and tone
+- Re-cast with **Persian-only** voices: tile = mana, detective = ganji_adabi, pattern = amir,
+  vanity = reza_ibrahim. The bilingual voices (khadijah, musa) were heard by speech recognition as
+  English/Turkish on several lines; every multi-word line now reads 0.98–1.00 Persian.
+- Questions rise: the final word of «چرا؟!»، «ترکیبیه؟!»، «هزار تیکه؟!»، «استعفاتو پس می‌گیری؟» is
+  re-shaped upward (WORLD vocoder, `scripts/audio/voice_prosody.py`, `production/prosody.json`).
+- One steady pitch per character (the detective no longer jumps between 72 and 129 Hz), livelier
+  range on emotional lines, the detective 10 % quicker.
+- Natural Persian stress where it measured clearer (nˈemikonam) and spoken forms («انتخابا»).
+- Takes are chosen by clarity *after* shaping (`voice_select.py --verify`): mean 0.987 per line,
+  0.973 through the finished mix; the closing line is said by the detective.
+
+### Text
+- L11 «باید بریم سراغِ 3ramic!» (spoken «…سه‌رامیک!») replaces the broken-looking «کارِ 3ramic ه!».
+- «اینجا» spelled one way; L13 «وای، …» (was «اوه…», read as English "oh"); L15 «فقط با پاداش!».
+- The case stamp lands in the pause after «خب…» and stays readable (was ~3 frames).
+- Subtitles no longer cover speaking mouths (close-ups and the vanity re-framed).
+- Brand card grows with its content (no empty card); CTA «مدل‌های هماهنگ رو توی سایت ببین».
+
+### Picture
+- Bigger shouting mouth; the duck's face visible in the grout shot; visible "thousand pieces"
+  floor twitch; softer mugshot flashes.
+- Close-up on the framed inlay for «اینجا جای منه!»; characters face the camera in wide shots;
+  tile-like samples; payoff opens facing us; the detective stays in frame; brand close pushes in.
+- Towel colour blends; old tiles leave without a jagged strip.
+
+### Length
+- 40.9 s (was 39.7 s): the native voices are slower; dialogue is not rushed to fit 38 s.
+
 ## 2.0.0 — Release master: «پروندهٔ استعفای سرامیک‌ها» (The Tiles That Quit)
 
 A rebuild of the film around one story and real Persian dialogue.
